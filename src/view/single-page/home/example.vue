@@ -28,6 +28,11 @@ export default {
           }
         }
       },
+      title: {
+          text: '多指标比较',
+          subtext: '',
+          x: 'center'
+      },
       grid: {
         top: '3%',
         left: '1.2%',
@@ -39,7 +44,7 @@ export default {
         {
           type: 'category',
           boundaryGap: false,
-          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+          data: ['Score','Legal','Technical','Organization','Capacity','Cooperation']
         }
       ],
       yAxis: [
@@ -49,43 +54,43 @@ export default {
       ],
       series: [
         {
-          name: '运营商/网络服务',
+          name: '新加坡',
           type: 'line',
           stack: '总量',
           areaStyle: {normal: {
             color: '#2d8cf0'
           }},
-          data: [120, 132, 101, 134, 90, 230, 210]
+          data: [0.92,0.95,0.96,0.88,0.97,0.87]
         },
         {
-          name: '银行/证券',
+          name: '美国',
           type: 'line',
           stack: '总量',
           areaStyle: {normal: {
             color: '#10A6FF'
           }},
-          data: [257, 358, 278, 234, 290, 330, 310]
+          data: [0.91,1,0.96,0.92,1,0.73]
         },
         {
-          name: '游戏/视频',
+          name: '马来西亚',
           type: 'line',
           stack: '总量',
           areaStyle: {normal: {
             color: '#0C17A6'
           }},
-          data: [379, 268, 354, 269, 310, 478, 358]
+          data: [0.89,0.87,0.96,0.77,1,0.87]
         },
         {
-          name: '餐饮/外卖',
+          name: '阿曼',
           type: 'line',
           stack: '总量',
           areaStyle: {normal: {
             color: '#4608A6'
           }},
-          data: [320, 332, 301, 334, 390, 330, 320]
+          data: [0.87,0.98,0.82,0.85,0.95,0.75]
         },
         {
-          name: '快递/电商',
+          name: '爱沙尼亚',
           type: 'line',
           stack: '总量',
           label: {
@@ -97,7 +102,7 @@ export default {
           areaStyle: {normal: {
             color: '#398DBF'
           }},
-          data: [820, 645, 546, 745, 872, 624, 258]
+          data: [0.84,0.99,0.82,0.85,0.94,0.64]
         }
       ]
     }

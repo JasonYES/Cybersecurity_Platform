@@ -11,12 +11,12 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="8" style="margin-bottom: 20px;">
         <Card shadow>
-          <chart-pie style="height: 300px;" :value="pieData" text="用户访问来源"></chart-pie>
+          <chart-pie style="height: 300px;" :value="pieData" text="显著性统计-国家网络安全策略"></chart-pie>
         </Card>
       </i-col>
       <i-col :md="24" :lg="16" style="margin-bottom: 20px;">
         <Card shadow>
-          <chart-bar style="height: 300px;" :value="barData" text="每周用户活跃量"/>
+          <chart-bar style="height: 300px;" :value="barData" text="多国家比较-总体评分结果"/>
         </Card>
       </i-col>
     </Row>
@@ -45,28 +45,27 @@ export default {
   data () {
     return {
       inforCardData: [
-        { title: '新增用户', icon: 'md-person-add', count: 803, color: '#2d8cf0' },
-        { title: '累计点击', icon: 'md-locate', count: 232, color: '#19be6b' },
-        { title: '新增问答', icon: 'md-help-circle', count: 142, color: '#ff9900' },
-        { title: '分享统计', icon: 'md-share', count: 657, color: '#ed3f14' },
-        { title: '新增互动', icon: 'md-chatbubbles', count: 12, color: '#E46CBB' },
-        { title: '新增页面', icon: 'md-map', count: 14, color: '#9A66E4' }
+        { title: '国家数', icon: 'md-map', count: 198, color: '#19be6b' },
+        { title: '指标数', icon: 'md-flag', count: 28, color: '#ff9900' },
+        { title: '已爬网页数', icon: 'md-bug', count: 253, color: '#E46CBB' },
+        { title: '数据集数', icon: 'md-cube', count: 3, color: '#ed3f14' },
+        { title: '有效数据条数', icon: 'md-checkmark', count: 1225, color: '#9A66E4' },
+        { title: '总数据条数', icon: 'md-archive', count: 1502, color: '#2d8cf0' },
       ],
       pieData: [
-        {value: 335, name: '直接访问'},
-        {value: 310, name: '邮件营销'},
-        {value: 234, name: '联盟广告'},
-        {value: 135, name: '视频广告'},
-        {value: 1548, name: '搜索引擎'}
+        {value: 20, name: '独立制定'},
+        {value: 62, name: '非独立制定'},
+        {value: 30, name: '正在制定'},
+        {value: 70, name: '未制定'}
       ],
       barData: {
-        Mon: 13253,
-        Tue: 34235,
-        Wed: 26321,
-        Thu: 12340,
-        Fri: 24643,
-        Sat: 1322,
-        Sun: 1324
+        美国: 97,
+        加拿大: 89,
+        墨西哥: 80,
+        古巴: 50,
+        智利: 65,
+        巴西: 78,
+        秘鲁: 30
       }
     }
   },
