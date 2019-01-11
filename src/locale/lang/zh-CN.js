@@ -41,5 +41,9 @@ export default {
   tree_table_page: '树状表格',
   org_tree_page: '组织结构树',
   drag_drawer_page: '可拖动抽屉',
-  'plain-scores': '网络安全总体评分'
+  'plain-scores': '总体评分结果',
+  'cb-view': '统计',
+  'by-countries': '多国家比较',
+  'by-indexes': '多指标比较',
+  'significance': '显著性统计'
 }
