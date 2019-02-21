@@ -96,10 +96,19 @@ export default [
           title: '显著性'
         },
         component: () => import('@/view/cb-view/significance.vue')
-      }
+      },
+      {
+        path: 'test',
+        name: 'test',
+        meta: {
+          icon: 'md-cog',
+          title: 'Test'
+        },
+        component: () => import('@/view/cb-view/charts-test.vue')
+      },
     ]
   },
-  
+
   ///////////////////
 
   // {
