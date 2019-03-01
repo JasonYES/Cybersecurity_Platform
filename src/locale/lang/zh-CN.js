@@ -45,5 +45,6 @@ export default {
   'cb-view': '统计',
   'by-countries': '多国家比较',
   'by-indexes': '多指标比较',
-  'significance': '显著性统计'
+  'significance': '显著性统计',
+  'test': '测试'
 }

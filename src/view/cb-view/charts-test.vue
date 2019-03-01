@@ -22,10 +22,17 @@
         </Card>
       </i-col>
     </Row>-->
-    <Row :gutter="20" style="margin-top: 10px;">
+    <!-- <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
           <chart-scatter style="height: 300px;" :value="scatterData" text="显著性统计-国家网络安全策略"></chart-scatter>
+        </Card>
+      </i-col>
+    </Row>-->
+    <Row :gutter="20" style="margin-top: 10px;">
+      <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
+        <Card shadow>
+          <Cbox :value="cboxvalue"></Cbox>
         </Card>
       </i-col>
     </Row>
@@ -35,7 +42,7 @@
 <script>
 import InforCard from "_c/info-card";
 import CountTo from "_c/count-to";
-import { ChartPie, ChartBar, ChartScatter } from "_c/charts";
+import { ChartPie, ChartBar, ChartScatter, Cbox } from "_c/charts";
 import Example from "./example.vue";
 export default {
   name: "home",
@@ -45,7 +52,8 @@ export default {
     ChartPie,
     ChartBar,
     ChartScatter,
-    Example
+    Example,
+    Cbox
   },
   data() {
     return {
@@ -87,7 +95,44 @@ export default {
         { product: "Milk Tea", count: 998, score: 81.4 },
         { product: "Cheese Cocoa", count: 1042, score: 91.2 },
         { product: "Walnut Brownie", count: 988, score: 76.9 }
-      ]
+      ],
+      cboxvalue: {
+        亚洲: [
+          "阿富汗",
+          "奥兰群岛",
+          "阿尔巴尼亚",
+          "阿尔及利亚",
+          "美属萨摩亚",
+          "安道尔",
+          "安哥拉",
+          "安圭拉",
+          "南极洲",
+          "安提瓜和巴布达",
+          "阿根廷",
+          "亚美尼亚",
+          "阿鲁巴",
+          "澳大利亚",
+          "奥地利",
+          "阿塞拜疆"
+        ],
+        欧洲: [
+          "巴哈马",
+          "巴林",
+          "孟加拉国",
+          "巴巴多斯",
+          "白俄罗斯",
+          "比利时",
+          "伯利兹",
+          "贝宁",
+          "百慕大",
+          "不丹",
+          "玻利维亚",
+          "波黑",
+          "博茨瓦纳",
+          "布维岛",
+          "巴西"
+        ]
+      }
     };
   },
   mounted() {
