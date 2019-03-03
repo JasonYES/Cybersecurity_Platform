@@ -32,7 +32,7 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <Cbox :value="cboxvalue"></Cbox>
+          <Cbox :value="cboxvalue" @checked="checkedData"></Cbox>
         </Card>
       </i-col>
     </Row>
@@ -54,6 +54,11 @@ export default {
     ChartScatter,
     Example,
     Cbox
+  },
+  methods: {
+    checkedData(checked) {
+      console.log(checked);
+    }
   },
   data() {
     return {
@@ -131,6 +136,42 @@ export default {
           "博茨瓦纳",
           "布维岛",
           "巴西"
+        ],
+        非洲: [
+          "柬埔寨",
+          "喀麦隆",
+          "加拿大",
+          "佛得角",
+          "开曼群岛",
+          "中非",
+          "乍得",
+          "智利",
+          "中国",
+          "圣诞岛",
+          "科科斯（基林）群岛",
+          "哥伦比亚",
+          "科摩罗",
+          "刚果（布）",
+          "刚果（金）",
+          "库克群岛"
+        ],
+        拉美洲: [
+          "加蓬",
+          "冈比亚",
+          "格鲁吉亚",
+          "德国",
+          "加纳",
+          "直布罗陀",
+          "希腊",
+          "格陵兰",
+          "格林纳达",
+          "瓜德罗普",
+          "关岛",
+          "危地马拉",
+          "格恩西岛",
+          "几内亚",
+          "几内亚比绍",
+          "圭亚那"
         ]
       }
     };

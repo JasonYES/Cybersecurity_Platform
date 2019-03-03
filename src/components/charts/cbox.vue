@@ -1,20 +1,35 @@
 <template>
   <div class="charts cbox">
-    <div v-for="(object, continent)  in value" :key="continent">
-      <Row>
-        <i-col span="2">
-          <Button size="small" :key="continent" @click="handleCheckAll(continent)">全选:{{continent}}</Button>
-        </i-col>
-        <i-col
-          span="22"
-          style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;"
-        >
-          <CheckboxGroup v-model="checked[continent]">
-            <Checkbox v-for="c in object" :key="c" :label="c"></Checkbox>
-          </CheckboxGroup>
-        </i-col>
-      </Row>
-    </div>
+    <Collapse simple :value="'1'">
+      <Panel name="1">国家选择
+        <div slot="content">
+          <div v-for="(object, continent)  in value" :key="continent">
+            <Row>
+              <i-col span="2">
+                <Button
+                  size="small"
+                  :key="continent"
+                  @click="handleCheckAll(continent)"
+                >全选:{{continent}}</Button>
+              </i-col>
+              <i-col
+                span="22"
+                style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;"
+              >
+                <CheckboxGroup v-model="checked[continent]">
+                  <Checkbox v-for="c in object" :key="c" :label="c"></Checkbox>
+                </CheckboxGroup>
+              </i-col>
+            </Row>
+          </div>
+          <Row type="flex" justify="center">
+            <i-col span="8">
+              <Button long @click="$emit('checked',checked)">确认</Button>
+            </i-col>
+          </Row>
+        </div>
+      </Panel>
+    </Collapse>
   </div>
 </template>
 
@@ -22,16 +37,11 @@
 export default {
   name: "Cbox",
   props: {
-    value: Object // 将数组转换成map, 寻找相应的库
+    value: Object
   },
   data() {
     return {
-      checked: {
-        亚洲: ["阿富汗", "奥兰群岛", "阿尔巴尼亚"]
-      },
-      indeterminate: true,
-      checkAll: false,
-      checkAllGroup: ["香蕉", "西瓜"]
+      checked: {}
     };
   },
   mounted() {
