@@ -3,7 +3,7 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <Cbox @checked="checkedData"></Cbox>
+          <CboxOther @checked="checkedData"></CboxOther>
         </Card>
       </i-col>
     </Row>
@@ -17,13 +17,13 @@
 <script>
 import InforCard from "_c/info-card";
 import CountTo from "_c/count-to";
-import { Cbox } from "_c/charts";
+import { CboxOther } from "_c/charts";
 export default {
-  name: "plain-scores",
+  name: "plain-scores-other",
   components: {
     InforCard,
     CountTo,
-    Cbox
+    CboxOther
   },
   methods: {
     checkedData() {}
@@ -32,8 +32,8 @@ export default {
     return {
       columns: [
         {
-          title: "Country",
-          key: "country"
+          title: "Area",
+          key: "area"
         },
         {
           title: "Score",
@@ -68,7 +68,7 @@ export default {
       ],
       data: [
         {
-          country: "新加坡",
+          area: "亚洲",
           score: 0.92,
           legal: 0.95,
           technical: 0.96,
@@ -77,7 +77,7 @@ export default {
           cooperation: 0.87
         },
         {
-          country: "美国",
+          area: "欧洲",
           score: 0.91,
           legal: 1,
           technical: 0.96,
@@ -86,7 +86,7 @@ export default {
           cooperation: 0.73
         },
         {
-          country: "马来西亚",
+          area: "大洋洲",
           score: 0.89,
           legal: 0.87,
           technical: 0.96,
@@ -95,7 +95,7 @@ export default {
           cooperation: 0.87
         },
         {
-          country: "也门",
+          area: "非洲",
           score: 0.87,
           legal: 0.98,
           technical: 0.82,
@@ -104,7 +104,7 @@ export default {
           cooperation: 0.75
         },
         {
-          country: "尼日利亚",
+          area: "拉丁美洲",
           score: 0.84,
           legal: 0.99,
           technical: 0.82,
@@ -113,76 +113,13 @@ export default {
           cooperation: 0.64
         },
         {
-          country: "毛里求斯",
+          area: "北美洲",
           score: 0.82,
           legal: 0.85,
           technical: 0.96,
           organization: 0.74,
           capacity: 0.91,
           cooperation: 0.7
-        },
-        {
-          country: "澳大利亚",
-          score: 0.82,
-          legal: 0.94,
-          technical: 0.96,
-          organization: 0.86,
-          capacity: 0.94,
-          cooperation: 0.44
-        },
-        {
-          country: "日本",
-          score: 0.81,
-          legal: 0.91,
-          technical: 0.77,
-          organization: 0.82,
-          capacity: 0.9,
-          cooperation: 0.7
-        },
-        {
-          country: "法国",
-          score: 0.81,
-          legal: 0.94,
-          technical: 0.96,
-          organization: 0.6,
-          capacity: 1,
-          cooperation: 0.61
-        },
-        {
-          country: "加拿大",
-          score: 0.81,
-          legal: 0.94,
-          technical: 0.93,
-          organization: 0.71,
-          capacity: 0.82,
-          cooperation: 0.7
-        },
-        {
-          country: "俄罗斯",
-          score: 0.78,
-          legal: 0.82,
-          technical: 0.67,
-          organization: 0.85,
-          capacity: 0.91,
-          cooperation: 0.7
-        },
-        {
-          country: "埃及",
-          score: 0.77,
-          legal: 0.92,
-          technical: 0.92,
-          organization: 0.4,
-          capacity: 0.92,
-          cooperation: 0.7
-        },
-        {
-          country: "澳大利亚",
-          score: 0.82,
-          legal: 0.94,
-          technical: 0.96,
-          organization: 0.86,
-          capacity: 0.94,
-          cooperation: 0.44
         }
       ]
     };

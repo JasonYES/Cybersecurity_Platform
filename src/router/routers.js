@@ -1,5 +1,6 @@
 import Main from '@/components/main'
 import parentView from '@/components/parent-view'
+import { homedir } from 'os';
 
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
@@ -52,6 +53,7 @@ export default [
   },
 
   ///////////////// 统计模块
+
   {
     path: '/cb-view',
     name: 'cb-view',
@@ -69,6 +71,15 @@ export default [
           title: '总分'
         },
         component: () => import('@/view/cb-view/plain-scores.vue')
+      },
+      {
+        path: 'plain-scores-other',
+        name: 'plain-scores-other',
+        meta: {
+          icon: 'md-trending-up',
+          title: '总分2'
+        },
+        component: () => import('@/view/cb-view/plain-scores-other.vue')
       },
       {
         path: 'by-countries',

@@ -41,10 +41,11 @@ export default {
   tree_table_page: '树状表格',
   org_tree_page: '组织结构树',
   drag_drawer_page: '可拖动抽屉',
-  'plain-scores': '总体评分结果',
+  'plain-scores': '总体评分结果(国家)',
   'cb-view': '统计',
   'by-countries': '多国家比较',
   'by-indexes': '多指标比较',
   'significance': '显著性统计',
-  'test': '测试'
+  'test': '测试',
+  'plain-scores-other': '总体评分结果(组织)',
 }
