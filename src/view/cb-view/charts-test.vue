@@ -22,17 +22,17 @@
         </Card>
       </i-col>
     </Row>-->
-    <!-- <Row :gutter="20" style="margin-top: 10px;">
+    <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
           <chart-scatter style="height: 300px;" :value="scatterData" text="显著性统计-国家网络安全策略"></chart-scatter>
         </Card>
       </i-col>
-    </Row>-->
+    </Row>
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <Cbox :value="cboxvalue" @checked="checkedData"></Cbox>
+          <chart-map style="height: 300px;" :value="scatterData" text="显著性统计-国家网络安全策略"></chart-map>
         </Card>
       </i-col>
     </Row>
@@ -42,7 +42,7 @@
 <script>
 import InforCard from "_c/info-card";
 import CountTo from "_c/count-to";
-import { ChartPie, ChartBar, ChartScatter, Cbox } from "_c/charts";
+import { ChartPie, ChartBar, ChartScatter, Cbox, ChartMap } from "_c/charts";
 import Example from "./example.vue";
 export default {
   name: "home",
@@ -53,7 +53,8 @@ export default {
     ChartBar,
     ChartScatter,
     Example,
-    Cbox
+    Cbox,
+    ChartMap
   },
   methods: {
     checkedData(checked) {

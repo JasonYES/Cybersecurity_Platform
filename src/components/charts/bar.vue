@@ -3,56 +3,58 @@
 </template>
 
 <script>
-import echarts from 'echarts'
-import tdTheme from './theme.json'
-import { on, off } from '@/libs/tools'
-echarts.registerTheme('tdTheme', tdTheme)
+import echarts from "echarts";
+import tdTheme from "./theme.json";
+import { on, off } from "@/libs/tools";
+echarts.registerTheme("tdTheme", tdTheme);
 export default {
-  name: 'ChartBar',
+  name: "ChartBar",
   props: {
     value: Object,
     text: String,
     subtext: String
   },
-  data () {
+  data() {
     return {
       dom: null
-    }
+    };
   },
   methods: {
-    resize () {
-      this.dom.resize()
+    resize() {
+      this.dom.resize();
     }
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
-      let xAxisData = Object.keys(this.value)
-      let seriesData = Object.values(this.value)
+      let xAxisData = Object.keys(this.value);
+      let seriesData = Object.values(this.value);
       let option = {
         title: {
           text: this.text,
           subtext: this.subtext,
-          x: 'center'
+          x: "center"
         },
         xAxis: {
-          type: 'category',
+          type: "category",
           data: xAxisData
         },
         yAxis: {
-          type: 'value'
+          type: "value"
         },
-        series: [{
-          data: seriesData,
-          type: 'bar'
-        }]
-      }
-      this.dom = echarts.init(this.$refs.dom, 'tdTheme')
-      this.dom.setOption(option)
-      on(window, 'resize', this.resize)
-    })
+        series: [
+          {
+            data: seriesData,
+            type: "bar"
+          }
+        ]
+      };
+      this.dom = echarts.init(this.$refs.dom, "tdTheme");
+      this.dom.setOption(option);
+      on(window, "resize", this.resize);
+    });
   },
-  beforeDestroy () {
-    off(window, 'resize', this.resize)
+  beforeDestroy() {
+    off(window, "resize", this.resize);
   }
-}
+};
 </script>
