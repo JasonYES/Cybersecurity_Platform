@@ -10,7 +10,7 @@ echarts.registerTheme("tdTheme", tdTheme);
 export default {
   name: "ChartBar",
   props: {
-    value: Object,
+    value: Array,
     text: String,
     subtext: String
   },
@@ -22,30 +22,42 @@ export default {
   methods: {
     resize() {
       this.dom.resize();
+    },
+    objToArray(obj) {
+      var res = [];
+      var dimensions = Object.keys(obj[0]);
+      res.push(dimensions);
+      for (var i in obj) {
+        var item = [];
+        for (var j in obj[i]) item.push(obj[i][j]);
+        res.push(item);
+      }
+      return res;
     }
   },
   mounted() {
     this.$nextTick(() => {
-      let xAxisData = Object.keys(this.value);
-      let seriesData = Object.values(this.value);
+      let sourceData = this.objToArray(this.value);
       let option = {
+        dataset: {
+          source: sourceData
+        },
         title: {
           text: this.text,
           subtext: this.subtext,
           x: "center"
         },
-        xAxis: {
-          type: "category",
-          data: xAxisData
-        },
-        yAxis: {
-          type: "value"
-        },
+        legend: {},
+        tooltip: {},
+        xAxis: { type: "category" },
+        yAxis: {},
         series: [
-          {
-            data: seriesData,
-            type: "bar"
-          }
+          { type: "bar", seriesLayoutBy: "row" },
+          { type: "bar", seriesLayoutBy: "row" },
+          { type: "bar", seriesLayoutBy: "row" },
+          { type: "bar", seriesLayoutBy: "row" },
+          { type: "bar", seriesLayoutBy: "row" },
+          { type: "bar", seriesLayoutBy: "row" }
         ]
       };
       this.dom = echarts.init(this.$refs.dom, "tdTheme");
