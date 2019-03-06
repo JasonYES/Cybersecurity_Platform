@@ -82,6 +82,24 @@ export default [
         component: () => import('@/view/cb-view/plain-scores-other.vue')
       },
       {
+        path: 'map-all',
+        name: 'map-all',
+        meta: {
+          icon: 'md-globe',
+          title: '全球'
+        },
+        component: () => import('@/view/cb-view/map-all.vue')
+      },
+      {
+        path: 'map-indexes',
+        name: 'map-indexes',
+        meta: {
+          icon: 'md-globe',
+          title: '全球2'
+        },
+        component: () => import('@/view/cb-view/map-indexes.vue')
+      },
+      {
         path: 'by-countries',
         name: 'by-countries',
         meta: {

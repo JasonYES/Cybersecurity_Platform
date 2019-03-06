@@ -15,14 +15,10 @@
   </div>
 </template>
 <script>
-import InforCard from "_c/info-card";
-import CountTo from "_c/count-to";
 import { CboxOther } from "_c/charts";
 export default {
   name: "plain-scores-other",
   components: {
-    InforCard,
-    CountTo,
     CboxOther
   },
   methods: {
