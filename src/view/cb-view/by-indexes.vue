@@ -1,56 +1,59 @@
 <template>
   <div>
-    <Row>
+    <Row :gutter="20" style="margin-top: 10px;">
+      <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
+        <Card shadow>
+          <Cbox @checked="checkedData"></Cbox>
+        </Card>
+      </i-col>
+    </Row>
+    <Row :gutter="20" style="margin-top: 10px;">
+      <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
+        <Card shadow>
+          <Cbox-indexes @checked="checkedData"></Cbox-indexes>
+        </Card>
+      </i-col>
+    </Row>
+    <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
+      <i-col :md="8" :lg="8" style="margin-bottom: 20px;">
+        <Card shadow>
+          <chart-scatter style="height: 500px;" :value="scatterData" text></chart-scatter>
+        </Card>
+      </i-col>
+    </Row>
+    <!-- <Row>
       <Card shadow>
         <example style="height: 310px;"/>
       </Card>
-    </Row>
+    </Row>-->
   </div>
 </template>
 
 <script>
-import { ChartPie, ChartBar } from "_c/charts";
+import { Cbox, CboxIndexes, ChartScatter } from "_c/charts";
 import Example from "./example.vue";
 export default {
-  name: "home",
+  name: "by-indexes",
   components: {
-    Example
+    Example,
+    Cbox,
+    ChartScatter,
+    CboxIndexes
+  },
+  methods: {
+    checkedData() {}
   },
   data() {
     return {
-      inforCardData: [
-        { title: "国家数", icon: "md-map", count: 198, color: "#19be6b" },
-        { title: "指标数", icon: "md-flag", count: 28, color: "#ff9900" },
-        { title: "已爬网页数", icon: "md-bug", count: 253, color: "#E46CBB" },
-        { title: "数据集数", icon: "md-cube", count: 3, color: "#ed3f14" },
-        {
-          title: "有效数据条数",
-          icon: "md-checkmark",
-          count: 1225,
-          color: "#9A66E4"
-        },
-        {
-          title: "总数据条数",
-          icon: "md-archive",
-          count: 1502,
-          color: "#2d8cf0"
-        }
-      ],
-      pieData: [
-        { value: 20, name: "独立制定" },
-        { value: 62, name: "非独立制定" },
-        { value: 30, name: "正在制定" },
-        { value: 70, name: "未制定" }
-      ],
-      barData: {
-        美国: 97,
-        加拿大: 89,
-        墨西哥: 80,
-        古巴: 50,
-        智利: 65,
-        巴西: 78,
-        秘鲁: 30
-      }
+      scatterData: [
+        { product: "Matcha Latte", count: 2, score: 0.5 },
+        { product: "Milk Tea", count: 5, score: 0.6 },
+        { product: "Cheese Cocoa", count: 6, score: 0.1 },
+        { product: "Walnut Browe", count: 9, score: 0.8 },
+        { product: "Walnut Bnie", count: 10, score: 0.4 },
+        { product: "Walnut Browie", count: 3, score: 0.2 },
+        { product: "Walnut Brie", count: 8, score: 0.7 }
+      ]
     };
   },
   mounted() {

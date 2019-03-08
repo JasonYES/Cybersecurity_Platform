@@ -7,8 +7,8 @@
         </Card>
       </i-col>
     </Row>
-    <Row :gutter="20" style="margin-top: 10px;">
-      <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
+    <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
+      <i-col :md="20" :lg="20" style="margin-bottom: 20px;">
         <Card shadow>
           <chart-bar style="height: 300px;" :value="data"/>
         </Card>
@@ -20,10 +20,13 @@
 <script>
 import { ChartBar, Cbox } from "_c/charts";
 export default {
-  name: "home",
+  name: "by-countries",
   components: {
     ChartBar,
     Cbox
+  },
+  methods: {
+    checkedData() {}
   },
   data() {
     return {

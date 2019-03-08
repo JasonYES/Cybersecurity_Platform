@@ -4,4 +4,5 @@ import ChartScatter from './scatter.vue'
 import Cbox from './cbox.vue'
 import CboxOther from './cbox-other.vue'
 import ChartMap from './map.vue'
-export { ChartPie, ChartBar, ChartScatter, Cbox, CboxOther, ChartMap }
+import CboxIndexes from './cbox-indexes.vue'
+export { ChartPie, ChartBar, ChartScatter, Cbox, CboxOther, ChartMap, CboxIndexes }

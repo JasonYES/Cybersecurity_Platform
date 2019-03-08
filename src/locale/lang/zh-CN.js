@@ -48,4 +48,6 @@ export default {
   'significance': '显著性统计',
   'test': '测试',
   'plain-scores-other': '总体评分结果-按组织',
+  "map-all": "网络空间能力展示-按总分",
+  "map-indexes": "网络空间能力展示-按指标"
 }
