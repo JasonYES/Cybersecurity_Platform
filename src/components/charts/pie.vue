@@ -28,7 +28,6 @@ export default {
           index++;
         }
       }
-      console.log(this.pieData);
     },
     countAndDevide(score) {
       if (score >= 0.8) return 1;
@@ -50,7 +49,23 @@ export default {
           subtext: this.subtext,
           x: "center"
         },
-        tooltip: {},
+        tooltip: {
+          padding: 10,
+          backgroundColor: "#222",
+          borderColor: "#777",
+          borderWidth: 1,
+          formatter: function(param) {
+            var head =
+              '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">' +
+              param.seriesName +
+              "</div>";
+            var title = param.data[0];
+            var num = param.data[param.seriesIndex + 1];
+            var percent = param.percent;
+            var tail = title + "分: " + num + "个 (占比" + percent + "%)";
+            return head + tail;
+          }
+        },
         legend: {},
         series: [
           {
@@ -60,7 +75,8 @@ export default {
             center: ["33%", "20%"],
             encode: {
               itemName: "指标名",
-              value: "指标1"
+              value: "指标1",
+              seriesName: [1]
             }
           },
           {
@@ -70,7 +86,8 @@ export default {
             center: ["66%", "20%"],
             encode: {
               itemName: "指标名",
-              value: "指标2"
+              value: "指标2",
+              seriesName: [2]
             }
           },
           {
@@ -80,7 +97,8 @@ export default {
             center: ["33%", "50%"],
             encode: {
               itemName: "指标名",
-              value: "指标3"
+              value: "指标3",
+              seriesName: [3]
             }
           },
           {
@@ -90,7 +108,8 @@ export default {
             center: ["66%", "50%"],
             encode: {
               itemName: "指标名",
-              value: "指标4"
+              value: "指标4",
+              seriesName: [4]
             }
           },
           {
@@ -100,7 +119,8 @@ export default {
             center: ["33%", "80%"],
             encode: {
               itemName: "指标名",
-              value: "指标5"
+              value: "指标5",
+              seriesName: [5]
             }
           },
           {
@@ -110,7 +130,8 @@ export default {
             center: ["66%", "80%"],
             encode: {
               itemName: "指标名",
-              value: "指标6"
+              value: "指标6",
+              seriesName: [6]
             }
           }
         ]

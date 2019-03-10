@@ -15,7 +15,7 @@
       </i-col>
     </Row>
     <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
-      <i-col :md="8" :lg="8" style="margin-bottom: 20px;">
+      <i-col :md="12" :lg="12" style="margin-bottom: 20px;">
         <Card shadow>
           <chart-scatter style="height: 500px;" :value="scatterData" text></chart-scatter>
         </Card>

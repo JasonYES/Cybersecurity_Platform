@@ -65,7 +65,17 @@ export default {
               y: 2 // 默认第一位和第二位对应坐标轴
             }
           }
-        ]
+        ],
+        backgroundColor: new echarts.graphic.RadialGradient(0.3, 0.3, 0.8, [
+          {
+            offset: 0,
+            color: "#f7f8fa"
+          },
+          {
+            offset: 1,
+            color: "#cdd0d5"
+          }
+        ])
       };
       this.dom = echarts.init(this.$refs.dom, "tdTheme");
       this.dom.setOption(option);

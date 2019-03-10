@@ -10,7 +10,7 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <chart-pie style="height: 700px;" :value="pieData" text></chart-pie>
+          <chart-pie style="height: 1000px;" :value="pieData" text></chart-pie>
         </Card>
       </i-col>
     </Row>

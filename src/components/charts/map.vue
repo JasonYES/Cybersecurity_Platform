@@ -13,6 +13,9 @@ echarts.registerTheme("tdTheme", tdTheme);
 /////////////
 export default {
   name: "ChartMap",
+  props: {
+    title: String
+  },
   data() {
     return {
       dom: null
@@ -27,10 +30,9 @@ export default {
     this.$nextTick(() => {
       let option = {
         title: {
-          text: "World Population (2010)",
-          //   subtext:
-          //     "from United Nations, Total population, both sexes combined, as of 1 July (thousands)",
-          //   sublink: "http://esa.un.org/wpp/Excel-Data/population.htm",
+          text: this.title,
+          subtext: "",
+          sublink: "",
           left: "center",
           top: "top"
         },
@@ -68,7 +70,7 @@ export default {
         },
         series: [
           {
-            name: "World Population (2010)",
+            name: "CyberSecurity",
             type: "map",
             mapType: "world",
             roam: true,
@@ -258,7 +260,7 @@ export default {
         ]
       };
 
-      this.dom = echarts.init(this.$refs.dom);
+      this.dom = echarts.init(this.$refs.dom, "tdTheme");
       this.dom.setOption(option);
       on(window, "resize", this.resize);
     });
