@@ -67,6 +67,7 @@ export default {
           }
         },
         legend: {},
+        backgroundColor: "#2c343c",
         series: [
           {
             type: "pie",

@@ -49,8 +49,29 @@ export default {
         },
         legend: {},
         tooltip: {},
-        xAxis: { type: "category" },
-        yAxis: {},
+        xAxis: {
+          type: "category",
+          axisLabel: {
+            color: "#ccc",
+            fontSize: 16
+          },
+          splitLine: {
+            lineStyle: {
+              color: "#555"
+            }
+          }
+        },
+        yAxis: {
+          axisLabel: {
+            color: "#ccc",
+            fontSize: 16
+          },
+          splitLine: {
+            lineStyle: {
+              color: "#555"
+            }
+          }
+        },
         series: [
           { type: "bar", seriesLayoutBy: "row" },
           { type: "bar", seriesLayoutBy: "row" },
@@ -58,7 +79,8 @@ export default {
           { type: "bar", seriesLayoutBy: "row" },
           { type: "bar", seriesLayoutBy: "row" },
           { type: "bar", seriesLayoutBy: "row" }
-        ]
+        ],
+        backgroundColor: "#2c343c"
       };
       this.dom = echarts.init(this.$refs.dom, "tdTheme");
       this.dom.setOption(option);

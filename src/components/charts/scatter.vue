@@ -40,22 +40,34 @@ export default {
           subtext: this.subtext,
           x: "center"
         },
-        xAxis: {
-          type: "value",
-          name: xAxisName,
-          nameTextStyle: {
-            color: "#242424",
-            fontSize: 14
+        xAxis: [
+          {
+            scalse: false,
+            axisLabel: {
+              color: "#ccc",
+              fontSize: 16
+            },
+            splitLine: {
+              lineStyle: {
+                color: "#555"
+              }
+            }
           }
-        },
-        yAxis: {
-          type: "value",
-          name: yAxisName,
-          nameTextStyle: {
-            color: "#242424",
-            fontSize: 14
+        ],
+        yAxis: [
+          {
+            scalse: false,
+            axisLabel: {
+              color: "#ccc",
+              fontSize: 16
+            },
+            splitLine: {
+              lineStyle: {
+                color: "#555"
+              }
+            }
           }
-        },
+        ],
         series: [
           {
             type: "scatter",
@@ -66,16 +78,7 @@ export default {
             }
           }
         ],
-        backgroundColor: new echarts.graphic.RadialGradient(0.3, 0.3, 0.8, [
-          {
-            offset: 0,
-            color: "#f7f8fa"
-          },
-          {
-            offset: 1,
-            color: "#cdd0d5"
-          }
-        ])
+        backgroundColor: "#2c343c"
       };
       this.dom = echarts.init(this.$refs.dom, "tdTheme");
       this.dom.setOption(option);
