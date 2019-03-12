@@ -1,33 +1,32 @@
 <template>
-  <div>
-    <Row :gutter="20" style="margin-top: 10px;">
-      <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
-        <Card shadow>
-          <Cbox @checked="checkedData"></Cbox>
-        </Card>
-      </i-col>
-    </Row>
-    <Row type="flex" justify="center" style="margin-top: 20px">
-      <i-col span="16">
-        <Tablex :dataset="'countries'"></Tablex>
-      </i-col>
-    </Row>
+  <div class="charts tablex">
+    <Table border :row-class-name="rowClassName" :columns="columns" :data="data"></Table>
   </div>
 </template>
 <script>
-import { Cbox, Tablex } from "_c/charts";
 export default {
-  name: "plain-scores",
-  components: {
-    Cbox,
-    Tablex
+  name: "tablex",
+  props: {
+    dataset: String
   },
   mounted() {
+    this.dataSet();
     this.statAverage();
   },
   methods: {
-    checkedData() {},
+    dataSet() {
+      switch (this.dataset) {
+        case "countries":
+          this.data = this.countriesData;
+          break;
+        case "orgs":
+          this.data = this.orgsData;
+          break;
+      }
+    },
     statAverage() {
+      // 更正: 使用库更好
+
       // 最终结果
       var res = {
         country: "平均数",
@@ -56,47 +55,52 @@ export default {
 
       // 插入结果
       this.data.push(res);
+    },
+    rowClassName(row, index) {
+      if (row.country == "平均数") return "avg";
+      return "";
     }
   },
   data() {
     return {
+      data: [],
       columns: [
         {
-          title: "Country",
+          title: "地区名",
           key: "country"
         },
         {
-          title: "Score",
+          title: "总得分",
           key: "score",
           sortable: true
         },
         {
-          title: "Legal",
+          title: "法律",
           key: "legal",
           sortable: true
         },
         {
-          title: "Technical",
+          title: "技术",
           key: "technical",
           sortable: true
         },
         {
-          title: "Organization",
+          title: "组织",
           key: "organization",
           sortable: true
         },
         {
-          title: "Capacity",
+          title: "建设",
           key: "capacity",
           sortable: true
         },
         {
-          title: "Cooperation",
+          title: "合作",
           key: "cooperation",
           sortable: true
         }
       ],
-      data: [
+      countriesData: [
         {
           country: "新加坡",
           score: 0.92,
@@ -214,9 +218,70 @@ export default {
           capacity: 0.94,
           cooperation: 0.44
         }
+      ],
+      orgsData: [
+        {
+          country: "亚洲",
+          score: 0.92,
+          legal: 0.95,
+          technical: 0.96,
+          organization: 0.88,
+          capacity: 0.97,
+          cooperation: 0.87
+        },
+        {
+          country: "欧洲",
+          score: 0.91,
+          legal: 1,
+          technical: 0.96,
+          organization: 0.92,
+          capacity: 1,
+          cooperation: 0.73
+        },
+        {
+          country: "大洋洲",
+          score: 0.89,
+          legal: 0.87,
+          technical: 0.96,
+          organization: 0.77,
+          capacity: 1,
+          cooperation: 0.87
+        },
+        {
+          country: "非洲",
+          score: 0.87,
+          legal: 0.98,
+          technical: 0.82,
+          organization: 0.85,
+          capacity: 0.95,
+          cooperation: 0.75
+        },
+        {
+          country: "拉丁美洲",
+          score: 0.84,
+          legal: 0.99,
+          technical: 0.82,
+          organization: 0.85,
+          capacity: 0.94,
+          cooperation: 0.64
+        },
+        {
+          country: "北美洲",
+          score: 0.82,
+          legal: 0.85,
+          technical: 0.96,
+          organization: 0.74,
+          capacity: 0.91,
+          cooperation: 0.7
+        }
       ]
     };
   }
 };
 </script>
-
+</<style>
+.ivu-table .avg td{
+        background-color: #3399ff;
+        color: #fff;
+    }
+</style>

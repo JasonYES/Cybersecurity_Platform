@@ -31,7 +31,6 @@ export default {
       let yAxisName = keys[2]; //定义y轴名字
       let option = {
         dataset: {
-          // dimensions: ["count", "score"],
           source: this.value
         },
         tooltip: {},
