@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+import * as math from "mathjs";
 export default {
   name: "tablex",
   props: {
@@ -25,39 +26,38 @@ export default {
       }
     },
     statAverage() {
-      // 更正: 使用库更好
-
-      // 最终结果
-      var res = {
-        country: "平均数",
-        score: 0,
-        legal: 0,
-        technical: 0,
-        organization: 0,
-        capacity: 0,
-        cooperation: 0
-      };
-      var length = this.data.length;
-      // 遍历叠加
-      for (var i in this.data) {
-        for (var j in this.data[i]) {
-          if (j == "country") continue;
-          res[j] += this.data[i][j];
+      // 结果项
+      var mean = { country: "平均数" };
+      var std = { country: "标准差" };
+      var median = { country: "中位数" };
+      var indexes = [
+        "score",
+        "legal",
+        "technical",
+        "organization",
+        "capacity",
+        "cooperation"
+      ];
+      // 遍历统计
+      for (var i in indexes) {
+        var title = indexes[i];
+        var array = [];
+        for (var j in this.data) {
+          array.push(this.data[j][title]);
         }
+        mean[title] = math.mean(array).toFixed(2);
+        std[title] = math.std(array).toFixed(2);
+        median[title] = math.median(array).toFixed(2);
       }
-      // 除以总数
-      for (var i in res) {
-        if (i == "country") continue;
-        var average = res[i] / length;
-        res[i] = average.toFixed(2);
-      }
-      // 插入标识位
-
       // 插入结果
-      this.data.push(res);
+      this.data.push(mean);
+      this.data.push(std);
+      this.data.push(median);
     },
     rowClassName(row, index) {
-      if (row.country == "平均数") return "avg";
+      if (row.country == "平均数") return "stats";
+      if (row.country == "标准差") return "stats";
+      if (row.country == "中位数") return "stats";
       return "";
     }
   },
@@ -280,8 +280,8 @@ export default {
 };
 </script>
 </<style>
-.ivu-table .avg td{
-        background-color: #3399ff;
-        color: #fff;
+.ivu-table .stats td{
+        background-color: #80d5ff;
+        /* color: #fff; */
     }
 </style>
