@@ -46,61 +46,61 @@ export default {
           legal: 0.68,
           technical: 0.43,
           organization: 0.55,
-          capacity: 0.28,
+          capacity: 0.1,
           cooperation: 0.44
         },
         {
           country: "也门",
-          score: 0.22,
-          legal: 0.11,
-          technical: 0.34,
-          organization: 0.25,
-          capacity: 0.44,
-          cooperation: 0.35
+          score: 0.36,
+          legal: 0.13,
+          technical: 0.15,
+          organization: 0.28,
+          capacity: 0.14,
+          cooperation: 0.2
         },
-        {
-          country: "尼日利亚",
-          score: 0.43,
-          legal: 0.99,
-          technical: 0.22,
-          organization: 0.68,
-          capacity: 0.77,
-          cooperation: 0.21
-        },
-        {
-          country: "澳大利亚",
-          score: 0.82,
-          legal: 0.94,
-          technical: 0.96,
-          organization: 0.86,
-          capacity: 0.94,
-          cooperation: 0.44
-        },
-        {
-          country: "日本",
-          score: 0.81,
-          legal: 0.91,
-          technical: 0.77,
-          organization: 0.82,
-          capacity: 0.9,
-          cooperation: 0.7
-        },
-        {
-          country: "法国",
-          score: 0.81,
-          legal: 0.94,
-          technical: 0.96,
-          organization: 0.6,
-          capacity: 1,
-          cooperation: 0.61
-        },
+        // {
+        //   country: "尼日利亚",
+        //   score: 0.43,
+        //   legal: 0.99,
+        //   technical: 0.22,
+        //   organization: 0.68,
+        //   capacity: 0.77,
+        //   cooperation: 0.21
+        // },
+        // {
+        //   country: "澳大利亚",
+        //   score: 0.82,
+        //   legal: 0.94,
+        //   technical: 0.96,
+        //   organization: 0.86,
+        //   capacity: 0.94,
+        //   cooperation: 0.44
+        // },
+        // {
+        //   country: "日本",
+        //   score: 0.81,
+        //   legal: 0.91,
+        //   technical: 0.77,
+        //   organization: 0.82,
+        //   capacity: 0.9,
+        //   cooperation: 0.7
+        // },
+        // {
+        //   country: "法国",
+        //   score: 0.81,
+        //   legal: 0.94,
+        //   technical: 0.96,
+        //   organization: 0.6,
+        //   capacity: 1,
+        //   cooperation: 0.61
+        // },
         {
           country: "俄罗斯",
           score: 0.78,
           legal: 0.82,
           technical: 0.67,
           organization: 0.85,
-          capacity: 0.91,
+          capacity: 0.5,
           cooperation: 0.7
         },
         {
@@ -109,7 +109,7 @@ export default {
           legal: 0.92,
           technical: 0.92,
           organization: 0.4,
-          capacity: 0.92,
+          capacity: 0.1,
           cooperation: 0.7
         }
       ]
