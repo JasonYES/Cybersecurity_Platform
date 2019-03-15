@@ -69,7 +69,6 @@ export default {
   },
   methods: {
     markingLine(param) {
-      console.log(param);
       if (param.componentSubType == "bar") {
         for (var i in this.option) {
           this.option.markLine = null;
@@ -99,7 +98,7 @@ export default {
       //   }
       //   res.push(item);
       // }
-      // console.log(res);
+      // (res);
 
       res.push(dimensions);
       for (var i in obj) {
@@ -142,10 +141,14 @@ export default {
         },
         title: {
           text: this.text,
-          subtext: this.subtext,
-          x: "center"
+          textStyle: {
+            color: "#ccc"
+          },
+          padding: 15
         },
-        legend: {},
+        legend: {
+          padding: 15
+        },
         tooltip: {},
         xAxis: {
           type: "category",
@@ -176,11 +179,6 @@ export default {
       this.dom = echarts.init(this.$refs.dom, "tdTheme");
       this.dom.setOption(this.option);
       this.dom.on("mouseover", this.markingLine);
-
-      // on(window, "mouseout", function(params) {
-      //   console.log("xx");
-      // });
-
       on(window, "resize", this.resize);
     });
   },

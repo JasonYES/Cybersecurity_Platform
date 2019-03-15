@@ -1,18 +1,10 @@
 <template>
   <div>
-    <Row :gutter="20">
-      <i-col
-        :xs="12"
-        :md="8"
-        :lg="4"
-        v-for="(infor, i) in inforCardData"
-        :key="`infor-${i}`"
-        style="height: 120px;padding-bottom: 10px;"
-      >
-        <infor-card shadow :color="infor.color" :icon="infor.icon" :icon-size="36">
-          <count-to :end="infor.count" count-class="count-style"/>
-          <p>{{ infor.title }}</p>
-        </infor-card>
+    <Row :gutter="20" style="margin-top: 10px;">
+      <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
+        <Card shadow>
+          <Cbox @checked="checkedData"></Cbox>
+        </Card>
       </i-col>
     </Row>
     <!-- <Row :gutter="20" style="margin-top: 10px;">
@@ -32,7 +24,7 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <chart-map style="height:600px;"></chart-map>
+          <chart-barx></chart-barx>
         </Card>
       </i-col>
     </Row>
@@ -43,6 +35,7 @@
 import InforCard from "_c/info-card";
 import CountTo from "_c/count-to";
 import { ChartPie, ChartBar, ChartScatter, Cbox, ChartMap } from "_c/charts";
+import { ChartBarx } from "_c/chartsx";
 import Example from "./example.vue";
 export default {
   name: "home",
@@ -54,11 +47,12 @@ export default {
     ChartScatter,
     Example,
     Cbox,
-    ChartMap
+    ChartMap,
+    ChartBarx
   },
   methods: {
     checkedData(checked) {
-      console.log(checked);
+      // console.log(checked);
     }
   },
   data() {

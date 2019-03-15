@@ -15,29 +15,23 @@
       </i-col>
     </Row>
     <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
-      <i-col :md="12" :lg="12" style="margin-bottom: 20px;">
+      <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <chart-scatter style="height: 500px;" :value="scatterData" text></chart-scatter>
+          <chart-scatterx></chart-scatterx>
         </Card>
       </i-col>
     </Row>
-    <!-- <Row>
-      <Card shadow>
-        <example style="height: 310px;"/>
-      </Card>
-    </Row>-->
   </div>
 </template>
 
 <script>
-import { Cbox, CboxIndexes, ChartScatter } from "_c/charts";
-import Example from "./example.vue";
+import { Cbox, CboxIndexes } from "_c/charts";
+import { ChartScatterx } from "_c/chartsx";
 export default {
   name: "by-indexes",
   components: {
-    Example,
     Cbox,
-    ChartScatter,
+    ChartScatterx,
     CboxIndexes
   },
   methods: {

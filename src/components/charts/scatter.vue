@@ -30,7 +30,6 @@ export default {
         var y = this.value[i][keys[2]];
         this.statData.push([x, y]);
       }
-      console.log(this.statData);
     },
     SetRegression() {
       this.regression = ecStat.regression("exponential", this.statData);
@@ -56,8 +55,13 @@ export default {
         tooltip: {},
         title: {
           text: this.text,
-          subtext: this.subtext,
-          x: "center"
+          textStyle: {
+            color: "#ccc"
+          },
+          padding: 15
+        },
+        legend: {
+          padding: 15
         },
         xAxis: [
           {

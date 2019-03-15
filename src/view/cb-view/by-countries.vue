@@ -10,7 +10,7 @@
     <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <chart-bar style="height: 400px;" :value="data"/>
+          <chart-barx></chart-barx>
         </Card>
       </i-col>
     </Row>
@@ -19,11 +19,13 @@
 
 <script>
 import { ChartBar, Cbox } from "_c/charts";
+import { ChartBarx } from "_c/chartsx";
 export default {
   name: "by-countries",
   components: {
     ChartBar,
-    Cbox
+    Cbox,
+    ChartBarx
   },
   methods: {
     checkedData() {}

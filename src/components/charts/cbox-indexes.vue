@@ -54,7 +54,6 @@ export default {
       for (var i in res) {
         res[i] = "";
       }
-      console.log(res);
       return res;
     }
   }
