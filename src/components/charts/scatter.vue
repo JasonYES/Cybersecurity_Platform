@@ -32,7 +32,7 @@ export default {
       }
     },
     SetRegression() {
-      this.regression = ecStat.regression("exponential", this.statData);
+      this.regression = ecStat.regression("linear", this.statData);
       this.regression.points.sort(function(a, b) {
         return a[0] - b[0];
       });
@@ -52,7 +52,16 @@ export default {
         dataset: {
           source: this.value
         },
-        tooltip: {},
+        tooltip: {
+          formatter: function(params) {
+            var data = params.data;
+
+            var head = data.country + "<br/>";
+            var index1 = xAxisName + " : " + data[xAxisName] + "<br/>";
+            var index2 = yAxisName + " : " + data[yAxisName];
+            return head + index1 + index2;
+          }
+        },
         title: {
           text: this.text,
           textStyle: {
@@ -65,6 +74,12 @@ export default {
         },
         xAxis: [
           {
+            name: xAxisName,
+            nameLocation: "center",
+            nameGap: 30,
+            nameTextStyle: {
+              fontSize: 16
+            },
             scalse: false,
             axisLabel: {
               color: "#ccc",
@@ -79,6 +94,12 @@ export default {
         ],
         yAxis: [
           {
+            name: yAxisName,
+            nameLocation: "center",
+            nameGap: 30,
+            nameTextStyle: {
+              fontSize: 16
+            },
             scalse: false,
             axisLabel: {
               color: "#ccc",
@@ -95,13 +116,12 @@ export default {
           {
             type: "scatter",
             encode: {
-              tooltip: [0, 1, 2],
               x: 1, // 默认第一位和第二位对应坐标轴
               y: 2 // 默认第一位和第二位对应坐标轴
             }
           },
           {
-            name: "line",
+            name: "线性回归",
             type: "line",
             showSymbol: false,
             smooth: true,
@@ -115,7 +135,7 @@ export default {
               label: {
                 normal: {
                   show: true,
-                  position: "left",
+                  position: "inside",
                   formatter: this.regression.expression,
                   textStyle: {
                     color: "#ccc",

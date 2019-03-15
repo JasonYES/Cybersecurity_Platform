@@ -44,11 +44,26 @@ export default {
         dataset: {
           source: this.pieData
         },
-        title: {
-          text: this.text,
-          subtext: this.subtext,
-          x: "center"
-        },
+        title: [
+          {
+            textAlign: "center",
+            text: "指标1",
+            left: "32%",
+            top: "5%",
+            textStyle: {
+              color: "#ccc",
+              fontSize: 16,
+              fontWeight: "normal"
+            }
+          },
+          {
+            text: this.text,
+            textStyle: {
+              color: "#ccc"
+            },
+            padding: 15
+          }
+        ],
         tooltip: {
           padding: 10,
           backgroundColor: "#222",
@@ -74,6 +89,7 @@ export default {
             seriesLayoutBy: "row",
             radius: "20%",
             center: ["33%", "20%"],
+
             encode: {
               itemName: "指标名",
               value: "指标1",

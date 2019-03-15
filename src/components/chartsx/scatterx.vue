@@ -1,14 +1,14 @@
 <template>
-  <Tabs size="small">
+  <Tabs>
     <TabPane label="集合视图">
-      <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
+      <Row type="flex" justify="center" :gutter="20" style="margin-top: 50px;">
         <i-col :md="16" :lg="16" style="margin-bottom: 20px;">
           <chart-scatter style="height: 600px;" :value="dataCombined" :text="'集合视图'"/>
         </i-col>
       </Row>
     </TabPane>
     <TabPane label="各洲独立视图">
-      <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
+      <Row type="flex" justify="center" :gutter="20" style="margin-top: 50px;">
         <i-col :md="16" :lg="16" style="margin-bottom: 20px;">
           <div v-for="(object, continent)  in dataDivided" :key="continent">
             <chart-scatter

@@ -1,5 +1,5 @@
 <template>
-  <Tabs size="small">
+  <Tabs>
     <TabPane label="集合视图">
       <chart-bar style="height: 400px;" :value="dataCombined" :text="'集合视图'"/>
     </TabPane>
