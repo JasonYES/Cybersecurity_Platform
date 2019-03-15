@@ -5,6 +5,7 @@
 <script>
 import echarts from "echarts";
 import tdTheme from "./theme.json";
+import ecStat, { regression } from "echarts-stat";
 import { on, off } from "@/libs/tools";
 echarts.registerTheme("tdTheme", tdTheme);
 export default {
@@ -16,15 +17,34 @@ export default {
   },
   data() {
     return {
-      dom: null
+      dom: null,
+      statData: [],
+      regression: {}
     };
   },
   methods: {
+    objToArray() {
+      var keys = Object.keys(this.value[0]);
+      for (var i in this.value) {
+        var x = this.value[i][keys[1]];
+        var y = this.value[i][keys[2]];
+        this.statData.push([x, y]);
+      }
+      console.log(this.statData);
+    },
+    SetRegression() {
+      this.regression = ecStat.regression("exponential", this.statData);
+      this.regression.points.sort(function(a, b) {
+        return a[0] - b[0];
+      });
+    },
     resize() {
       this.dom.resize();
     }
   },
   mounted() {
+    this.objToArray();
+    this.SetRegression();
     this.$nextTick(() => {
       let keys = Object.keys(this.value[0]);
       let xAxisName = keys[1]; //定义X轴名字
@@ -74,6 +94,38 @@ export default {
               tooltip: [0, 1, 2],
               x: 1, // 默认第一位和第二位对应坐标轴
               y: 2 // 默认第一位和第二位对应坐标轴
+            }
+          },
+          {
+            name: "line",
+            type: "line",
+            showSymbol: false,
+            smooth: true,
+            data: this.regression.points,
+            markPoint: {
+              itemStyle: {
+                normal: {
+                  color: "transparent"
+                }
+              },
+              label: {
+                normal: {
+                  show: true,
+                  position: "left",
+                  formatter: this.regression.expression,
+                  textStyle: {
+                    color: "#ccc",
+                    fontSize: 14
+                  }
+                }
+              },
+              data: [
+                {
+                  coord: this.regression.points[
+                    this.regression.points.length - 1
+                  ]
+                }
+              ]
             }
           }
         ],
