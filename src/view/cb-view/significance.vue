@@ -10,7 +10,7 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <chart-pie style="height: 1000px;" :value="pieData" text="集合视图"></chart-pie>
+          <chart-piex></chart-piex>
         </Card>
       </i-col>
     </Row>
@@ -18,11 +18,12 @@
 </template>
 
 <script>
-import { ChartPie, Cbox } from "_c/charts";
+import { Cbox } from "_c/charts";
+import { ChartPiex } from "_c/chartsx";
 export default {
   name: "home",
   components: {
-    ChartPie,
+    ChartPiex,
     Cbox
   },
   methods: {

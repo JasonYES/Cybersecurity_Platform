@@ -7,6 +7,7 @@ import echarts from "echarts";
 import tdTheme from "./theme.json";
 import ecStat, { regression } from "echarts-stat";
 import { on, off } from "@/libs/tools";
+import vname from "@/config/view-name";
 echarts.registerTheme("tdTheme", tdTheme);
 export default {
   name: "ChartScatter",
@@ -18,8 +19,10 @@ export default {
   data() {
     return {
       dom: null,
-      statData: [],
-      regression: {}
+      xAxisName: "",
+      yAxisName: "",
+      statData: [], // 只供回归分析使用
+      statMap: {} // 只供聚类使用
     };
   },
   methods: {
@@ -28,39 +31,142 @@ export default {
       for (var i in this.value) {
         var x = this.value[i][keys[1]];
         var y = this.value[i][keys[2]];
+        var country = this.value[i][keys[0]];
         this.statData.push([x, y]);
+        this.SetDataMap(x, y, country);
       }
     },
-    SetRegression() {
-      this.regression = ecStat.regression("linear", this.statData);
-      this.regression.points.sort(function(a, b) {
+    SetRegression(option) {
+      var regression = ecStat.regression("linear", this.statData);
+      regression.points.sort(function(a, b) {
         return a[0] - b[0];
       });
+      option.series.push({
+        name: "线性回归",
+        type: "line",
+        showSymbol: false,
+        smooth: true,
+        data: regression.points,
+        markPoint: {
+          itemStyle: {
+            normal: {
+              color: "transparent"
+            }
+          },
+          label: {
+            normal: {
+              show: true,
+              position: "inside",
+              formatter: regression.expression,
+              textStyle: {
+                color: "#ccc",
+                fontSize: 14
+              }
+            }
+          },
+          data: [
+            {
+              coord: regression.points[regression.points.length - 1]
+            }
+          ]
+        }
+      });
+    },
+    SetClustering(option) {
+      var result = ecStat.clustering.hierarchicalKMeans(
+        this.statData,
+        3,
+        false
+      );
+      var centroids = result.centroids;
+      var ptsInCluster = result.pointsInCluster;
+
+      for (var i = 0; i < centroids.length; i++) {
+        option.series.push({
+          name: "数据簇" + (i + 1),
+          type: "scatter",
+          data: ptsInCluster[i],
+          markPoint: {
+            symbolSize: 30,
+            label: {
+              normal: {
+                show: false
+              },
+              emphasis: {
+                show: true,
+                position: "top",
+                formatter: function(params) {
+                  return (
+                    Math.round(params.data.coord[0] * 100) / 100 +
+                    "  " +
+                    Math.round(params.data.coord[1] * 100) / 100 +
+                    " "
+                  );
+                },
+                textStyle: {
+                  color: "#ccc"
+                }
+              }
+            },
+            itemStyle: {
+              normal: {
+                opacity: 0.8
+              }
+            },
+            data: [
+              {
+                coord: centroids[i]
+              }
+            ]
+          }
+        });
+      }
+    },
+    SetDataMap(x, y, country) {
+      if (this.statMap[x] == null || this.statMap[x][y] == null) {
+        this.statMap[x] = {};
+        this.statMap[x][y] = [country];
+        return;
+      }
+      this.statMap[x][y].push(country);
+    },
+    SetTooltip(option) {
+      var tooltip = {
+        formatter: params => {
+          var data = params.data;
+          console.log(params);
+          var head = "";
+          if (params.componentType == "series") {
+            for (var i in this.statMap[data[0]][data[1]]) {
+              head += "国家 : " + this.statMap[data[0]][data[1]][i] + "   ";
+            }
+            head += "<br/>";
+            var index1 = this.xAxisName + " : " + data[0] + "<br/>";
+            var index2 = this.yAxisName + " : " + data[1];
+            return head + index1 + index2;
+          } else if (params.seriesName == "线性回归") {
+            return "";
+          } else {
+            head += params.seriesName;
+            return head;
+          }
+        }
+      };
+      option.tooltip = tooltip;
     },
     resize() {
       this.dom.resize();
     }
   },
   mounted() {
-    this.objToArray();
-    this.SetRegression();
     this.$nextTick(() => {
+      this.objToArray();
       let keys = Object.keys(this.value[0]);
-      let xAxisName = keys[1]; //定义X轴名字
-      let yAxisName = keys[2]; //定义y轴名字
+      this.xAxisName = vname[keys[1]]; //定义X轴名字
+      this.yAxisName = vname[keys[2]]; //定义y轴名字
       let option = {
         dataset: {
           source: this.value
-        },
-        tooltip: {
-          formatter: function(params) {
-            var data = params.data;
-
-            var head = data.country + "<br/>";
-            var index1 = xAxisName + " : " + data[xAxisName] + "<br/>";
-            var index2 = yAxisName + " : " + data[yAxisName];
-            return head + index1 + index2;
-          }
         },
         title: {
           text: this.text,
@@ -69,12 +175,13 @@ export default {
           },
           padding: 15
         },
+        tooltip: {},
         legend: {
           padding: 15
         },
         xAxis: [
           {
-            name: xAxisName,
+            name: this.xAxisName,
             nameLocation: "center",
             nameGap: 30,
             nameTextStyle: {
@@ -94,7 +201,7 @@ export default {
         ],
         yAxis: [
           {
-            name: yAxisName,
+            name: this.yAxisName,
             nameLocation: "center",
             nameGap: 30,
             nameTextStyle: {
@@ -113,48 +220,20 @@ export default {
           }
         ],
         series: [
-          {
-            type: "scatter",
-            encode: {
-              x: 1, // 默认第一位和第二位对应坐标轴
-              y: 2 // 默认第一位和第二位对应坐标轴
-            }
-          },
-          {
-            name: "线性回归",
-            type: "line",
-            showSymbol: false,
-            smooth: true,
-            data: this.regression.points,
-            markPoint: {
-              itemStyle: {
-                normal: {
-                  color: "transparent"
-                }
-              },
-              label: {
-                normal: {
-                  show: true,
-                  position: "inside",
-                  formatter: this.regression.expression,
-                  textStyle: {
-                    color: "#ccc",
-                    fontSize: 14
-                  }
-                }
-              },
-              data: [
-                {
-                  coord: this.regression.points[
-                    this.regression.points.length - 1
-                  ]
-                }
-              ]
-            }
-          }
+          // {
+          //   type: "scatter",
+          //   encode: {
+          //     x: 1, // 默认第一位和第二位对应坐标轴
+          //     y: 2 // 默认第一位和第二位对应坐标轴
+          //   }
+          // }
         ],
         backgroundColor: "#2c343c"
       };
+
+      this.SetClustering(option);
+      this.SetRegression(option);
+      this.SetTooltip(option);
       this.dom = echarts.init(this.$refs.dom, "tdTheme");
       this.dom.setOption(option);
       on(window, "resize", this.resize);

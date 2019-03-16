@@ -1,12 +1,12 @@
 <template>
   <Tabs>
     <TabPane :label="paneCombined">
-      <chart-bar style="height: 400px;" :value="dataCombined" :text="paneCombined"/>
+      <chart-pie style="height: 1000px;" :value="dataCombined" :text="paneCombined"/>
     </TabPane>
     <TabPane :label="paneDivided">
       <div v-for="(object, continent)  in dataDivided" :key="continent">
-        <chart-bar
-          style="height: 400px;"
+        <chart-pie
+          style="height: 1000px;"
           :value="dataDivided[continent]"
           :text="continent + paneSuffix"
         />
@@ -17,11 +17,12 @@
   </Tabs>
 </template>
 <script>
-import { ChartBar } from "_c/charts";
+import { ChartPie } from "_c/charts";
 import vname from "@/config/view-name";
 export default {
+  name: "ChartPiex",
   components: {
-    ChartBar
+    ChartPie
   },
   data() {
     return {

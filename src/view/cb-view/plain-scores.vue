@@ -8,19 +8,18 @@
       </i-col>
     </Row>
     <Row type="flex" justify="center" style="margin-top: 20px">
-      <i-col span="16">
-        <Tablex :dataset="'countries'"></Tablex>
-      </i-col>
+      <Tablexs></Tablexs>
     </Row>
   </div>
 </template>
 <script>
 import { Cbox, Tablex } from "_c/charts";
+import { Tablexs } from "_c/chartsx";
 export default {
   name: "plain-scores",
   components: {
     Cbox,
-    Tablex
+    Tablexs
   },
   mounted() {
     this.statAverage();

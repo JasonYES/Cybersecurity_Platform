@@ -126,15 +126,15 @@ export default [
         },
         component: () => import('@/view/cb-view/significance.vue')
       },
-      {
-        path: 'test',
-        name: 'test',
-        meta: {
-          icon: 'md-cog',
-          title: 'Test'
-        },
-        component: () => import('@/view/cb-view/charts-test.vue')
-      },
+      // {
+      //   path: 'test',
+      //   name: 'test',
+      //   meta: {
+      //     icon: 'md-cog',
+      //     title: 'Test'
+      //   },
+      //   component: () => import('@/view/cb-view/charts-test.vue')
+      // },
     ]
   },
 

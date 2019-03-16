@@ -1,27 +1,31 @@
 <template>
   <Tabs>
     <TabPane :label="paneCombined">
-      <chart-bar style="height: 400px;" :value="dataCombined" :text="paneCombined"/>
+      <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
+        <i-col :md="16" :lg="16" style="margin-bottom: 20px;">
+          <Tablex :value="dataCombined" :text="paneCombined"/>
+        </i-col>
+      </Row>
     </TabPane>
     <TabPane :label="paneDivided">
-      <div v-for="(object, continent)  in dataDivided" :key="continent">
-        <chart-bar
-          style="height: 400px;"
-          :value="dataDivided[continent]"
-          :text="continent + paneSuffix"
-        />
-        <br>
-        <br>
-      </div>
+      <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
+        <i-col :md="16" :lg="16" style="margin-bottom: 20px;">
+          <div v-for="(object, continent)  in dataDivided" :key="continent">
+            <Tablex :value="dataDivided[continent]" :text="continent + paneSuffix"/>
+            <br>
+            <br>
+          </div>
+        </i-col>
+      </Row>
     </TabPane>
   </Tabs>
 </template>
 <script>
-import { ChartBar } from "_c/charts";
+import { Tablex } from "_c/charts";
 import vname from "@/config/view-name";
 export default {
   components: {
-    ChartBar
+    Tablex
   },
   data() {
     return {

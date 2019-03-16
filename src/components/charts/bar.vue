@@ -7,6 +7,7 @@ import echarts from "echarts";
 import tdTheme from "./theme.json";
 import { on, off } from "@/libs/tools";
 import * as math from "mathjs";
+import vname from "@/config/view-name";
 echarts.registerTheme("tdTheme", tdTheme);
 export default {
   name: "ChartBar",
@@ -147,7 +148,10 @@ export default {
           padding: 15
         },
         legend: {
-          padding: 15
+          padding: 15,
+          formatter: param => {
+            return vname[param];
+          }
         },
         tooltip: {},
         xAxis: {

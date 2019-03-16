@@ -9,18 +9,18 @@
     </Row>
     <Row type="flex" justify="center" style="margin-top: 20px">
       <i-col span="16">
-        <Tablex :dataset="'orgs'"></Tablex>
+        <TablexOrg :dataset="'orgs'"></TablexOrg>
       </i-col>
     </Row>
   </div>
 </template>
 <script>
-import { CboxOther, Tablex } from "_c/charts";
+import { CboxOther, TablexOrg } from "_c/charts";
 export default {
   name: "plain-scores-other",
   components: {
     CboxOther,
-    Tablex
+    TablexOrg
   },
   methods: {
     checkedData() {}

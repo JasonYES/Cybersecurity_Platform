@@ -6,6 +6,7 @@
 import echarts from "echarts";
 import tdTheme from "./theme.json";
 import { on, off } from "@/libs/tools";
+import vname from "@/config/view-name";
 echarts.registerTheme("tdTheme", tdTheme);
 export default {
   name: "ChartPie",
@@ -35,27 +36,51 @@ export default {
       else if (score >= 0.4) return 3;
       else if (score >= 0.2) return 4;
       else return 5;
+    },
+    addTitleOption(option, xyOfTitles) {
+      var titleStyles = {
+        color: "#ccc",
+        fontSize: 16,
+        fontWeight: "normal"
+      };
+      var index1 = 0;
+      for (var i in xyOfTitles) {
+        index1++;
+        var tmpTitle = {
+          textAlign: "center",
+          text: vname[this.pieData[index1][0]],
+          left: xyOfTitles[i][0],
+          top: xyOfTitles[i][1],
+          textStyle: titleStyles
+        };
+        option.title.push(tmpTitle);
+      }
     }
   },
   mounted() {
-    this.countData(this.data);
+    this.countData(this.value);
     this.$nextTick(() => {
+      var xyOfPies = [
+        ["33%", "20%"],
+        ["66%", "20%"],
+        ["33%", "50%"],
+        ["66%", "50%"],
+        ["33%", "80%"],
+        ["66%", "80%"]
+      ];
+      var xyOfTitles = [
+        ["23%", "5%"],
+        ["56%", "5%"],
+        ["23%", "35%"],
+        ["56%", "35%"],
+        ["23%", "65%"],
+        ["56%", "65%"]
+      ];
       let option = {
         dataset: {
           source: this.pieData
         },
         title: [
-          {
-            textAlign: "center",
-            text: "指标1",
-            left: "32%",
-            top: "5%",
-            textStyle: {
-              color: "#ccc",
-              fontSize: 16,
-              fontWeight: "normal"
-            }
-          },
           {
             text: this.text,
             textStyle: {
@@ -85,74 +110,74 @@ export default {
         backgroundColor: "#2c343c",
         series: [
           {
+            name: vname[this.pieData[1][0]],
             type: "pie",
             seriesLayoutBy: "row",
             radius: "20%",
-            center: ["33%", "20%"],
-
+            center: xyOfPies[0],
             encode: {
               itemName: "指标名",
-              value: "指标1",
-              seriesName: [1]
+              value: this.pieData[1][0]
             }
           },
           {
+            name: vname[this.pieData[2][0]],
             type: "pie",
             seriesLayoutBy: "row",
             radius: "20%",
-            center: ["66%", "20%"],
+            center: xyOfPies[1],
             encode: {
               itemName: "指标名",
-              value: "指标2",
-              seriesName: [2]
+              value: this.pieData[2][0]
             }
           },
           {
+            name: vname[this.pieData[3][0]],
             type: "pie",
             seriesLayoutBy: "row",
             radius: "20%",
-            center: ["33%", "50%"],
+            center: xyOfPies[2],
             encode: {
               itemName: "指标名",
-              value: "指标3",
-              seriesName: [3]
+              value: this.pieData[3][0]
             }
           },
           {
+            name: vname[this.pieData[4][0]],
             type: "pie",
             seriesLayoutBy: "row",
             radius: "20%",
-            center: ["66%", "50%"],
+            center: xyOfPies[3],
             encode: {
               itemName: "指标名",
-              value: "指标4",
-              seriesName: [4]
+              value: this.pieData[4][0]
             }
           },
           {
+            name: vname[this.pieData[5][0]],
             type: "pie",
             seriesLayoutBy: "row",
             radius: "20%",
-            center: ["33%", "80%"],
+            center: xyOfPies[4],
             encode: {
               itemName: "指标名",
-              value: "指标5",
-              seriesName: [5]
+              value: this.pieData[5][0]
             }
           },
           {
+            name: vname[this.pieData[6][0]],
             type: "pie",
             seriesLayoutBy: "row",
             radius: "20%",
-            center: ["66%", "80%"],
+            center: xyOfPies[5],
             encode: {
               itemName: "指标名",
-              value: "指标6",
-              seriesName: [6]
+              value: this.pieData[6][0]
             }
           }
         ]
       };
+      this.addTitleOption(option, xyOfTitles);
       this.dom = echarts.init(this.$refs.dom, "tdTheme");
       this.dom.setOption(option);
       on(window, "resize", this.resize);
@@ -163,12 +188,12 @@ export default {
       dom: null,
       pieData: [
         ["指标名", "0.81-1.00", "0.61-0.80", "0.41-0.6", "0.21-0.4", "0-0.2"],
-        ["指标1", 0, 0, 0, 0, 0],
-        ["指标2", 0, 0, 0, 0, 0],
-        ["指标3", 0, 0, 0, 0, 0],
-        ["指标4", 0, 0, 0, 0, 0],
-        ["指标5", 0, 0, 0, 0, 0],
-        ["指标6", 0, 0, 0, 0, 0]
+        ["score", 0, 0, 0, 0, 0],
+        ["legal", 0, 0, 0, 0, 0],
+        ["technical", 0, 0, 0, 0, 0],
+        ["organization", 0, 0, 0, 0, 0],
+        ["capacity", 0, 0, 0, 0, 0],
+        ["cooperation", 0, 0, 0, 0, 0]
       ],
       data: [
         {

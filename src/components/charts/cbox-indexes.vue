@@ -32,23 +32,47 @@
 </template>
 
 <script>
+import vname from "@/config/view-name";
 export default {
   name: "CboxIndexes",
   data() {
     return {
+      vnamex: vname,
       checked: {},
       value: {
-        X轴指标: ["指标1", "指标2", "指标3", "指标4", "指标5", "指标6"],
-        Y轴指标: ["指标1", "指标2", "指标3", "指标4", "指标5", "指标6"]
+        X轴指标: [
+          "score",
+          "legal",
+          "technical",
+          "organization",
+          "capacity",
+          "cooperation"
+        ],
+        Y轴指标: [
+          "score",
+          "legal",
+          "technical",
+          "organization",
+          "capacity",
+          "cooperation"
+        ]
       }
     };
   },
   mounted() {
     this.$nextTick(() => {
+      this.vnamefy(this.value);
       this.checked = this.copyObjectKeys(this.value);
     });
   },
   methods: {
+    vnamefy(value) {
+      for (var i in value) {
+        for (var j in value[i]) {
+          value[i][j] = vname[value[i][j]];
+        }
+      }
+    },
     copyObjectKeys(obj) {
       var res = JSON.parse(JSON.stringify(obj));
       for (var i in res) {

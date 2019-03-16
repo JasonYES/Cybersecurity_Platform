@@ -1,8 +1,6 @@
 <template>
   <div class="charts tablex">
-    <h2 style="padding-left:10px">{{text}}</h2>
     <Table border :row-class-name="rowClassName" :columns="columns" :data="data"></Table>
-    <br>
   </div>
 </template>
 <script>
@@ -10,12 +8,11 @@ import * as math from "mathjs";
 export default {
   name: "tablex",
   props: {
-    value: Array,
-    text: String
+    value: Array
   },
   mounted() {
     // this.dataSet();
-    this.data = this.value;
+    this.data = this.orgsData;
     this.statAverage();
   },
   methods: {
