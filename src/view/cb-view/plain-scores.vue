@@ -23,6 +23,7 @@ export default {
   },
   mounted() {
     this.statAverage();
+    // store.commit("setScores", ["yyy"]);
   },
   methods: {
     checkedData() {},
