@@ -24,7 +24,7 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <chart-barx></chart-barx>
+          <score-board></score-board>
         </Card>
       </i-col>
     </Row>
@@ -35,6 +35,7 @@
 import InforCard from "_c/info-card";
 import CountTo from "_c/count-to";
 import { ChartPie, ChartBar, ChartScatter, Cbox, ChartMap } from "_c/charts";
+import { ScoreBoard } from "_c/scoring";
 import { ChartBarx } from "_c/chartsx";
 import Example from "./example.vue";
 export default {
@@ -48,7 +49,8 @@ export default {
     Example,
     Cbox,
     ChartMap,
-    ChartBarx
+    ChartBarx,
+    ScoreBoard
   },
   methods: {
     checkedData(checked) {
