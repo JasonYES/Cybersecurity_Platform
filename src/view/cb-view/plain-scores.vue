@@ -22,7 +22,7 @@ export default {
     Tablexs
   },
   mounted() {
-    this.$store.dispatch("initData");
+    // this.$store.dispatch("initData");
   },
   methods: {
     checkedData() {}

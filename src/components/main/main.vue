@@ -142,7 +142,7 @@ export default {
       "setHomeRoute",
       "closeTag"
     ]),
-    ...mapActions(["handleLogin", "getUnreadMessageCount"]),
+    ...mapActions(["handleLogin", "getUnreadMessageCount", "initData"]),
     turnToPage(route) {
       let { name, params, query } = {};
       if (typeof route === "string") name = route;
@@ -193,6 +193,8 @@ export default {
     }
   },
   mounted() {
+    // cb : 初始化必要的vuex数据
+    this.initData();
     /**
      * @description 初始化设置面包屑导航和标签导航
      */
@@ -215,4 +217,3 @@ export default {
   }
 };
 </script>
-
