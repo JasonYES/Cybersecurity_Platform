@@ -1,22 +1,31 @@
 <template>
   <div class="scoring scoreBoard">
-    <h2 style="padding-left:10px">{{text}}</h2>
-    <Table border :columns="columns" :data="data" height="800"></Table>
-    <Modal v-model="judgingModal.showModal1">
+    <Table border :columns="columns" :data="data" height="650"></Table>
+    <Modal v-model="judgingModal.showModal1" width="800">
       <p slot="header">
         <span>{{judgingModal.title}}</span>
       </p>
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
-    </Modal>
-    <Modal v-model="judgingModal.showModal2">
-      <p slot="header">
-        <span>{{judgingModal.title}}</span>
-      </p>
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
+      <Collapse v-model="judgingModal.panel">
+        <Panel name="1">
+          评分
+          <CheckboxGroup v-model="judgingModal.chosen" slot="content">
+            <Checkbox v-for="i in judgingModal.allIndexes" :key="i" :label="i">
+              <span>{{dName[i]}}</span>
+            </Checkbox>
+          </CheckboxGroup>
+        </Panel>
+        <Panel name="2">
+          资料参考
+          <div slot="content">
+            <Select v-model="selected" style="width:200px">
+              <Option v-for="i in judgingModal.allIndexes" :value="i" :key="i">{{dName[i]}}</Option>
+            </Select>
+            <br>
+            <br>
+            <Card style="height:400px"></Card>
+          </div>
+        </Panel>
+      </Collapse>
     </Modal>
   </div>
 </template>
@@ -77,16 +86,6 @@ export default {
         }
         data[i]["cellClassName"] = cellClassName;
       }
-    },
-    judgingBoard(params) {
-      // 是否已审阅的判定
-      console.log(params);
-      if (params.row[params.column.key] === 1) {
-        var text = "已审阅";
-      } else {
-      }
-      // 打开面板
-      this.judgingModal.showModal1 = true;
     },
     render(h, params) {
       // 变量定义
@@ -166,6 +165,43 @@ export default {
     },
     getScoringData() {
       this.data = tmpData["scoringData"];
+    },
+    judgingBoard(params) {
+      // 是否已审阅的判定
+      // console.log(params);
+      this.judgingModal.title =
+        params.row["country"] + " - " + this.dName[params.column.key];
+      if (params.row[params.column.key] === 0) {
+        this.indexesToCheckbox(params.row, params.column.key);
+        this.judgingModal.showModal1 = true;
+      } else {
+        this.judgingModal.selected = "";
+        this.$Modal.confirm({
+          title: this.judgingModal.title,
+          content: "<p>该指标已审阅过, 是否撤销并重新审阅?</p>",
+          onOk: () => {},
+          onCancel: () => {}
+        });
+      }
+    },
+    indexesToCheckbox(row, key) {
+      var chosen = [];
+      var allIndexes = [];
+      for (var i in row) {
+        console.log(row[i]);
+        if (i.startsWith(key)) {
+          if (i.length == 1) {
+            continue;
+          }
+          if (row[i] === 1) {
+            chosen.push(i);
+          }
+          allIndexes.push(i);
+          continue;
+        }
+      }
+      this.judgingModal.chosen = chosen;
+      this.judgingModal.allIndexes = allIndexes;
     }
   },
   data() {
@@ -174,7 +210,10 @@ export default {
         status: 0, // 是否已审阅过
         title: "",
         showModal1: false, // 默认modal
-        showModal2: false // 提示已审阅
+        panel: ["1", "2"],
+        chosen: [],
+        allIndexes: [],
+        selected: ""
       },
       columns: [],
       columnss: [
