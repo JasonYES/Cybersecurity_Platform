@@ -17,7 +17,7 @@
         <Panel name="2">
           资料参考
           <div slot="content">
-            <Select v-model="selected" style="width:200px">
+            <Select v-model="judgingModal.selected" style="width:200px">
               <Option v-for="i in judgingModal.allIndexes" :value="i" :key="i">{{dName[i]}}</Option>
             </Select>
             <br>

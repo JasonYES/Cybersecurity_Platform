@@ -1,12 +1,29 @@
 <template>
   <div>
-    <Row :gutter="20" style="margin-top: 10px;">
+    <Carousel v-model="carousel" loop>
+      <CarouselItem>
+        <div class="demo-carousel" align="center">
+          <img :src="win1" key="win1" height="500px">
+        </div>
+      </CarouselItem>
+      <CarouselItem>
+        <div class="demo-carousel" align="center">
+          <img :src="win2" key="win2" height="500px">
+        </div>
+      </CarouselItem>
+      <CarouselItem>
+        <div class="demo-carousel" align="center">
+          <img :src="win3" key="win3" height="500px">
+        </div>
+      </CarouselItem>
+    </Carousel>
+    <!-- <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
           <Cbox @checked="checkedData"></Cbox>
         </Card>
       </i-col>
-    </Row>
+    </Row>-->
     <!-- <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
@@ -21,17 +38,20 @@
         </Card>
       </i-col>
     </Row>-->
-    <Row :gutter="20" style="margin-top: 10px;">
+    <!-- <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
           <score-board></score-board>
         </Card>
       </i-col>
-    </Row>
+    </Row>-->
   </div>
 </template>
 
 <script>
+import win1 from "@/assets/images/win1.jpg";
+import win2 from "@/assets/images/win2.png";
+import win3 from "@/assets/images/win3.jpg";
 import InforCard from "_c/info-card";
 import CountTo from "_c/count-to";
 import { ChartPie, ChartBar, ChartScatter, Cbox, ChartMap } from "_c/charts";
@@ -59,6 +79,10 @@ export default {
   },
   data() {
     return {
+      win1,
+      win2,
+      win3,
+      carousel: 0,
       inforCardData: [
         { title: "国家数", icon: "md-map", count: 198, color: "#19be6b" },
         { title: "指标数", icon: "md-flag", count: 28, color: "#ff9900" },

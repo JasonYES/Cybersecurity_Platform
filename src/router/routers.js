@@ -137,7 +137,26 @@ export default [
       },
     ]
   },
-
+  {
+    path: '/cb-scoring',
+    name: 'cb-scoring',
+    meta: {
+      icon: 'logo-buffer',
+      title: '评分'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'scoring',
+        name: 'scoring',
+        meta: {
+          icon: 'md-trending-up',
+          title: '评分'
+        },
+        component: () => import('@/view/cb-main/scoring.vue')
+      },
+    ]
+  },
   ///////////////////
 
   // {

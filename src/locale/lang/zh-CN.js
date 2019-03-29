@@ -49,5 +49,8 @@ export default {
   'test': '测试',
   'plain-scores-other': '总体评分结果-按组织',
   "map-all": "网络空间能力展示-按总分",
-  "map-indexes": "网络空间能力展示-按指标"
+  "map-indexes": "网络空间能力展示-按指标",
+  "scoring": "评分",
+  "cb-scoring": "评分",
+  "main": "x"
 }

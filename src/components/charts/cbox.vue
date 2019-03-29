@@ -1,7 +1,8 @@
 <template>
   <div class="charts cbox">
     <Collapse :value="'1'">
-      <Panel name="1">国家选择
+      <Panel name="1">
+        国家选择
         <div slot="content">
           <div v-for="(object, continent)  in value" :key="continent">
             <Row>
@@ -38,7 +39,10 @@
 <script>
 export default {
   name: "Cbox",
-  props: {},
+  props: {
+    type: String,
+    typeValue: Object
+  },
   data() {
     return {
       checked: {},
@@ -101,27 +105,6 @@ export default {
           "索马里",
           "吉布提",
           "肯尼亚"
-          // "坦桑尼亚",
-          // "乌干达",
-          // "卢旺达",
-          // "布隆迪",
-          // "毛里塔尼亚",
-          // "西撒哈拉",
-          // "塞内加尔",
-          // "冈比亚",
-          // "马里",
-          // "布基纳法索",
-          // "几内亚",
-          // "几内亚比绍",
-          // "佛得角",
-          // "塞拉利昂",
-          // "利比里亚",
-          // "科特迪瓦",
-          // "加纳",
-          // "多哥",
-          // "贝宁",
-          // "尼日尔",
-          // "尼日利亚"
         ],
         北美洲: [
           "巴哈马",
@@ -149,10 +132,21 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.checked = this.copyObject(this.value);
+      this.initByType();
     });
   },
   methods: {
+    initByType() {
+      switch (this.type) {
+        case "scoring":
+          this.value = this.typeValue;
+          this.checked = this.copyObject(this.value);
+          break;
+        default:
+          this.checked = this.copyObject(this.value);
+          break;
+      }
+    },
     copyObject(obj) {
       return JSON.parse(JSON.stringify(obj));
     },

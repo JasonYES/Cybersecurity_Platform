@@ -6,30 +6,30 @@ export default {
       countries: {},
       orgs: {},
       chosenCountries: {},
-      chosenOrgs: {}
+      chosenOrgs: {},
     },
     dynamicName: {},
     indexes: {}
   },
   getters: {},
   mutations: {
-    setScores (state, data) {
+    setScores(state, data) {
       state.scores = data
     },
-    setCbox (state, data) {
+    setCbox(state, data) {
       for (var i in data) {
         state.cbox[i] = data[i]
       }
     },
-    setDynamicName (state, data) {
+    setDynamicName(state, data) {
       state.dynamicName = data
     },
-    setIndexes (state, data) {
+    setIndexes(state, data) {
       state.indexes = data
     }
   },
   actions: {
-    initData (context) {
+    initData(context) {
       // 总数据
       var scores = tmpData['scores']
       context.commit('setScores', scores)
@@ -47,7 +47,7 @@ export default {
       var indexes = tmpData['indexes']
       context.commit('setIndexes', indexes)
     },
-    checkInited (context, dataArray) {
+    checkInited(context, dataArray) {
       for (var i in dataArray) {
         if (i === 'dynamicName' && context.dynamicName === {}) {
           var dynamicName = tmpData['dynamicName']

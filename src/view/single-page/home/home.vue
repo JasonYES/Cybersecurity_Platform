@@ -1,6 +1,23 @@
 <template>
   <div>
-    <Row :gutter="20">
+    <Carousel v-model="carousel" loop>
+      <CarouselItem>
+        <div class="demo-carousel" align="center">
+          <img :src="win1" key="win1" height="500px">
+        </div>
+      </CarouselItem>
+      <CarouselItem>
+        <div class="demo-carousel" align="center">
+          <img :src="win2" key="win2" height="500px">
+        </div>
+      </CarouselItem>
+      <CarouselItem>
+        <div class="demo-carousel" align="center">
+          <img :src="win3" key="win3" height="500px">
+        </div>
+      </CarouselItem>
+    </Carousel>
+    <!-- <Row :gutter="20">
       <i-col
         :xs="12"
         :md="8"
@@ -14,28 +31,14 @@
           <p>{{ infor.title }}</p>
         </infor-card>
       </i-col>
-    </Row>
-    <Row :gutter="20" style="margin-top: 10px;">
-      <i-col :md="24" :lg="8" style="margin-bottom: 20px;">
-        <Card shadow>
-          <chart-pie style="height: 300px;" :value="pieData" text="显著性统计-国家网络安全策略"></chart-pie>
-        </Card>
-      </i-col>
-      <i-col :md="24" :lg="16" style="margin-bottom: 20px;">
-        <Card shadow>
-          <chart-bar style="height: 300px;" :value="barData" text="多国家比较-总体评分结果"/>
-        </Card>
-      </i-col>
-    </Row>
-    <Row>
-      <Card shadow>
-        <example style="height: 310px;"/>
-      </Card>
-    </Row>
+    </Row>-->
   </div>
 </template>
 
 <script>
+import win1 from "@/assets/images/win1.jpg";
+import win2 from "@/assets/images/win2.png";
+import win3 from "@/assets/images/win3.jpg";
 import InforCard from "_c/info-card";
 import CountTo from "_c/count-to";
 import { ChartPie, ChartBar } from "_c/charts";
@@ -51,6 +54,10 @@ export default {
   },
   data() {
     return {
+      win1,
+      win2,
+      win3,
+      carousel: 0,
       inforCardData: [
         { title: "国家数", icon: "md-map", count: 198, color: "#19be6b" },
         { title: "指标数", icon: "md-flag", count: 28, color: "#ff9900" },
