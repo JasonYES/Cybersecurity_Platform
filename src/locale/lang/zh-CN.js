@@ -52,5 +52,6 @@ export default {
   "map-indexes": "网络空间能力展示-按指标",
   "scoring": "评分",
   "cb-scoring": "评分",
-  "main": "x"
+  "main": "x",
+  "crawler": "数据爬取"
 }

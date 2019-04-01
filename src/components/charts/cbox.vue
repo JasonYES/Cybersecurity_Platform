@@ -142,6 +142,10 @@ export default {
           this.value = this.typeValue;
           this.checked = this.copyObject(this.value);
           break;
+        case "crawler":
+          this.value = this.typeValue;
+          this.checked = this.copyObject(this.value);
+          break;
         default:
           this.checked = this.copyObject(this.value);
           break;

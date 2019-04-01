@@ -157,6 +157,26 @@ export default [
       },
     ]
   },
+  {
+    path: 'data',
+    name: 'data',
+    meta: {
+      icon: 'md-cog',
+      title: 'data'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'crawler',
+        name: 'crawler',
+        meta: {
+          icon: 'md-cog',
+          title: 'crawler'
+        },
+        component: () => import('@/view/cb-main/data-crawler.vue')
+      },
+    ]
+  },
   ///////////////////
 
   // {
