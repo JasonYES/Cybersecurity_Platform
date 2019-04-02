@@ -21,11 +21,11 @@ export default {
     Cbox,
     Tablexs
   },
-  mounted() {
-    // this.$store.dispatch("initData");
-  },
+  mounted() {},
   methods: {
-    checkedData() {}
+    checkedData(checked) {
+      this.$store.commit("setCbox", { chosenCountries: checked });
+    }
   },
   data() {
     return {};

@@ -23,62 +23,75 @@
 <script>
 import { Tablex } from "_c/charts";
 import vname from "@/config/view-name";
+import { mapState } from "vuex";
+import { divideScoresBy } from "@/libs/tools";
 export default {
   components: {
     Tablex
+  },
+  mounted() {},
+  computed: {
+    ...mapState({
+      cbox: state => state.cbdata.cbox,
+      dname: state => state.cbdata.dynamicName,
+      scores: state => state.cbdata.scores,
+      dataCombined: state => state.cbdata.cbox.chosenScores,
+      dataDividedx: state =>
+        divideScoresBy(state.cbdata.cbox.chosenScores, "continent")
+    })
   },
   data() {
     return {
       paneCombined: vname["集合"],
       paneDivided: vname["各洲"],
       paneSuffix: vname["视图"],
-      dataCombined: [
-        {
-          country: "新加坡",
-          score: 0.92,
-          legal: 0.95,
-          technical: 0.96,
-          organization: 0.88,
-          capacity: 0.97,
-          cooperation: 0.87
-        },
-        {
-          country: "马来西亚",
-          score: 0.55,
-          legal: 0.68,
-          technical: 0.43,
-          organization: 0.55,
-          capacity: 0.1,
-          cooperation: 0.44
-        },
-        {
-          country: "也门",
-          score: 0.36,
-          legal: 0.13,
-          technical: 0.15,
-          organization: 0.28,
-          capacity: 0.14,
-          cooperation: 0.2
-        },
-        {
-          country: "俄罗斯",
-          score: 0.78,
-          legal: 0.82,
-          technical: 0.67,
-          organization: 0.85,
-          capacity: 0.5,
-          cooperation: 0.7
-        },
-        {
-          country: "埃及",
-          score: 0.77,
-          legal: 0.92,
-          technical: 0.92,
-          organization: 0.4,
-          capacity: 0.1,
-          cooperation: 0.7
-        }
-      ],
+      // dataCombined: [
+      //   {
+      //     country: "新加坡",
+      //     score: 0.92,
+      //     legal: 0.95,
+      //     technical: 0.96,
+      //     organization: 0.88,
+      //     capacity: 0.97,
+      //     cooperation: 0.87
+      //   },
+      //   {
+      //     country: "马来西亚",
+      //     score: 0.55,
+      //     legal: 0.68,
+      //     technical: 0.43,
+      //     organization: 0.55,
+      //     capacity: 0.1,
+      //     cooperation: 0.44
+      //   },
+      //   {
+      //     country: "也门",
+      //     score: 0.36,
+      //     legal: 0.13,
+      //     technical: 0.15,
+      //     organization: 0.28,
+      //     capacity: 0.14,
+      //     cooperation: 0.2
+      //   },
+      //   {
+      //     country: "俄罗斯",
+      //     score: 0.78,
+      //     legal: 0.82,
+      //     technical: 0.67,
+      //     organization: 0.85,
+      //     capacity: 0.5,
+      //     cooperation: 0.7
+      //   },
+      //   {
+      //     country: "埃及",
+      //     score: 0.77,
+      //     legal: 0.92,
+      //     technical: 0.92,
+      //     organization: 0.4,
+      //     capacity: 0.1,
+      //     cooperation: 0.7
+      //   }
+      // ],
       dataDivided: {
         亚洲: [
           {

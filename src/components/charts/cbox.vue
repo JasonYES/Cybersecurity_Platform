@@ -18,7 +18,7 @@
                 style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;"
               >
                 <CheckboxGroup v-model="checked[continent]">
-                  <Checkbox v-for="c in object" :key="c" :label="c"></Checkbox>
+                  <Checkbox v-for="c in object" :key="c" :label="c">{{dname[c]}}</Checkbox>
                 </CheckboxGroup>
               </i-col>
             </Row>
@@ -37,11 +37,18 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Cbox",
   props: {
     type: String,
     typeValue: Object
+  },
+  computed: {
+    ...mapState({
+      cbox: state => state.cbdata.cbox,
+      dname: state => state.cbdata.dynamicName
+    })
   },
   data() {
     return {
@@ -135,6 +142,18 @@ export default {
       this.initByType();
     });
   },
+  // beforeUpdate() {
+  //   switch (this.type) {
+  //     case "scoring":
+  //       break;
+  //     case "crawler":
+  //       break;
+  //     default:
+  //       this.value = this.copyObject(this.cbox.countries);
+  //       this.checked = this.copyObject(this.cbox.chosenCountries);
+  //       break;
+  //   }
+  // },
   methods: {
     initByType() {
       switch (this.type) {
@@ -147,7 +166,8 @@ export default {
           this.checked = this.copyObject(this.value);
           break;
         default:
-          this.checked = this.copyObject(this.value);
+          this.value = { ...this.cbox.countries };
+          this.checked = { ...this.cbox.chosenCountries };
           break;
       }
     },

@@ -8,6 +8,20 @@ export const forEach = (arr, fn) => {
   }
 }
 
+export const divideScoresBy = (scores, title) => {
+  let map = {};
+  for (var i in scores) {
+    var key = scores[i][title];
+    if (map[key] != null) {
+      map[key].push(scores[i]);
+    } else {
+      map[key] = [scores[i]];
+    }
+  }
+  return map;
+  return JSON.stringify(map);
+}
+
 /**
  * @param {Array} arr1
  * @param {Array} arr2
@@ -46,7 +60,7 @@ export const hasOneOf = (targetarr, arr) => {
  * @param {String|Number} value 要验证的字符串或数值
  * @param {*} validList 用来验证的列表
  */
-export function oneOf (value, validList) {
+export function oneOf(value, validList) {
   for (let i = 0; i < validList.length; i++) {
     if (value === validList[i]) {
       return true

@@ -7,6 +7,8 @@ export default {
       orgs: {},
       chosenCountries: {},
       chosenOrgs: {},
+      // score
+      chosenScores: []
     },
     dynamicName: {},
     indexes: {}
@@ -18,7 +20,30 @@ export default {
     },
     setCbox(state, data) {
       for (var i in data) {
-        state.cbox[i] = data[i]
+        // cbox值的设定
+        state.cbox[i] = { ...data[i] } // 用展开式实现clone
+        // set 和 chosen的更新 (如果cbox更新)
+        if (i == 'chosenCountries') { // if 国家为单位的score
+          var allChosen = [];
+          for (var j in data[i]) {
+            allChosen.push(...data[i][j]);
+          }
+          var set = new Set(allChosen);
+          // 初始化 and 更新 chosenScores
+          state.cbox.chosenScores = [];
+          for (var i in state.scores) {
+            var row = state.scores[i];
+            if (set.has(row['country'])) {
+              state.cbox.chosenScores.push({ ...row });
+            }
+          }
+        } else if (i == 'chosenOrgs') { // org为单位的score
+          var allChosen = [];
+          for (var j in data[i]) {
+            allChosen.push(...data[i][j]);
+          }
+          var set = new Set(allChosen);
+        }
       }
     },
     setDynamicName(state, data) {
@@ -38,8 +63,8 @@ export default {
       context.commit('setCbox', { 'countries': countries })
       context.commit('setCbox', { 'chosenCountries': countries })
       var orgs = tmpData['orgs']
-      context.commit('setCbox', { 'orgs': orgs })
-      context.commit('setCbox', { 'chosenOrgs': orgs })
+      context.commit('setCbox', { 'orgs': { ...orgs } })
+      context.commit('setCbox', { 'chosenOrgs': { ...orgs } })
       // dynamicName
       var dynamicName = tmpData['dynamicName']
       context.commit('setDynamicName', dynamicName)

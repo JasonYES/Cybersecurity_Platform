@@ -39,7 +39,6 @@
 import win1 from "@/assets/images/win1.jpg";
 import win2 from "@/assets/images/win2.png";
 import win3 from "@/assets/images/win3.jpg";
-import { getTableData } from "@/api/data";
 import InforCard from "_c/info-card";
 import CountTo from "_c/count-to";
 import { ChartPie, ChartBar } from "_c/charts";
@@ -94,15 +93,7 @@ export default {
       }
     };
   },
-  mounted() {
-    getTableData()
-      .then(res => {
-        console.log("get Table");
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+  mounted() {}
 };
 </script>
 

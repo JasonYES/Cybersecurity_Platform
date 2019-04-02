@@ -1,14 +1,50 @@
 import axios from '@/libs/api.request'
 
+export const getScores = () => {
+    return axios.request({
+        url: 'visual/scores',
+        method: 'get'
+    })
+}
+
+export const getCountries = () => {
+    return axios.request({
+        url: 'visual/countries',
+        method: 'get'
+    })
+}
+
+export const getOrgs = () => {
+    return axios.request({
+        url: 'visual/orgs',
+        method: 'get'
+    })
+}
+
+export const getDname = () => {
+    return axios.request({
+        url: 'visual/dname',
+        method: 'get'
+    })
+}
+
+export const getIndexes = () => {
+    return axios.request({
+        url: 'visual/indexes',
+        method: 'get'
+    })
+}
+////////////////////
+
+
 
 export const getMapData = () => {
     return axios.request({
-      url: 'get_drag_list',
-      method: 'get'
+        url: 'get_drag_list',
+        method: 'get'
     })
-  }
+}
 
-///////////////  /assets/maps/world-eckert3-lowres.geo.json
 
 export const getDragList = () => {
   return axios.request({

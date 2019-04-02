@@ -71,6 +71,9 @@ export default {
       if (mark == 0) {
         return "zero";
       }
+      if (mark == "yes" || mark == "no") {
+        return "null";
+      }
       return "mid";
     },
     addCellStyle(data) {
@@ -78,7 +81,7 @@ export default {
       for (var i in data) {
         var cellClassName = {};
         for (var j in data[i]) {
-          if (j.length == 1 || j.length > 5) {
+          if (j === "country" || j === "cellClassName") {
             // 如果是1 2 country之类的是标志位, 不是具体分数, 所以跳过
             continue;
           }
@@ -92,7 +95,7 @@ export default {
       var props = {};
       var text = "";
       // 是否已审阅的判定
-      if (params.row[params.column.key] == 1) {
+      if (params.row[params.column.key] == "yes") {
         props = {
           icon: "md-checkmark",
           size: "small",
@@ -155,7 +158,7 @@ export default {
         }
         tmp.children.push({
           title: vname["评分"],
-          key: i,
+          key: i, // 就是指标名
           width: 50,
           render: this.render
         });
@@ -171,7 +174,7 @@ export default {
       // console.log(params);
       this.judgingModal.title =
         params.row["country"] + " - " + this.dName[params.column.key];
-      if (params.row[params.column.key] === 0) {
+      if (params.row[params.column.key] === "no") {
         this.indexesToCheckbox(params.row, params.column.key);
         this.judgingModal.showModal1 = true;
       } else {

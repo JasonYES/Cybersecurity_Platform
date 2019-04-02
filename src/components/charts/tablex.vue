@@ -30,7 +30,11 @@ export default {
     //   }
     // },
     statAverage() {
-      // 结果项
+      // 数组未初始化保护
+      if (this.data == null || this.data.length === 0) {
+        return;
+      }
+      // 初始化结果项
       var mean = { country: "平均数" };
       var std = { country: "标准差" };
       var median = { country: "中位数" };
