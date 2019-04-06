@@ -30,14 +30,7 @@ export default {
     checkedData() {}
   },
   data() {
-    return {
-      pieData: [
-        { value: 20, name: "独立制定" },
-        { value: 62, name: "非独立制定" },
-        { value: 30, name: "正在制定" },
-        { value: 70, name: "未制定" }
-      ]
-    };
+    return {};
   },
   mounted() {
     //
