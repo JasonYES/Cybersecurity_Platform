@@ -116,6 +116,7 @@ export default {
     },
     draw() {
       if (this.value == null || this.value.length == 0) {
+        // 关于数据为空的处理
         this.dom = echarts.init(this.$refs.dom, "tdTheme");
         this.dom.setOption({
           dataset: {

@@ -37,40 +37,52 @@ import { mapState } from "vuex";
 import vname from "@/config/view-name";
 export default {
   name: "CboxIndexes",
-  props: {
-    chosenIndexes: Object
-  },
   computed: {
     ...mapState({
       value: function(state) {
-        var res = this.dataToCboxFormmater(state.cbdata.indexes);
-        this.$emit("checked", this.checked);
+        var res = this.dataToCboxFormmater(
+          state.cbdata.indexes,
+          state.cbdata.dynamicName
+        );
         return res;
       },
-      dname: state => state.cbdata.dynamicName
+      dname: state => state.cbdata.dynamicName,
+      checked: state => {
+        return {
+          X轴指标: state.cbdata.dynamicName["指标1"],
+          Y轴指标: state.cbdata.dynamicName["指标1"]
+        };
+      }
     })
   },
   data() {
-    return {
-      checked: {
-        X轴指标: "",
-        Y轴指标: ""
-      }
-    };
+    return {};
   },
+  // watch: {
+  //   checked: function() {
+  //     this.$emit('checked',checked)
+  //   }
+  // },
   mounted() {
     this.$nextTick(() => {});
   },
   methods: {
-    dataToCboxFormmater(indexes) {
-      var indexBox = [];
+    dataToCboxFormmater(indexes, dname) {
+      var indexBox = []; // 将指标展开
       for (var i in indexes) {
         indexBox.push(i);
       }
       // 进行chosen的初始化
-      if (indexBox.length != 0) {
-        this.checked = { X轴指标: indexBox[0], Y轴指标: indexBox[0] };
-      }
+      // if (this.checked[X轴指标] == "" indexBox.length != 0) {
+      //   this.checked = { X轴指标: indexBox[0], Y轴指标: indexBox[0] };
+      // }
+
+      // 重要!! 确保scatter中chosen的初始化
+      this.$emit("checked", {
+        X轴指标: dname["指标1"],
+        Y轴指标: dname["指标1"]
+      });
+      console.log("one");
       return { X轴指标: indexBox, Y轴指标: indexBox };
     }
   }

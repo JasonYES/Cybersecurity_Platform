@@ -17,7 +17,7 @@
     <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <chart-scatterx></chart-scatterx>
+          <chart-scatterx :chosenIndexes="chosenIndexes"></chart-scatterx>
         </Card>
       </i-col>
     </Row>
@@ -35,10 +35,16 @@ export default {
     CboxIndexes
   },
   methods: {
-    checkedData() {}
+    checkedData(chosen) {
+      this.chosenIndexes = { ...chosen };
+    }
   },
   data() {
     return {
+      chosenIndexes: {
+        X轴指标: "",
+        Y轴指标: ""
+      },
       scatterData: [
         { country: "China", 指标1: 0.64, 指标2: 0.76 },
         { country: "India", 指标1: 0.76, 指标2: 0.58 },

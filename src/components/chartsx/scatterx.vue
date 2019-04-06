@@ -3,7 +3,12 @@
     <TabPane :label="paneCombined">
       <Row type="flex" justify="center" :gutter="20" style="margin-top: 50px;">
         <i-col :md="16" :lg="16" style="margin-bottom: 20px;">
-          <chart-scatter style="height: 600px;" :value="dataCombined" :text="paneCombined"/>
+          <chart-scatter
+            style="height: 600px;"
+            :value="dataCombined"
+            :text="paneCombined"
+            :chosenIndexes="chosenIndexes"
+          />
         </i-col>
       </Row>
     </TabPane>
@@ -15,6 +20,7 @@
               style="height: 600px;"
               :value="dataDivided[continent]"
               :text="continent + paneSuffix"
+              :chosenIndexes="chosenIndexes"
             />
             <br>
             <br>
@@ -27,17 +33,30 @@
 <script>
 import { ChartScatter } from "_c/charts";
 import vname from "@/config/view-name";
+import { mapState } from "vuex";
+import { divideScoresBy } from "@/libs/tools";
 export default {
   name: "ChartScatterx",
   components: {
     ChartScatter
+  },
+  props: {
+    chosenIndexes: Object
+  },
+  computed: {
+    ...mapState({
+      dname: state => state.cbdata.dynamicName,
+      dataCombined: state => [...state.cbdata.cbox.chosenScores], // 防止被更改
+      dataDivided: state =>
+        divideScoresBy(state.cbdata.cbox.chosenScores, "continent") // 防止被更改 方法内已做处理
+    })
   },
   data() {
     return {
       paneCombined: vname["集合"],
       paneDivided: vname["各洲"],
       paneSuffix: vname["视图"],
-      dataCombined: [
+      dataCombinedx: [
         { country: "China", legal: 0.64, technical: 0.76 },
         { country: "India", legal: 0.76, technical: 0.58 },
         { country: "United States", legal: 0.68, technical: 0.6 },
@@ -69,7 +88,7 @@ export default {
         { country: "Spain", legal: 0.33, technical: 0.59 },
         { country: "Ukraine", legal: 0.15, technical: 0.47 }
       ],
-      dataDivided: {
+      dataDividedx: {
         亚洲: [
           { country: "China", legal: 0.64, technical: 0.76 },
           { country: "India", legal: 0.76, technical: 0.58 },

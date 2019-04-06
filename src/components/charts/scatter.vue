@@ -14,7 +14,8 @@ export default {
   props: {
     value: Array, // 值
     text: String, // 标题
-    subtext: String // 副标题
+    subtext: String, // 副标题
+    chosenIndexes: Object
   },
   data() {
     return {
@@ -25,17 +26,34 @@ export default {
       statMap: {} // 只供聚类使用
     };
   },
+  watch: {
+    value: function() {
+      this.draw();
+    },
+    chosenIndexes: function() {
+      this.draw();
+    }
+  },
   methods: {
     objToArray() {
       //只供回归分析使用
-      var keys = Object.keys(this.value[0]);
+      this.statData = [];
+      this.statMap = {};
       for (var i in this.value) {
-        var x = this.value[i][keys[1]];
-        var y = this.value[i][keys[2]];
-        var country = this.value[i][keys[0]];
+        var x = this.value[i][this.chosenIndexes["X轴指标"]];
+        var y = this.value[i][this.chosenIndexes["Y轴指标"]];
+        var country = this.value[i]["country"];
         this.statData.push([x, y]);
         this.SetDataMap(x, y, country);
       }
+      // var keys = Object.keys(this.value[0]);
+      // for (var i in this.value) {
+      //   var x = this.value[i][keys[1]];
+      //   var y = this.value[i][keys[2]];
+      //   var country = this.value[i][keys[0]];
+      //   this.statData.push([x, y]);
+      //   this.SetDataMap(x, y, country);
+      // }
     },
     SetRegression(option) {
       var regression = ecStat.regression("linear", this.statData);
@@ -157,14 +175,11 @@ export default {
     },
     resize() {
       this.dom.resize();
-    }
-  },
-  mounted() {
-    this.$nextTick(() => {
+    },
+    draw() {
       this.objToArray();
-      let keys = Object.keys(this.value[0]);
-      this.xAxisName = vname[keys[1]]; //定义X轴名字
-      this.yAxisName = vname[keys[2]]; //定义y轴名字
+      this.xAxisName = this.chosenIndexes["X轴指标"]; //定义X轴名字
+      this.yAxisName = this.chosenIndexes["Y轴指标"]; //定义y轴名字
       let option = {
         dataset: {
           source: this.value
@@ -238,6 +253,11 @@ export default {
       this.dom = echarts.init(this.$refs.dom, "tdTheme");
       this.dom.setOption(option);
       on(window, "resize", this.resize);
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.draw();
     });
   },
   beforeDestroy() {
