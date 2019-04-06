@@ -43,7 +43,9 @@ export default {
   computed: {
     ...mapState({
       value: function(state) {
-        return this.dataToCboxFormmater(state.cbdata.indexes);
+        var res = this.dataToCboxFormmater(state.cbdata.indexes);
+        this.$emit("checked", this.checked);
+        return res;
       },
       dname: state => state.cbdata.dynamicName
     })
@@ -65,6 +67,7 @@ export default {
       for (var i in indexes) {
         indexBox.push(i);
       }
+      // 进行chosen的初始化
       if (indexBox.length != 0) {
         this.checked = { X轴指标: indexBox[0], Y轴指标: indexBox[0] };
       }

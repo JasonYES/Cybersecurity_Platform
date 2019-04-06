@@ -44,6 +44,11 @@ export default {
   'tablex-page': '总体评分结果-按国家',
   'cb-view': '统计',
   'bar-page': '多国家比较',
+  "plain-scores": '',
+  'by-countries': '多国家比较',
+  'by-indexes': '多指标比较',
+  'significance': '显著性统计',
+  'plain-scores-other': '总体评分结果-按组织',
   'scatter-page': '多指标比较',
   'pie-page': '显著性统计',
   'test': '测试',
@@ -53,5 +58,5 @@ export default {
   "scoring": "评分",
   "cb-scoring": "评分",
   "main": "x",
-  "crawler": "数据爬取"
+  "crawler": "数据爬取",
 }
