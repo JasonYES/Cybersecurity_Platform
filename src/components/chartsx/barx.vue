@@ -19,16 +19,27 @@
 <script>
 import { ChartBar } from "_c/charts";
 import vname from "@/config/view-name";
+import { mapState } from "vuex";
+import { divideScoresBy } from "@/libs/tools";
 export default {
   components: {
     ChartBar
+  },
+  computed: {
+    ...mapState({
+      dname: state => state.cbdata.dynamicName,
+      dataCombined: state => [...state.cbdata.cbox.chosenScores], // 防止被更改
+      dataDivided: state =>
+        divideScoresBy(state.cbdata.cbox.chosenScores, "continent") // 防止被更改 方法内已做处理
+    })
   },
   data() {
     return {
       paneCombined: vname["集合"],
       paneDivided: vname["各洲"],
       paneSuffix: vname["视图"],
-      dataCombined: [
+
+      dataCombinedx: [
         {
           country: "新加坡",
           score: 0.92,
@@ -75,7 +86,7 @@ export default {
           cooperation: 0.7
         }
       ],
-      dataDivided: {
+      dataDividedx: {
         亚洲: [
           {
             country: "中国",

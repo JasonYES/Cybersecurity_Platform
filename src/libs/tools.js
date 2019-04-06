@@ -19,7 +19,6 @@ export const divideScoresBy = (scores, title) => {
     }
   }
   return map;
-  return JSON.stringify(map);
 }
 
 /**

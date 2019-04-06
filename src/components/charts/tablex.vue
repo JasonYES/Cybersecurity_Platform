@@ -13,11 +13,13 @@ export default {
     value: Array,
     text: String
   },
-  mounted() {
-    // this.dataSet();
-    this.data = this.value;
-    this.statAverage();
+  computed: {
+    data: function() {
+      this.statAverage(this.value);
+      return this.value;
+    }
   },
+  mounted() {},
   methods: {
     // dataSet() {
     //   switch (this.dataset) {
@@ -29,9 +31,9 @@ export default {
     //       break;
     //   }
     // },
-    statAverage() {
+    statAverage(value) {
       // 数组未初始化保护
-      if (this.data == null || this.data.length === 0) {
+      if (value == null || value.length === 0) {
         return;
       }
       // 初始化结果项
@@ -50,17 +52,17 @@ export default {
       for (var i in indexes) {
         var title = indexes[i];
         var array = [];
-        for (var j in this.data) {
-          array.push(this.data[j][title]);
+        for (var j in value) {
+          array.push(value[j][title]);
         }
         mean[title] = math.mean(array).toFixed(2);
         std[title] = math.std(array).toFixed(2);
         median[title] = math.median(array).toFixed(2);
       }
       // 插入结果
-      this.data.push(mean);
-      this.data.push(std);
-      this.data.push(median);
+      value.push(mean);
+      value.push(std);
+      value.push(median);
     },
     rowClassName(row, index) {
       if (row.country == "平均数") return "stats";
@@ -71,7 +73,6 @@ export default {
   },
   data() {
     return {
-      data: [],
       columns: [
         {
           title: "地区名",

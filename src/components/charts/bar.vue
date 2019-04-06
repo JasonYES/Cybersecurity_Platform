@@ -68,6 +68,11 @@ export default {
       }
     };
   },
+  watch: {
+    value: function() {
+      this.draw();
+    }
+  },
   methods: {
     markingLine(param) {
       if (param.componentSubType == "bar") {
@@ -87,55 +92,49 @@ export default {
     resize() {
       this.dom.resize();
     },
-    objToArray(obj) {
+    jsonToArray(json) {
       var res = [];
-      var dimensions = Object.keys(obj[0]);
+      var dimensions = Object.keys(json[0]);
 
       // for (var i in dimensions) {
       //   var item = [];
       //   item.push(dimensions[i]);
-      //   for (var j in obj) {
-      //     item.push(obj[j][dimensions[i]]);
+      //   for (var j in json) {
+      //     item.push(json[j][dimensions[i]]);
       //   }
       //   res.push(item);
       // }
       // (res);
 
       res.push(dimensions);
-      for (var i in obj) {
+      for (var i in json) {
         var item = [];
-        for (var j in obj[i]) item.push(obj[i][j]);
+        for (var j in json[i]) item.push(json[i][j]);
         res.push(item);
       }
       return res;
     },
-    statAverage(value) {
-      // 结果项
-      var mean = { country: "平均数" };
-      var indexes = [
-        "score",
-        "legal",
-        "technical",
-        "organization",
-        "capacity",
-        "cooperation"
-      ];
-      // 遍历统计
-      for (var i in indexes) {
-        var title = indexes[i];
-        var array = [];
-        for (var j in value) {
-          array.push(value[j][title]);
-        }
-        mean[title] = math.mean(array).toFixed(2);
+    draw() {
+      if (this.value == null || this.value.length == 0) {
+        this.dom = echarts.init(this.$refs.dom, "tdTheme");
+        this.dom.setOption({
+          dataset: {
+            source: [[]]
+          },
+          title: {
+            text: this.text,
+            textStyle: {
+              color: "#ccc"
+            },
+            padding: 15
+          },
+          series: this.series
+        });
+        on(window, "resize", this.resize);
+        return;
       }
-      // 插入结果
-      value.push(mean);
-    }
-  },
-  mounted() {
-    this.$nextTick(() => {
-      let sourceData = this.objToArray(this.value);
+
+      let sourceData = this.jsonToArray(this.value);
       this.option = {
         dataset: {
           source: sourceData
@@ -184,6 +183,12 @@ export default {
       this.dom.setOption(this.option);
       this.dom.on("mouseover", this.markingLine);
       on(window, "resize", this.resize);
+    }
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      this.draw();
     });
   },
   beforeDestroy() {

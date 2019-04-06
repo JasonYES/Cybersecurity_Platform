@@ -26,7 +26,7 @@
           <div style="margin-bottom:-10px;">
             <Row type="flex" justify="center">
               <i-col span="6">
-                <Button long @click="$emit('checked',checked)">确认</Button>
+                <Button long @click="confirmHander">确认</Button>
               </i-col>
             </Row>
           </div>
@@ -53,6 +53,7 @@ export default {
   data() {
     return {
       checked: {},
+      confirmAction: "",
       value: {
         亚洲: [
           "中国",
@@ -160,14 +161,17 @@ export default {
         case "scoring":
           this.value = this.typeValue;
           this.checked = this.copyObject(this.value);
+          this.confirmAction = "outer";
           break;
         case "crawler":
           this.value = this.typeValue;
           this.checked = this.copyObject(this.value);
+          this.confirmAction = "outer";
           break;
         default:
           this.value = { ...this.cbox.countries };
           this.checked = { ...this.cbox.chosenCountries };
+          this.confirmAction = "inner";
           break;
       }
     },
@@ -179,6 +183,13 @@ export default {
         this.checked[continent] = [];
       } else {
         this.checked[continent] = this.copyObject(this.value[continent]);
+      }
+    },
+    confirmHander() {
+      if (this.confirmAction === "inner") {
+        this.$store.commit("setCbox", { chosenCountries: this.checked });
+      } else if (this.confirmAction === "outer") {
+        this.$emit("checked", this.checked);
       }
     }
   }

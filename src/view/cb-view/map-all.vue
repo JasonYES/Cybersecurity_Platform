@@ -3,14 +3,14 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <Cbox @checked="checkedData"></Cbox>
+          <Cbox></Cbox>
         </Card>
       </i-col>
     </Row>
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <chart-map style="height:600px;"></chart-map>
+          <chart-map style="height:600px;" :index="'score'"></chart-map>
         </Card>
       </i-col>
     </Row>
@@ -24,9 +24,7 @@ export default {
     Cbox,
     ChartMap
   },
-  methods: {
-    checkedData() {}
-  },
+  methods: {},
   data() {
     return {
       data: []

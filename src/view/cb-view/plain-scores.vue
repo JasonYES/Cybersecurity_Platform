@@ -3,7 +3,7 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <Cbox @checked="checkedData"></Cbox>
+          <Cbox></Cbox>
         </Card>
       </i-col>
     </Row>
@@ -22,11 +22,7 @@ export default {
     Tablexs
   },
   mounted() {},
-  methods: {
-    checkedData(checked) {
-      this.$store.commit("setCbox", { chosenCountries: checked });
-    }
-  },
+  methods: {},
   data() {
     return {};
   }
