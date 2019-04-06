@@ -27,6 +27,7 @@ export default {
   },
   methods: {
     objToArray() {
+      //只供回归分析使用
       var keys = Object.keys(this.value[0]);
       for (var i in this.value) {
         var x = this.value[i][keys[1]];
@@ -123,6 +124,7 @@ export default {
       }
     },
     SetDataMap(x, y, country) {
+      //该方法用来通过x和y的值查找国家名
       if (this.statMap[x] == null || this.statMap[x][y] == null) {
         this.statMap[x] = {};
         this.statMap[x][y] = [country];
@@ -134,7 +136,6 @@ export default {
       var tooltip = {
         formatter: params => {
           var data = params.data;
-          console.log(params);
           var head = "";
           if (params.componentType == "series") {
             for (var i in this.statMap[data[0]][data[1]]) {

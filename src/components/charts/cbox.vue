@@ -158,6 +158,11 @@ export default {
   methods: {
     initByType() {
       switch (this.type) {
+        case "orgs":
+          this.value = this.cbox.orgs;
+          this.checked = this.cbox.chosenOrgs;
+          this.confirmAction = "innerOrgs";
+          break;
         case "scoring":
           this.value = this.typeValue;
           this.checked = this.copyObject(this.value);
@@ -169,10 +174,20 @@ export default {
           this.confirmAction = "outer";
           break;
         default:
+          // 默认为visual部分的大多数情况
           this.value = { ...this.cbox.countries };
           this.checked = { ...this.cbox.chosenCountries };
           this.confirmAction = "inner";
           break;
+      }
+    },
+    confirmHander() {
+      if (this.confirmAction === "inner") {
+        this.$store.commit("setCbox", { chosenCountries: this.checked });
+      } else if (this.confirmAction === "outer") {
+        this.$emit("checked", this.checked);
+      } else if (this.confirmAction === "innerOrgs") {
+        this.$store.commit("setCbox", { chosenOrgs: this.checked });
       }
     },
     copyObject(obj) {
@@ -183,13 +198,6 @@ export default {
         this.checked[continent] = [];
       } else {
         this.checked[continent] = this.copyObject(this.value[continent]);
-      }
-    },
-    confirmHander() {
-      if (this.confirmAction === "inner") {
-        this.$store.commit("setCbox", { chosenCountries: this.checked });
-      } else if (this.confirmAction === "outer") {
-        this.$emit("checked", this.checked);
       }
     }
   }

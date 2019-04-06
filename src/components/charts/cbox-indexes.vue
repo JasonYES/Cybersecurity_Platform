@@ -1,7 +1,8 @@
 <template>
   <div class="charts cbox-indexes">
     <Collapse :value="'1'">
-      <Panel name="1">指标选择
+      <Panel name="1">
+        指标选择
         <div slot="content">
           <div v-for="(object, continent)  in value" :key="continent">
             <Row>
@@ -13,7 +14,7 @@
                 style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;"
               >
                 <RadioGroup v-model="checked[continent]">
-                  <Radio v-for="c in object" :key="c" :label="c"></Radio>
+                  <Radio v-for="c in object" :key="c" :label="c">{{dname[c]}}</Radio>
                 </RadioGroup>
               </i-col>
             </Row>
@@ -32,53 +33,42 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import vname from "@/config/view-name";
 export default {
   name: "CboxIndexes",
+  props: {
+    chosenIndexes: Object
+  },
+  computed: {
+    ...mapState({
+      value: function(state) {
+        return this.dataToCboxFormmater(state.cbdata.indexes);
+      },
+      dname: state => state.cbdata.dynamicName
+    })
+  },
   data() {
     return {
-      vnamex: vname,
-      checked: {},
-      value: {
-        X轴指标: [
-          "score",
-          "legal",
-          "technical",
-          "organization",
-          "capacity",
-          "cooperation"
-        ],
-        Y轴指标: [
-          "score",
-          "legal",
-          "technical",
-          "organization",
-          "capacity",
-          "cooperation"
-        ]
+      checked: {
+        X轴指标: "",
+        Y轴指标: ""
       }
     };
   },
   mounted() {
-    this.$nextTick(() => {
-      this.vnamefy(this.value);
-      this.checked = this.copyObjectKeys(this.value);
-    });
+    this.$nextTick(() => {});
   },
   methods: {
-    vnamefy(value) {
-      for (var i in value) {
-        for (var j in value[i]) {
-          value[i][j] = vname[value[i][j]];
-        }
+    dataToCboxFormmater(indexes) {
+      var indexBox = [];
+      for (var i in indexes) {
+        indexBox.push(i);
       }
-    },
-    copyObjectKeys(obj) {
-      var res = JSON.parse(JSON.stringify(obj));
-      for (var i in res) {
-        res[i] = "";
+      if (indexBox.length != 0) {
+        this.checked = { X轴指标: indexBox[0], Y轴指标: indexBox[0] };
       }
-      return res;
+      return { X轴指标: indexBox, Y轴指标: indexBox };
     }
   }
 };

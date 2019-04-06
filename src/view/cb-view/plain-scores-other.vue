@@ -3,7 +3,7 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <CboxOther @checked="checkedData"></CboxOther>
+          <Cbox :type="'orgs'"></Cbox>
         </Card>
       </i-col>
     </Row>
@@ -15,11 +15,11 @@
   </div>
 </template>
 <script>
-import { CboxOther, TablexOrg } from "_c/charts";
+import { Cbox, TablexOrg } from "_c/charts";
 export default {
   name: "plain-scores-other",
   components: {
-    CboxOther,
+    Cbox,
     TablexOrg
   },
   methods: {
