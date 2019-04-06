@@ -64,22 +64,22 @@ export default [
     component: Main,
     children: [
       {
-        path: 'plain-scores',
-        name: 'plain-scores',
+        path: 'tablex-page',
+        name: 'tablex-page',
         meta: {
           icon: 'md-trending-up',
           title: '总分'
         },
-        component: () => import('@/view/cb-view/plain-scores.vue')
+        component: () => import('@/view/cb-view/tablex-page.vue')
       },
       {
-        path: 'plain-scores-other',
-        name: 'plain-scores-other',
+        path: 'tablex-page-orgs',
+        name: 'tablex-page-orgs',
         meta: {
           icon: 'md-trending-up',
           title: '总分2'
         },
-        component: () => import('@/view/cb-view/plain-scores-other.vue')
+        component: () => import('@/view/cb-view/tablex-page-orgs.vue')
       },
       {
         path: 'map-all',
@@ -100,31 +100,31 @@ export default [
         component: () => import('@/view/cb-view/map-indexes.vue')
       },
       {
-        path: 'by-countries',
-        name: 'by-countries',
+        path: 'bar-page',
+        name: 'bar-page',
         meta: {
           icon: 'md-globe',
           title: '国家'
         },
-        component: () => import('@/view/cb-view/by-countries.vue')
+        component: () => import('@/view/cb-view/bar-page.vue')
       },
       {
-        path: 'by-indexes',
-        name: 'by-indexes',
+        path: 'scatter-page',
+        name: 'scatter-page',
         meta: {
           icon: 'md-bookmark',
           title: '指标'
         },
-        component: () => import('@/view/cb-view/by-indexes.vue')
+        component: () => import('@/view/cb-view/scatter-page.vue')
       },
       {
-        path: 'significance',
-        name: 'significance',
+        path: 'pie-page',
+        name: 'pie-page',
         meta: {
           icon: 'md-cog',
           title: '显著性'
         },
-        component: () => import('@/view/cb-view/significance.vue')
+        component: () => import('@/view/cb-view/pie-page.vue')
       },
       {
         path: 'test',

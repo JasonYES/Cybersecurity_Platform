@@ -28,7 +28,7 @@
 import { Cbox, CboxIndexes } from "_c/charts";
 import { ChartScatterx } from "_c/chartsx";
 export default {
-  name: "by-indexes",
+  name: "scatter-page",
   components: {
     Cbox,
     ChartScatterx,

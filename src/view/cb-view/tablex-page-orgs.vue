@@ -17,7 +17,7 @@
 <script>
 import { Cbox, TablexOrg } from "_c/charts";
 export default {
-  name: "plain-scores-other",
+  name: "tablex-page-orgs",
   components: {
     Cbox,
     TablexOrg

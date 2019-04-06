@@ -21,7 +21,7 @@
 import { ChartBar, Cbox } from "_c/charts";
 import { ChartBarx } from "_c/chartsx";
 export default {
-  name: "by-countries",
+  name: "bar-page",
   components: {
     ChartBar,
     Cbox,

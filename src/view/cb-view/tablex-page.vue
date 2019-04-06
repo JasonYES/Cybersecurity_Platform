@@ -16,7 +16,7 @@
 import { Cbox, Tablex } from "_c/charts";
 import { Tablexs } from "_c/chartsx";
 export default {
-  name: "plain-scores",
+  name: "tablex-page",
   components: {
     Cbox,
     Tablexs
