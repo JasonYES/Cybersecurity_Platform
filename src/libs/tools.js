@@ -21,6 +21,25 @@ export const divideScoresBy = (scores, title) => {
   return map;
 }
 
+export const valueFileterByCbox = (value, chosen, keyIndex) => {
+  if (chosen == null || keyIndex == null) {
+    return value;
+  }
+  var allChosen = [];
+  for (var i in chosen) {
+    allChosen.push(...chosen[i]);
+  }
+  var set = new Set(allChosen);
+
+  var res = [];
+  for (var i in value) {
+    if (set.has(value[i][keyIndex])) {
+      res.push({ ...value[i] });
+    }
+  }
+  return res;
+}
+
 /**
  * @param {Array} arr1
  * @param {Array} arr2

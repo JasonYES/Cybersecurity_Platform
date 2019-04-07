@@ -36,7 +36,7 @@ import { mapState } from "vuex";
 export default {
   name: "ScoreBoard",
   props: {
-    value: Array,
+    data: Array,
     text: String
   },
   computed: {
@@ -45,23 +45,15 @@ export default {
       indexes: state => state.cbdata.indexes
     })
   },
+  watch: {
+    data: function() {
+      this.addCellStyle(this.data);
+      this.boardDrawer();
+    }
+  },
   mounted() {
-    this.getScoringData();
     this.addCellStyle(this.data);
     this.boardDrawer();
-    // this.$store.dispatch("checkInited", ["dynamicName"]);
-    // console.log(this.dynamicName);
-    // var list = {};
-    // for (var i = 1; i < 5; i++) {
-    //   list[i] = {};
-    //   for (var j = 1; j < 3; j++) {
-    //     list[i][i + "." + j] = [];
-    //     for (var k = 1; k < 5; k++) {
-    //       list[i][i + "." + j].push(i + "." + j + "." + k);
-    //     }
-    //   }
-    // }
-    // this.data = list;
   },
   methods: {
     cellStyleParser(mark) {
@@ -102,7 +94,7 @@ export default {
           shape: "circle"
         };
         text = "已审阅";
-      } else {
+      } else if (params.row[params.column.key] == "no") {
         props = {
           type: "primary",
           icon: "md-help",
@@ -166,9 +158,7 @@ export default {
       }
       this.columns = structure;
     },
-    getScoringData() {
-      this.data = tmpData["scoringData"];
-    },
+    // Modal框内方法
     judgingBoard(params) {
       // 是否已审阅的判定
       // console.log(params);
@@ -177,11 +167,19 @@ export default {
       if (params.row[params.column.key] === "no") {
         this.indexesToCheckbox(params.row, params.column.key);
         this.judgingModal.showModal1 = true;
-      } else {
+      } else if (params.row[params.column.key] === "yes") {
         this.judgingModal.selected = "";
         this.$Modal.confirm({
           title: this.judgingModal.title,
           content: "<p>该指标已审阅过, 是否撤销并重新审阅?</p>",
+          onOk: () => {},
+          onCancel: () => {}
+        });
+      } else {
+        this.judgingModal.selected = "";
+        this.$Modal.confirm({
+          title: this.judgingModal.title,
+          content: "<p>数据错误, 请检查数据库</p>",
           onOk: () => {},
           onCancel: () => {}
         });
@@ -190,21 +188,38 @@ export default {
     indexesToCheckbox(row, key) {
       var chosen = [];
       var allIndexes = [];
-      for (var i in row) {
-        console.log(row[i]);
-        if (i.startsWith(key)) {
-          if (i.length == 1) {
-            continue;
-          }
-          if (row[i] === 1) {
-            chosen.push(i);
-          }
-          allIndexes.push(i);
-          continue;
+      for (var i in this.indexes[key]) {
+        allIndexes.push(...this.indexes[key][i]);
+      }
+      for (var i in allIndexes) {
+        console.log(row[allIndexes[i]]);
+        if (row[allIndexes[i]] == "1") {
+          chosen.push(allIndexes[i]);
         }
       }
+      // for (var i in row) {
+      //   if (i.startsWith(key)) {
+      //     if (i.length == 1) {
+      //       continue;
+      //     }
+      //     if (row[i] === 1) {
+      //       chosen.push(i);
+      //     }
+      //     allIndexes.push(i);
+      //     continue;
+      //   }
+      // }
       this.judgingModal.chosen = chosen;
       this.judgingModal.allIndexes = allIndexes;
+    },
+    modalSave(chosen, index, country) {
+      // country: "china",
+      // index: "legal",
+      // chosen: ['1.1.1', '1.2.3']
+    },
+    modalUndo(index, country) {
+      // country: "china",
+      // index: "legal",
     }
   },
   data() {
@@ -286,8 +301,7 @@ export default {
           ]
         }
       ],
-      dataEmpty: [],
-      data: []
+      dataEmpty: []
     };
   }
 };

@@ -10,7 +10,7 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <score-board></score-board>
+          <score-board :data="[...valueFileterByCbox(scoringValue, chosen, 'country')]"></score-board>
         </Card>
       </i-col>
     </Row>
@@ -20,6 +20,7 @@
 import { Cbox } from "_c/charts";
 import { ScoreBoard } from "_c/scoring";
 import tmpData from "@/store/module/tmp-data";
+import { valueFileterByCbox } from "@/libs/tools";
 export default {
   components: {
     Cbox,
@@ -27,17 +28,24 @@ export default {
   },
   data() {
     return {
-      typeValue: {}
+      scoringValue: [],
+      typeValue: {},
+      chosen: null
     };
   },
   mounted() {
-    this.getTypeValue();
+    this.initData();
   },
   methods: {
-    getTypeValue() {
+    initData() {
+      //Cbox的初始化  国家目录与visual模块不一定一致
       this.typeValue = tmpData["countries"];
+      this.scoringValue = tmpData["scoringData"];
     },
-    checkedData() {}
+    valueFileterByCbox,
+    checkedData(chosen) {
+      this.chosen = { ...chosen };
+    }
   }
 };
 </script>
