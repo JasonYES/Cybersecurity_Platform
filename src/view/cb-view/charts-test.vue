@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Carousel v-model="carousel" loop>
+    <!-- <admin-board :value="dataCountry"></admin-board> -->
+    <!-- <Carousel v-model="carousel" loop>
       <CarouselItem>
         <div class="demo-carousel" align="center">
           <img :src="win1" key="win1" height="500px">
@@ -16,7 +17,7 @@
           <img :src="win3" key="win3" height="500px">
         </div>
       </CarouselItem>
-    </Carousel>
+    </Carousel>-->
     <!-- <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
@@ -45,17 +46,19 @@
         </Card>
       </i-col>
     </Row>-->
+    <admin-modal :type="'country'" :value="value" :modalOn="modalOn"></admin-modal>
   </div>
 </template>
 
 <script>
+import { AdminModal } from "_c/scoring";
 import win1 from "@/assets/images/win1.jpg";
 import win2 from "@/assets/images/win2.png";
 import win3 from "@/assets/images/win3.jpg";
 import InforCard from "_c/info-card";
 import CountTo from "_c/count-to";
 import { ChartPie, ChartBar, ChartScatter, Cbox, ChartMap } from "_c/charts";
-import { ScoreBoard } from "_c/scoring";
+import { ScoreBoard, AdminBoard } from "_c/scoring";
 import { ChartBarx } from "_c/chartsx";
 import Example from "./example.vue";
 export default {
@@ -70,7 +73,9 @@ export default {
     Cbox,
     ChartMap,
     ChartBarx,
-    ScoreBoard
+    ScoreBoard,
+    AdminBoard,
+    AdminModal
   },
   methods: {
     checkedData(checked) {
@@ -79,6 +84,10 @@ export default {
   },
   data() {
     return {
+      modalOn: {
+        country: false
+      },
+      value: {},
       win1,
       win2,
       win3,
@@ -194,7 +203,145 @@ export default {
           "几内亚比绍",
           "圭亚那"
         ]
-      }
+      },
+      dataCountry: [
+        {
+          country: "China",
+          area: "WPBP",
+          population: "TGAU",
+          GDP: "QYDD",
+          capital: "GAVX",
+          language: "BRSV"
+        },
+        {
+          country: "India",
+          area: "MOVV",
+          population: "LSSI",
+          GDP: "CDTI",
+          capital: "TVGK",
+          language: "FSIB"
+        },
+        {
+          country: "United States",
+          area: "VWWR",
+          population: "VVRS",
+          GDP: "FJTJ",
+          capital: "DUAO",
+          language: "VZWX"
+        },
+        {
+          country: "Indonesia",
+          area: "LIRP",
+          population: "PLFU",
+          GDP: "YVXV",
+          capital: "UOTT",
+          language: "QHQF"
+        },
+        {
+          country: "Iran",
+          area: "DNBC",
+          population: "XUIU",
+          GDP: "YKXT",
+          capital: "ALMZ",
+          language: "FRPV"
+        },
+        {
+          country: "Brazil",
+          area: "LTFM",
+          population: "TFVA",
+          GDP: "JTFZ",
+          capital: "SDVP",
+          language: "PTQA"
+        },
+        {
+          country: "Pakistan",
+          area: "EUYG",
+          population: "LMDS",
+          GDP: "EMND",
+          capital: "GOMC",
+          language: "NKGG"
+        },
+        {
+          country: "Nigeria",
+          area: "WNVO",
+          population: "HRQM",
+          GDP: "NZWI",
+          capital: "YXHI",
+          language: "DXDT"
+        },
+        {
+          country: "Bangladesh",
+          area: "WHXD",
+          population: "VKGX",
+          GDP: "ZJEA",
+          capital: "TMXC",
+          language: "BDAR"
+        },
+        {
+          country: "Japan",
+          area: "RUDK",
+          population: "JMMW",
+          GDP: "JWWC",
+          capital: "YSQE",
+          language: "GZKT"
+        },
+        {
+          country: "Mexico",
+          area: "PPSO",
+          population: "SEZU",
+          GDP: "TOJP",
+          capital: "IMPJ",
+          language: "AJXT"
+        },
+        {
+          country: "Philippines",
+          area: "DDBO",
+          population: "YVBT",
+          GDP: "EDOU",
+          capital: "KFCU",
+          language: "HJYI"
+        },
+        {
+          country: "Vietnam",
+          area: "EJGU",
+          population: "OGJE",
+          GDP: "POGC",
+          capital: "JNDF",
+          language: "XRYJ"
+        },
+        {
+          country: "Ethiopia",
+          area: "KVVD",
+          population: "RPDZ",
+          GDP: "FAPP",
+          capital: "MLDW",
+          language: "PVWB"
+        },
+        {
+          country: "Germany",
+          area: "XZRL",
+          population: "APUU",
+          GDP: "TILU",
+          capital: "MCPR",
+          language: "LBGC"
+        },
+        {
+          country: "Egypt",
+          area: "IDMD",
+          population: "DPIL",
+          GDP: "WLSG",
+          capital: "JHWU",
+          language: "UQHI"
+        },
+        {
+          country: "Turkey",
+          area: "HKAI",
+          population: "KEWZ",
+          GDP: "DMJI",
+          capital: "PEUN",
+          language: "RDVJ"
+        }
+      ]
     };
   },
   mounted() {

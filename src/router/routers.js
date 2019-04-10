@@ -158,7 +158,7 @@ export default [
     ]
   },
   {
-    path: 'data',
+    path: '/data',
     name: 'data',
     meta: {
       icon: 'md-cog',
@@ -174,6 +174,26 @@ export default [
           title: 'crawler'
         },
         component: () => import('@/view/cb-main/data-crawler.vue')
+      },
+    ]
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    meta: {
+      icon: 'md-cog',
+      title: 'admin'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'data',
+        name: 'admin-dbcountry',
+        meta: {
+          icon: 'md-cog',
+          title: 'admin-dbcountry'
+        },
+        component: () => import('@/view/cb-main/admin-dbcountry.vue')
       },
     ]
   },

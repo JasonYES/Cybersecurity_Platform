@@ -58,5 +58,8 @@ export default {
   "scoring": "评分",
   "cb-scoring": "评分",
   "main": "x",
-  "crawler": "数据爬取",
+  "crawler": "数据",
+  "data": "数据",
+  'admin-data': "数据库管理",
+  'admin-dbcountry': "数据库管理"
 }
