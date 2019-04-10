@@ -5,7 +5,7 @@
         <Card shadow>
           <Collapse :value="'1'">
             <Panel name="1">
-              搜索
+              筛选和新建
               <div slot="content">
                 <Row :gutter="20" style="margin-top: 0px;">
                   <i-col :md="7" :lg="7" style="margin-bottom: 0px;">
@@ -26,21 +26,26 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <Table border :columns="columns" :data="value">
-            <template slot-scope="{ row, index }" slot="action">
-              <Button
-                type="primary"
-                size="small"
-                style="margin-right: 5px"
-                @click="actionHandler('edit', index)"
-              >修改</Button>
-              <Poptip confirm title="确认删除吗?" @on-ok="actionHandler('delete', index)">
-                <Button type="error" size="small">删除</Button>
-              </Poptip>
-            </template>
-          </Table>
-          <br>
           <div align="center">
+            <Table
+              border
+              :width="(columns.length-1)*columnsWidth.common+columnsWidth.action+2"
+              :columns="columns"
+              :data="value"
+            >
+              <template slot-scope="{ row, index }" slot="action">
+                <Button
+                  type="primary"
+                  size="small"
+                  style="margin-right: 5px"
+                  @click="actionHandler('edit', index)"
+                >修改</Button>
+                <Poptip confirm title="确认删除吗?" @on-ok="actionHandler('delete', index)">
+                  <Button type="error" size="small">删除</Button>
+                </Poptip>
+              </template>
+            </Table>
+            <br>
             <Page :current="2" :total="50" simple/>
             <br>
           </div>
@@ -70,8 +75,13 @@ export default {
     return {
       value: [],
       rowData: {},
-      modalOn: false,
+      modalOn: { on: false },
       searchWord: "",
+      columnsWidth: {
+        common: 120,
+        action: 130
+      },
+      columnsHidden: new Set(),
       page: {
         start: 0,
         limit: 10
@@ -87,9 +97,23 @@ export default {
       switch (type) {
         case "country":
           this.value = tmpData["dbcountries"];
+          this.columnsHidden = new Set(["id"]);
+          this.columnsWidth = {
+            common: 120,
+            action: 130
+          };
           break;
         case "index1":
           this.value = tmpData["dbindex1"];
+          this.columnsHidden = new Set(["id"]);
+          break;
+        case "index2":
+          this.value = tmpData["dbindex2"];
+          this.columnsHidden = new Set(["id", "id1"]);
+          break;
+        case "index3":
+          this.value = tmpData["dbindex3"];
+          this.columnsHidden = new Set(["id", "id1", "id2"]);
           break;
       }
     },
@@ -136,20 +160,21 @@ export default {
       }
       var res = [];
       for (var i in data[0]) {
-        if (i === "id") {
+        if (this.columnsHidden.has(i)) {
           // 在此将id屏蔽
           continue;
         }
         res.push({
           title: i,
-          key: i
+          key: i,
+          width: this.columnsWidth.common
         });
       }
       res.push({
         title: "操作",
         // key: "edit", // 就是指标名
         slot: "action",
-        width: 130
+        width: this.columnsWidth.action
       });
       return res;
     },
@@ -176,7 +201,7 @@ export default {
     actionHandler(modalType, index) {
       switch (modalType) {
         case "edit":
-          this.modalOn = true;
+          this.modalOn.on = true;
           this.rowData = { ...this.value[index] }; // 改用index
           break;
         case "delete":

@@ -187,13 +187,40 @@ export default [
     component: Main,
     children: [
       {
-        path: 'data',
+        path: 'dbcountry',
         name: 'admin-dbcountry',
         meta: {
           icon: 'md-cog',
           title: 'admin-dbcountry'
         },
         component: () => import('@/view/cb-main/admin-dbcountry.vue')
+      },
+      {
+        path: 'dbindex1',
+        name: 'admin-dbindex1',
+        meta: {
+          icon: 'md-cog',
+          title: 'admin-dbindex1'
+        },
+        component: () => import('@/view/cb-main/admin-dbindex1.vue')
+      },
+      {
+        path: 'dbindex2',
+        name: 'admin-dbindex2',
+        meta: {
+          icon: 'md-cog',
+          title: 'admin-dbindex2'
+        },
+        component: () => import('@/view/cb-main/admin-dbindex2.vue')
+      },
+      {
+        path: 'dbindex3',
+        name: 'admin-dbindex3',
+        meta: {
+          icon: 'md-cog',
+          title: 'admin-dbindex3'
+        },
+        component: () => import('@/view/cb-main/admin-dbindex3.vue')
       },
     ]
   },

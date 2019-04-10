@@ -46,7 +46,7 @@
         </Card>
       </i-col>
     </Row>-->
-    <admin-modal :type="'country'" :value="value" :modalOn="modalOn"></admin-modal>
+    <!-- <admin-modal :type="'country'" :value="value" :modalOn="modalOn"></admin-modal> -->
   </div>
 </template>
 
@@ -58,7 +58,7 @@ import win3 from "@/assets/images/win3.jpg";
 import InforCard from "_c/info-card";
 import CountTo from "_c/count-to";
 import { ChartPie, ChartBar, ChartScatter, Cbox, ChartMap } from "_c/charts";
-import { ScoreBoard, AdminBoard } from "_c/scoring";
+import { ScoreBoard } from "_c/scoring";
 import { ChartBarx } from "_c/chartsx";
 import Example from "./example.vue";
 export default {
@@ -74,8 +74,7 @@ export default {
     ChartMap,
     ChartBarx,
     ScoreBoard,
-    AdminBoard,
-    AdminModal
+    AdminBoard
   },
   methods: {
     checkedData(checked) {

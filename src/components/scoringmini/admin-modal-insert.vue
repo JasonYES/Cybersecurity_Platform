@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Modal v-if="country.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
+    <Modal v-if="country.modalShow" v-model="modalOn.on" title="信息新建" @on-ok="modalOK" ok-text="保存">
       <Form :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
           <template v-if="field === 'continent'">
@@ -14,11 +14,11 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-if="index.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
+    <Modal v-if="index.modalShow" v-model="modalOn.on" title="信息新建" @on-ok="modalOK" ok-text="保存">
       <Form :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
           <template>
-            <Input v-model="value[field]" :disabled="formDisable(field)"/>
+            <Input v-model="value[field]"/>
           </template>
         </FormItem>
       </Form>
@@ -30,7 +30,6 @@ export default {
   name: "AdminModal",
   props: {
     type: String,
-    value: Object, // 要修改的某行数据
     modalOn: Object
   },
   mounted() {
@@ -48,6 +47,31 @@ export default {
   },
   data() {
     return {
+      dataTemplate: {
+        country: {
+          country: "",
+          id: "",
+          name: "",
+          nickname: "",
+          continent: "",
+          est: "",
+          language: "",
+          capital: "",
+          population: "",
+          area: "",
+          economy: "",
+          other: ""
+        },
+        index1: { id: "", name: "", nickname: "", weight: "", other: "" },
+        index23: {
+          id: "",
+          name: "",
+          nickname: "",
+          weight: "",
+          other: "",
+          pid: 0
+        }
+      },
       formFormatter: {
         fieldsHidden: [],
         fieldsDisable: new Set()
@@ -66,35 +90,22 @@ export default {
     initTypeData(type) {
       switch (type) {
         case "country":
+          this.value = dataTemplate["country"];
           this.country.modalShow = true;
-          this.formFormatter.fieldsHidden = ["id"];
           break;
         case "index1":
+          this.value = dataTemplate["index1"];
           this.index.modalShow = true;
-          this.formFormatter.fieldsHidden = ["id"];
           break;
         case "index2":
+          this.value = dataTemplate["index23"];
           this.index.modalShow = true;
-          this.formFormatter.fieldsHidden = ["id", "id1"];
-          this.formFormatter.fieldsDisable = new Set(["name1", "nickname1"]);
           break;
         case "index3":
+          this.value = dataTemplate["index23"];
           this.index.modalShow = true;
-          this.formFormatter.fieldsHidden = ["id", "id1", "id2"];
-          this.formFormatter.fieldsDisable = new Set([
-            "name1",
-            "nickname1",
-            "name2",
-            "nickname2"
-          ]);
           break;
       }
-    },
-    formDisable(field) {
-      if (this.formFormatter.fieldsDisable.has(field)) {
-        return true;
-      }
-      return false;
     },
     modalOK() {}
   }

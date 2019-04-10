@@ -478,5 +478,23 @@ export default {
     { "id": 4, "name": "GSDJ", "nickname": "指标3", "weight": 1, "other": "GVSB" },
     { "id": 5, "name": "SIEB", "nickname": "指标4", "weight": 1, "other": "HBKI" },
     { "id": 6, "name": "NFYU", "nickname": "指标5", "weight": 1, "other": "IENL" },
+  ],
+  dbindex2: [
+    { "id1": 2, "name1": "SJIA", "nickname1": "指标1", "id": 2, "name": "NJIQ", "nickname": "指标1.1", "weight": 1, "other": "DABW" },
+    { "id1": 2, "name1": "SJIA", "nickname1": "指标1", "id": 3, "name": "MWFW", "nickname": "指标1.2", "weight": 1, "other": "VDCI" },
+    { "id1": 2, "name1": "SJIA", "nickname1": "指标1", "id": 4, "name": "QCMS", "nickname": "指标1.3", "weight": 1, "other": "FTBQ" },
+    { "id1": 3, "name1": "PPFV", "nickname1": "指标2", "id": 5, "name": "QKLT", "nickname": "指标2.1", "weight": 1, "other": "KHLL" },
+    { "id1": 3, "name1": "PPFV", "nickname1": "指标2", "id": 6, "name": "CYMD", "nickname": "指标2.2", "weight": 1, "other": "OAOR" },
+    { "id1": 3, "name1": "PPFV", "nickname1": "指标2", "id": 7, "name": "ZUIA", "nickname": "指标2.3", "weight": 1, "other": "QBYQ" },
+    { "id1": 3, "name1": "PPFV", "nickname1": "指标2", "id": 8, "name": "LTQQ", "nickname": "指标2.4", "weight": 1, "other": "CQCD" },
+  ],
+  dbindex3: [
+    { "id1": 2, "name1": "SJIA", "nickname1": "指标1", "id2": 2, "name2": "SJIA", "nickname2": "指标1.1", "id": 2, "name": "KJDV", "nickname": "指标1.1.1", "weight": 1, "other": "CTLJ" },
+    { "id1": 2, "name1": "SJIA", "nickname1": "指标1", "id2": 3, "name2": "SJIA", "nickname2": "指标1.2", "id": 3, "name": "MZBV", "nickname": "指标1.2.1", "weight": 1, "other": "QVPK" },
+    { "id1": 2, "name1": "SJIA", "nickname1": "指标1", "id2": 4, "name2": "SJIA", "nickname2": "指标1.3", "id": 4, "name": "UVTS", "nickname": "指标1.3.1", "weight": 1, "other": "RFFF" },
+    { "id1": 3, "name1": "PPFV", "nickname1": "指标2", "id2": 5, "name2": "PPFV", "nickname2": "指标2.1", "id": 5, "name": "UVHJ", "nickname": "指标2.1.1", "weight": 1, "other": "GKPM" },
+    { "id1": 3, "name1": "PPFV", "nickname1": "指标2", "id2": 6, "name2": "PPFV", "nickname2": "指标2.2", "id": 6, "name": "WCIW", "nickname": "指标2.2.1", "weight": 1, "other": "BPDL" },
+    { "id1": 3, "name1": "PPFV", "nickname1": "指标2", "id2": 7, "name2": "PPFV", "nickname2": "指标2.3", "id": 7, "name": "FZWA", "nickname": "指标2.3.1", "weight": 1, "other": "THRF" },
+    { "id1": 3, "name1": "PPFV", "nickname1": "指标2", "id2": 8, "name2": "PPFV", "nickname2": "指标2.4", "id": 8, "name": "LCFJ", "nickname": "指标2.4.1", "weight": 1, "other": "IBPY" },
   ]
 }
