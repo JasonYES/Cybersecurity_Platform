@@ -40,7 +40,11 @@ export default {
     initData() {
       //Cbox的初始化  国家目录与visual模块不一定一致
       this.typeValue = tmpData["countries"];
-      this.scoringValue = tmpData["scoringData"];
+      var tmpScoringValue = tmpData["scoringData"];
+      for (var i in tmpScoringValue) {
+        tmpScoringValue[i]["cellClassName"] = {};
+      }
+      this.scoringValue = tmpScoringValue;
     },
     valueFileterByCbox,
     checkedData(chosen) {

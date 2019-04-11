@@ -8,13 +8,16 @@
               筛选和新建
               <div slot="content">
                 <Row :gutter="20" style="margin-top: 0px;">
-                  <i-col :md="7" :lg="7" style="margin-bottom: 0px;">
+                  <i-col offset="1" :md="7" :lg="7">
                     <Input
                       search
                       @on-search="searchHandler"
                       enter-button
                       placeholder="Enter something..."
                     />
+                  </i-col>
+                  <i-col offset="0" :md="2" :lg="2" style="margin-top: 1px;">
+                    <Button icon="md-add" type="primary" shape="circle" @click="createHandler">新建</Button>
                   </i-col>
                 </Row>
               </div>
@@ -27,12 +30,7 @@
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
           <div align="center">
-            <Table
-              border
-              :width="(columns.length-1)*columnsWidth.common+columnsWidth.action+2"
-              :columns="columns"
-              :data="value"
-            >
+            <Table border :width="tableWidth" :columns="columns" :data="value">
               <template slot-scope="{ row, index }" slot="action">
                 <Button
                   type="primary"
@@ -53,10 +51,11 @@
       </i-col>
     </Row>
     <admin-modal :type="type" :value="rowData" :modalOn="modalOn"></admin-modal>
+    <admin-modal-insert :type="type" :modalOn="modalOn"></admin-modal-insert>
   </div>
 </template>
 <script>
-import { AdminModal } from "_c/scoringmini";
+import { AdminModal, AdminModalInsert, AdminTableExpand } from "_c/scoringmini";
 import tmpData from "@/store/module/tmp-data";
 export default {
   name: "AdminBoard",
@@ -64,7 +63,9 @@ export default {
     type: String
   },
   components: {
-    AdminModal
+    AdminModal,
+    AdminModalInsert,
+    AdminTableExpand
   },
   computed: {
     columns: function() {
@@ -75,13 +76,17 @@ export default {
     return {
       value: [],
       rowData: {},
-      modalOn: { on: false },
+      modalOn: {
+        on: false, // action页面
+        new: false // create页面
+      },
       searchWord: "",
-      columnsWidth: {
-        common: 120,
-        action: 130
+      tableWidth: 0,
+      columnsWidthSpecified: {
+        _common: 120
       },
       columnsHidden: new Set(),
+      columnExpand: null,
       page: {
         start: 0,
         limit: 10
@@ -98,10 +103,6 @@ export default {
         case "country":
           this.value = tmpData["dbcountries"];
           this.columnsHidden = new Set(["id"]);
-          this.columnsWidth = {
-            common: 120,
-            action: 130
-          };
           break;
         case "index1":
           this.value = tmpData["dbindex1"];
@@ -114,6 +115,12 @@ export default {
         case "index3":
           this.value = tmpData["dbindex3"];
           this.columnsHidden = new Set(["id", "id1", "id2"]);
+          break;
+        case "orgs":
+          this.value = tmpData["dborgs"];
+          this.columnsHidden = new Set(["id", "countries"]);
+          this.columnsWidthSpecified = { _common: 170 };
+          this.columnExpand = "countries";
           break;
       }
     },
@@ -159,24 +166,52 @@ export default {
         return [];
       }
       var res = [];
+      var tableWidth = 0;
+      var tableWidthEdge = 2;
+      var tableWidthExpand = 0;
+      if (this.columnExpand != null && this.columnExpand === "countries") {
+        tableWidthExpand = 50;
+        res.push({
+          type: "expand",
+          width: tableWidthExpand,
+          render: (h, params) => {
+            return h(AdminTableExpand, {
+              props: {
+                value: params.row.countries
+              }
+            });
+          }
+        });
+      }
       for (var i in data[0]) {
         if (this.columnsHidden.has(i)) {
           // 在此将id屏蔽
           continue;
         }
+        var width = this.columnWidthGetter(i);
+        tableWidth += width;
         res.push({
           title: i,
           key: i,
-          width: this.columnsWidth.common
+          width: width
         });
       }
+      var actionWidth = 130;
+      tableWidth += actionWidth;
       res.push({
         title: "操作",
         // key: "edit", // 就是指标名
         slot: "action",
-        width: this.columnsWidth.action
+        width: actionWidth
       });
+      this.tableWidth = tableWidth + tableWidthEdge + tableWidthExpand;
       return res;
+    },
+    columnWidthGetter(field) {
+      if (this.columnsWidthSpecified[field] != null) {
+        return this.columnsWidthSpecified[field];
+      }
+      return this.columnsWidthSpecified["_common"];
     },
     XXXtableValueFilter(value, searchWord) {
       if (searchWord == "") {
@@ -213,6 +248,9 @@ export default {
       this.searchWord = searchWord;
       this.page.start = 0;
       this.getValue(this.page, this.searchWord);
+    },
+    createHandler() {
+      this.modalOn.new = true;
     }
   }
 };

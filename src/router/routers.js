@@ -222,6 +222,15 @@ export default [
         },
         component: () => import('@/view/cb-main/admin-dbindex3.vue')
       },
+      {
+        path: 'dborgs',
+        name: 'admin-dborgs',
+        meta: {
+          icon: 'md-cog',
+          title: 'admin-dborgs'
+        },
+        component: () => import('@/view/cb-main/admin-dborgs.vue')
+      },
     ]
   },
   ///////////////////

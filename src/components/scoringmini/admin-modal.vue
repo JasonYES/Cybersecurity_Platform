@@ -23,6 +23,17 @@
         </FormItem>
       </Form>
     </Modal>
+    <Modal v-if="orgs.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
+      <Form :model="value" :label-width="80">
+        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+          <!-- 放上多选的选择框 20190411-->
+          <template>
+            <Input v-model="value[field]" placeholder="Enter something..."/>
+          </template>
+        </FormItem>
+      </Form>
+      <Divider/>
+    </Modal>
   </div>
 </template>
 <script>
@@ -59,6 +70,9 @@ export default {
       index: {
         modalShow: false
       },
+      orgs: {
+        modalShow: false
+      },
       api: ""
     };
   },
@@ -87,6 +101,10 @@ export default {
             "name2",
             "nickname2"
           ]);
+          break;
+        case "orgs":
+          this.orgs.modalShow = true;
+          this.formFormatter.fieldsHidden = ["id", "countries"];
           break;
       }
     },
