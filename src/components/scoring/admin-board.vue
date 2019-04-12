@@ -122,8 +122,13 @@ export default {
           this.columnsWidthSpecified = { _common: 170 };
           this.columnExpand = "countries";
           break;
+        case "users":
+          this.value = tmpData["dbusers"];
+          this.columnsHidden = new Set(["id"]);
+          break;
       }
     },
+    // 所有开头为XXX的方法都为deprecated, 都不再使用
     XXXrender(h, params) {
       return h("div", [
         h(
@@ -170,9 +175,10 @@ export default {
       var tableWidthEdge = 2;
       var tableWidthExpand = 0;
       if (this.columnExpand != null && this.columnExpand === "countries") {
-        tableWidthExpand = 50;
+        tableWidthExpand = 60;
         res.push({
           type: "expand",
+          title: "展开",
           width: tableWidthExpand,
           render: (h, params) => {
             return h(AdminTableExpand, {

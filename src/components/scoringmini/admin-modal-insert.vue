@@ -68,12 +68,39 @@
         </FormItem>
       </Form>
     </Modal>
+    <Modal v-if="orgs.modalShow" v-model="modalOn.new" title="信息修改" @on-ok="modalOK" ok-text="保存">
+      <Form :model="value" :label-width="80">
+        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+          <template v-if="field === 'countries'">
+            <Select v-model="value[field]" filterable multiple>
+              <Option
+                v-for="item in orgs.countries"
+                :value="item.country"
+                :key="item.id"
+              >{{item.country}}</Option>
+            </Select>
+          </template>
+          <template v-else>
+            <Input v-model="value[field]" placeholder="Enter something..."/>
+          </template>
+        </FormItem>
+      </Form>
+    </Modal>
+    <Modal v-if="users.modalShow" v-model="modalOn.new" title="新建" @on-ok="modalOK" ok-text="保存">
+      <Form :model="value" :label-width="80">
+        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+          <template>
+            <Input v-model="value[field]"/>
+          </template>
+        </FormItem>
+      </Form>
+    </Modal>
   </div>
 </template>
 <script>
 import tmpData from "@/store/module/tmp-data";
 export default {
-  name: "AdminModal",
+  name: "AdminModalInsert",
   props: {
     type: String,
     modalOn: Object
@@ -118,6 +145,19 @@ export default {
           nickname: "",
           weight: "",
           other: ""
+        },
+        orgs: {
+          name: "",
+          nickname: "",
+          type: "",
+          countries: []
+        },
+        users: {
+          name: "",
+          nickname: "",
+          role: 0,
+          password: "",
+          password2: ""
         }
       },
       country: {
@@ -137,31 +177,43 @@ export default {
         index2Selector: [],
         index2SelectorOrigin: []
       },
+      orgs: {
+        modalShow: false,
+        countries: []
+      },
+      users: {
+        modalShow: false
+      },
       api: ""
     };
   },
   methods: {
     initTypeData(type) {
+      this.value = this.dataTemplate[type];
       switch (type) {
         case "country":
-          this.value = this.dataTemplate["country"];
           this.country.modalShow = true;
           break;
         case "index1":
-          this.value = this.dataTemplate["index1"];
           this.index1.modalShow = true;
           break;
         case "index2":
-          this.value = this.dataTemplate["index2"];
           this.index2.modalShow = true;
           this.index2.index1Selector = tmpData["dbindex1"];
           break;
         case "index3":
-          this.value = this.dataTemplate["index3"];
           this.index3.modalShow = true;
           this.index3.index1Selector = tmpData["dbindex1"];
           this.index3.index2Selector = [];
           this.index3.index2SelectorOrigin = tmpData["dbindex2"];
+          break;
+        case "orgs":
+          this.orgs.modalShow = true;
+          this.orgs.countries = tmpData["dbcountries"];
+          break;
+        case "users":
+          this.users.modalShow = true;
+          this.orgs.countries = tmpData["dbusers"];
           break;
       }
     },

@@ -1,6 +1,13 @@
 <template>
   <div>
-    <Modal v-if="country.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
+    <Modal
+      v-if="country.modalShow"
+      v-model="modalOn.on"
+      title="信息修改"
+      @on-ok="modalOK"
+      @on-cancel="modalCancel"
+      ok-text="保存"
+    >
       <Form :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
           <template v-if="field === 'continent'">
@@ -14,7 +21,14 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-if="index.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
+    <Modal
+      v-if="index.modalShow"
+      v-model="modalOn.on"
+      title="信息修改"
+      @on-ok="modalOK"
+      @on-cancel="modalCancel"
+      ok-text="保存"
+    >
       <Form :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
           <template>
@@ -23,20 +37,67 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-if="orgs.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
+    <Modal
+      v-if="orgs.modalShow"
+      v-model="modalOn.on"
+      title="信息修改"
+      @on-ok="modalOK"
+      @on-cancel="modalCancel"
+      ok-text="保存"
+    >
       <Form :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
-          <!-- 放上多选的选择框 20190411-->
-          <template>
+          <template v-if="field === 'countries'">
+            <Select v-model="value[field]" filterable multiple>
+              <Option
+                v-for="item in orgs.countries"
+                :value="item.country"
+                :key="item.id"
+              >{{item.country}}</Option>
+            </Select>
+          </template>
+          <template v-else>
             <Input v-model="value[field]" placeholder="Enter something..."/>
           </template>
         </FormItem>
       </Form>
-      <Divider/>
+    </Modal>
+    <Modal
+      v-if="users.modalShow"
+      v-model="modalOn.on"
+      title="信息修改"
+      @on-ok="modalOK"
+      @on-cancel="modalCancel"
+      ok-text="保存"
+    >
+      <Form :model="value" :label-width="80" style="margin-bottom: 8px;">
+        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+          <template>
+            <Input v-model="value[field]" placeholder="Enter something..."/>
+          </template>
+        </FormItem>
+        <Collapse simple>
+          <Panel name="1">
+            修改密码
+            <div slot="content" style="margin-top: 20px;">
+              <FormItem
+                v-for="(field) in Object.keys(formFormatter.fieldsInsert)"
+                :key="field"
+                :label="field"
+              >
+                <template>
+                  <Input v-model="value[field]" placeholder="不修改密码则无需输入"/>
+                </template>
+              </FormItem>
+            </div>
+          </Panel>
+        </Collapse>
+      </Form>
     </Modal>
   </div>
 </template>
 <script>
+import tmpData from "@/store/module/tmp-data";
 export default {
   name: "AdminModal",
   props: {
@@ -49,7 +110,12 @@ export default {
   },
   computed: {
     formFields: function() {
+      for (var i in this.formFormatter.fieldsInsert) {
+        // 每次都会board选中一行, value都会被赋值一次, 触发更新
+        this.value[i] = this.formFormatter.fieldsInsert[i];
+      }
       var valueCopy = { ...this.value };
+      this.valueBackup = { ...this.value }; // 进行值的备份, 使modal框cancel后数据复原
       for (var i in this.formFormatter.fieldsHidden) {
         delete valueCopy[this.formFormatter.fieldsHidden[i]];
       }
@@ -59,9 +125,11 @@ export default {
   },
   data() {
     return {
+      valueBackup: {},
       formFormatter: {
         fieldsHidden: [],
-        fieldsDisable: new Set()
+        fieldsDisable: new Set(),
+        fieldsInsert: {}
       },
       country: {
         modalShow: false,
@@ -71,6 +139,10 @@ export default {
         modalShow: false
       },
       orgs: {
+        modalShow: false,
+        countries: []
+      },
+      users: {
         modalShow: false
       },
       api: ""
@@ -104,7 +176,22 @@ export default {
           break;
         case "orgs":
           this.orgs.modalShow = true;
-          this.formFormatter.fieldsHidden = ["id", "countries"];
+          this.formFormatter.fieldsHidden = ["id"];
+          this.orgs.countries = tmpData["dbcountries"];
+          break;
+        case "users":
+          this.users.modalShow = true;
+          this.formFormatter.fieldsHidden = [
+            "id",
+            "password",
+            "password2",
+            "adminValidate"
+          ];
+          this.formFormatter.fieldsInsert = {
+            password: "",
+            password2: "",
+            adminValidate: ""
+          };
           break;
       }
     },
@@ -114,7 +201,8 @@ export default {
       }
       return false;
     },
-    modalOK() {}
+    modalOK() {},
+    modalCancel() {}
   }
 };
 </script>

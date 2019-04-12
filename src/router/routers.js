@@ -231,6 +231,15 @@ export default [
         },
         component: () => import('@/view/cb-main/admin-dborgs.vue')
       },
+      {
+        path: 'dbusers',
+        name: 'admin-dbusers',
+        meta: {
+          icon: 'md-cog',
+          title: 'admin-dbusers'
+        },
+        component: () => import('@/view/cb-main/admin-dbusers.vue')
+      },
     ]
   },
   ///////////////////
