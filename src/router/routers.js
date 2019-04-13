@@ -157,26 +157,26 @@ export default [
       },
     ]
   },
-  {
-    path: '/data',
-    name: 'data',
-    meta: {
-      icon: 'md-cog',
-      title: 'data'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'crawler',
-        name: 'crawler',
-        meta: {
-          icon: 'md-cog',
-          title: 'crawler'
-        },
-        component: () => import('@/view/cb-main/data-crawler.vue')
-      },
-    ]
-  },
+  // {
+  //   path: '/data',
+  //   name: 'data',
+  //   meta: {
+  //     icon: 'md-cog',
+  //     title: 'data'
+  //   },
+  //   component: Main,
+  //   children: [
+  //     {
+  //       path: 'crawler',
+  //       name: 'crawler',
+  //       meta: {
+  //         icon: 'md-cog',
+  //         title: 'crawler'
+  //       },
+  //       component: () => import('@/view/cb-main/data-crawler.vue')
+  //     },
+  //   ]
+  // },
   {
     path: '/admin',
     name: 'admin',
@@ -186,15 +186,7 @@ export default [
     },
     component: Main,
     children: [
-      {
-        path: 'dbcountry',
-        name: 'admin-dbcountry',
-        meta: {
-          icon: 'md-cog',
-          title: 'admin-dbcountry'
-        },
-        component: () => import('@/view/cb-main/admin-dbcountry.vue')
-      },
+
       {
         path: 'dbindex1',
         name: 'admin-dbindex1',
@@ -221,6 +213,15 @@ export default [
           title: 'admin-dbindex3'
         },
         component: () => import('@/view/cb-main/admin-dbindex3.vue')
+      },
+      {
+        path: 'dbcountry',
+        name: 'admin-dbcountry',
+        meta: {
+          icon: 'md-cog',
+          title: 'admin-dbcountry'
+        },
+        component: () => import('@/view/cb-main/admin-dbcountry.vue')
       },
       {
         path: 'dborgs',

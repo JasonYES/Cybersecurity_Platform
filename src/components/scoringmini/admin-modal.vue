@@ -1,13 +1,6 @@
 <template>
   <div>
-    <Modal
-      v-if="country.modalShow"
-      v-model="modalOn.on"
-      title="信息修改"
-      @on-ok="modalOK"
-      @on-cancel="modalCancel"
-      ok-text="保存"
-    >
+    <Modal v-if="country.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
       <Form :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
           <template v-if="field === 'continent'">
@@ -21,14 +14,7 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal
-      v-if="index.modalShow"
-      v-model="modalOn.on"
-      title="信息修改"
-      @on-ok="modalOK"
-      @on-cancel="modalCancel"
-      ok-text="保存"
-    >
+    <Modal v-if="index.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
       <Form :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
           <template>
@@ -37,14 +23,7 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal
-      v-if="orgs.modalShow"
-      v-model="modalOn.on"
-      title="信息修改"
-      @on-ok="modalOK"
-      @on-cancel="modalCancel"
-      ok-text="保存"
-    >
+    <Modal v-if="orgs.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
       <Form :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
           <template v-if="field === 'countries'">
@@ -62,14 +41,7 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal
-      v-if="users.modalShow"
-      v-model="modalOn.on"
-      title="信息修改"
-      @on-ok="modalOK"
-      @on-cancel="modalCancel"
-      ok-text="保存"
-    >
+    <Modal v-if="users.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
       <Form :model="value" :label-width="80" style="margin-bottom: 8px;">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
           <template>
@@ -115,7 +87,7 @@ export default {
         this.value[i] = this.formFormatter.fieldsInsert[i];
       }
       var valueCopy = { ...this.value };
-      this.valueBackup = { ...this.value }; // 进行值的备份, 使modal框cancel后数据复原
+      // this.valueBackup = { ...this.value }; // 进行值的备份, 使modal框cancel后数据复原
       for (var i in this.formFormatter.fieldsHidden) {
         delete valueCopy[this.formFormatter.fieldsHidden[i]];
       }
@@ -125,7 +97,7 @@ export default {
   },
   data() {
     return {
-      valueBackup: {},
+      // valueBackup: {},
       formFormatter: {
         fieldsHidden: [],
         fieldsDisable: new Set(),
@@ -201,8 +173,7 @@ export default {
       }
       return false;
     },
-    modalOK() {},
-    modalCancel() {}
+    modalOK() {}
   }
 };
 </script>

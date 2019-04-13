@@ -1,6 +1,13 @@
 <template>
   <div>
-    <Modal v-if="country.modalShow" v-model="modalOn.new" title="新建" @on-ok="modalOK" ok-text="保存">
+    <Modal
+      v-if="type=='country'"
+      v-model="modalOn.new"
+      title="新建"
+      @on-ok="modalOK"
+      @on-cancel="modalCancel"
+      ok-text="保存"
+    >
       <Form :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
           <template v-if="field === 'continent'">
@@ -14,7 +21,14 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-if="index1.modalShow" v-model="modalOn.new" title="新建" @on-ok="modalOK" ok-text="保存">
+    <Modal
+      v-if="type=='index1'"
+      v-model="modalOn.new"
+      title="新建"
+      @on-ok="modalOK"
+      @on-cancel="modalCancel"
+      ok-text="保存"
+    >
       <Form :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
           <template>
@@ -23,7 +37,14 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-if="index2.modalShow" v-model="modalOn.new" title="新建" @on-ok="modalOK" ok-text="保存">
+    <Modal
+      v-if="type=='index2'"
+      v-model="modalOn.new"
+      title="新建"
+      @on-ok="modalOK"
+      @on-cancel="modalCancel"
+      ok-text="保存"
+    >
       <Form :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
           <template v-if="field === 'pid'">
@@ -41,7 +62,14 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-if="index3.modalShow" v-model="modalOn.new" title="新建" @on-ok="modalOK" ok-text="保存">
+    <Modal
+      v-if="type=='index3'"
+      v-model="modalOn.new"
+      title="新建"
+      @on-ok="modalOK"
+      @on-cancel="modalCancel"
+      ok-text="保存"
+    >
       <Form :model="value" :label-width="80">
         <FormItem label="index1">
           <Select @on-query-change="index3SelectorHelper" style="width:200px">
@@ -68,7 +96,14 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-if="orgs.modalShow" v-model="modalOn.new" title="信息修改" @on-ok="modalOK" ok-text="保存">
+    <Modal
+      v-if="type=='orgs'"
+      v-model="modalOn.new"
+      title="信息修改"
+      @on-ok="modalOK"
+      @on-cancel="modalCancel"
+      ok-text="保存"
+    >
       <Form :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
           <template v-if="field === 'countries'">
@@ -86,7 +121,14 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-if="users.modalShow" v-model="modalOn.new" title="新建" @on-ok="modalOK" ok-text="保存">
+    <Modal
+      v-if="type=='users'"
+      v-model="modalOn.new"
+      title="新建"
+      @on-ok="modalOK"
+      @on-cancel="modalCancel"
+      ok-text="保存"
+    >
       <Form :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :label="field">
           <template>
@@ -117,6 +159,7 @@ export default {
   },
   data() {
     return {
+      value: {},
       dataTemplate: {
         country: {
           country: "",
@@ -155,7 +198,7 @@ export default {
         users: {
           name: "",
           nickname: "",
-          role: 0,
+          role: "",
           password: "",
           password2: ""
         }
@@ -189,36 +232,29 @@ export default {
   },
   methods: {
     initTypeData(type) {
-      this.value = this.dataTemplate[type];
+      this.value = { ...this.dataTemplate[type] };
       switch (type) {
         case "country":
-          this.country.modalShow = true;
           break;
         case "index1":
-          this.index1.modalShow = true;
           break;
         case "index2":
-          this.index2.modalShow = true;
           this.index2.index1Selector = tmpData["dbindex1"];
           break;
         case "index3":
-          this.index3.modalShow = true;
           this.index3.index1Selector = tmpData["dbindex1"];
           this.index3.index2Selector = [];
           this.index3.index2SelectorOrigin = tmpData["dbindex2"];
           break;
         case "orgs":
-          this.orgs.modalShow = true;
           this.orgs.countries = tmpData["dbcountries"];
           break;
         case "users":
-          this.users.modalShow = true;
           this.orgs.countries = tmpData["dbusers"];
           break;
       }
     },
     index3SelectorHelper(chosen) {
-      console.log(chosen);
       this.index3.index2Selector = [];
       this.dataTemplate.index3.pid = "";
       var origin = this.index3.index2SelectorOrigin;
@@ -228,7 +264,10 @@ export default {
         }
       }
     },
-    modalOK() {}
+    modalOK() {},
+    modalCancel() {
+      this.value = { ...this.dataTemplate[this.type] };
+    }
   }
 };
 </script>

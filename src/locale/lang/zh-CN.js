@@ -61,9 +61,11 @@ export default {
   "crawler": "数据",
   "data": "数据",
   'admin-data': "数据库管理",
-  'admin-dbcountry': "国家数据管理",
+  'admin-dbcountry': "国家管理",
   'admin': "管理",
   'admin-dbindex1': "一级指标管理",
   'admin-dbindex2': "二级指标管理",
-  'admin-dbindex3': "三级指标管理"
+  'admin-dbindex3': "三级指标管理",
+  'admin-dborgs': "组织管理",
+  'admin-dbusers': "用户管理",
 }
