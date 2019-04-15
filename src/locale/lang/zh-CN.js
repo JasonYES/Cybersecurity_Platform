@@ -68,4 +68,6 @@ export default {
   'admin-dbindex3': "三级指标管理",
   'admin-dborgs': "组织管理",
   'admin-dbusers': "用户管理",
+  "manual": "人工评分",
+  "final": "评分审核"
 }

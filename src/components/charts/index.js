@@ -5,6 +5,7 @@ import Cbox from './cbox.vue'
 import CboxOther from './cbox-other.vue'
 import ChartMap from './map.vue'
 import CboxIndexes from './cbox-indexes.vue'
+import CboxIndex from './cbox-index.vue'
 import Tablex from './tablex.vue'
 import TablexOrg from './tablex-org.vue'
-export { ChartPie, ChartBar, ChartScatter, Cbox, CboxOther, ChartMap, CboxIndexes, Tablex, TablexOrg }
+export { ChartPie, ChartBar, CboxIndex, ChartScatter, Cbox, CboxOther, ChartMap, CboxIndexes, Tablex, TablexOrg }

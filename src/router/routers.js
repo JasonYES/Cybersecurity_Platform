@@ -53,7 +53,35 @@ export default [
   },
 
   ///////////////// 统计模块
-
+  {
+    path: '/cb-scoring',
+    name: 'cb-scoring',
+    meta: {
+      icon: 'logo-buffer',
+      title: '评分'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'manual',
+        name: 'manual',
+        meta: {
+          icon: 'md-trending-up',
+          title: '评分'
+        },
+        component: () => import('@/view/cb-main/scoring.vue')
+      },
+      {
+        path: 'final',
+        name: 'final',
+        meta: {
+          icon: 'md-trending-up',
+          title: '评分'
+        },
+        component: () => import('@/view/cb-main/scoring-final.vue')
+      },
+    ]
+  },
   {
     path: '/cb-view',
     name: 'cb-view',
@@ -134,26 +162,6 @@ export default [
           title: 'Test'
         },
         component: () => import('@/view/cb-view/charts-test.vue')
-      },
-    ]
-  },
-  {
-    path: '/cb-scoring',
-    name: 'cb-scoring',
-    meta: {
-      icon: 'logo-buffer',
-      title: '评分'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'scoring',
-        name: 'scoring',
-        meta: {
-          icon: 'md-trending-up',
-          title: '评分'
-        },
-        component: () => import('@/view/cb-main/scoring.vue')
       },
     ]
   },

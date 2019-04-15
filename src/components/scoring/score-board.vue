@@ -1,7 +1,7 @@
 <template>
   <div class="scoring scoreBoard">
-    <Table border :columns="columns" :data="data" height="650"></Table>
-    <Modal v-model="judgingModal.showModal1" width="800">
+    <Table border :columns="columns" :data="data" height="650" :width="tableWidth"></Table>
+    <Modal v-if="type=='manual'" v-model="judgingModal.showModal1" width="800">
       <p slot="header">
         <span>{{judgingModal.title}}</span>
       </p>
@@ -27,6 +27,34 @@
         </Panel>
       </Collapse>
     </Modal>
+    <Modal v-if="type=='final'" v-model="judgingModal.showModal1" width="800">
+      <p slot="header">
+        <span>{{judgingModal.title}}</span>
+      </p>
+      <Collapse v-model="judgingModal.panel">
+        <Panel name="1">
+          评分
+          <div slot="content">
+            <Table border :columns="judgingModal.tableColumns" :data="judgingModal.tableValue">
+              <template slot-scope="{ row, index }" slot="score">
+                <InputNumber :max="1" :min="0" v-model="judgingModal.tableValue[index].score"></InputNumber>
+              </template>
+            </Table>
+          </div>
+        </Panel>
+        <Panel name="2">
+          资料参考
+          <div slot="content">
+            <Select v-model="judgingModal.selected" style="width:200px">
+              <Option v-for="i in judgingModal.allIndexes" :value="i" :key="i">{{dName[i]}}</Option>
+            </Select>
+            <br>
+            <br>
+            <Card style="height:400px"></Card>
+          </div>
+        </Panel>
+      </Collapse>
+    </Modal>
   </div>
 </template>
 <script>
@@ -37,7 +65,9 @@ export default {
   name: "ScoreBoard",
   props: {
     data: Array,
-    text: String
+    text: String,
+    indexesChosen: Array,
+    type: String
   },
   computed: {
     ...mapState({
@@ -52,10 +82,21 @@ export default {
     }
   },
   mounted() {
+    this.initByType(this.type);
     this.addCellStyle(this.data);
     this.boardDrawer();
   },
   methods: {
+    initByType(type) {
+      switch (type) {
+        case "manual":
+          var api;
+          break;
+        case "final":
+          var api;
+          break;
+      }
+    },
     cellStyleParser(mark) {
       if (mark == 1) {
         return "one";
@@ -117,13 +158,19 @@ export default {
     },
     boardDrawer() {
       var structure = [];
+      var tableWidth = 0;
       structure.push({
         title: "地区名",
         key: "country",
         fixed: "left",
         width: 130
       });
+      tableWidth += 130;
+      var indexesChosen = new Set(this.indexesChosen);
       for (var i in this.indexes) {
+        if (!indexesChosen.has(i)) {
+          continue;
+        }
         // 1
         var tmp = { title: this.dName[i], align: "center", children: [] };
         var index = 0;
@@ -143,6 +190,7 @@ export default {
               width: 50,
               key: this.indexes[i][j][k]
             };
+            tableWidth += 50;
             tmp2.children.push(tmp3);
           }
           // tmp2.children.push({ title: vname["评分"], key: j });
@@ -154,36 +202,89 @@ export default {
           width: 50,
           render: this.render
         });
+        tableWidth += 50;
         structure.push(tmp);
+      }
+      // 防止iview表格的显示bug
+      if (tableWidth < 1100 && document.documentElement.clientWidth > 1100) {
+        this.tableWidth = tableWidth + 20;
+      } else {
+        this.tableWidth = 0;
       }
       this.columns = structure;
     },
+
     // Modal框内方法
     judgingBoard(params) {
       // 是否已审阅的判定
       // console.log(params);
       this.judgingModal.title =
         params.row["country"] + " - " + this.dName[params.column.key];
-      if (params.row[params.column.key] === "no") {
-        this.indexesToCheckbox(params.row, params.column.key);
-        this.judgingModal.showModal1 = true;
-      } else if (params.row[params.column.key] === "yes") {
-        this.judgingModal.selected = "";
-        this.$Modal.confirm({
-          title: this.judgingModal.title,
-          content: "<p>该指标已审阅过, 是否撤销并重新审阅?</p>",
-          onOk: () => {},
-          onCancel: () => {}
-        });
-      } else {
-        this.judgingModal.selected = "";
-        this.$Modal.confirm({
-          title: this.judgingModal.title,
-          content: "<p>数据错误, 请检查数据库</p>",
-          onOk: () => {},
-          onCancel: () => {}
-        });
+
+      switch (params.row[params.column.key]) {
+        case "no":
+          this.indexesToCheckbox(params.row, params.column.key);
+          /// final modal adjust
+          if (this.type === "final") {
+            var tableValue = tmpData["scoringDetail"];
+            this.judgingModal.tableColumns = this.columnsExtractor([
+              ...tableValue
+            ]);
+            this.addModalCellStyle(tableValue);
+            this.judgingModal.tableValue = tableValue;
+          }
+          ///
+          this.judgingModal.showModal1 = true;
+          break;
+        case "yes":
+          this.judgingModal.selected = "";
+          this.$Modal.confirm({
+            title: this.judgingModal.title,
+            content: "<p>该指标已审阅过, 是否撤销并重新审阅?</p>",
+            onOk: () => {},
+            onCancel: () => {}
+          });
+          break;
+        default:
+          this.judgingModal.selected = "";
+          this.$Modal.confirm({
+            title: this.judgingModal.title,
+            content: "<p>数据错误, 请检查数据库</p>",
+            onOk: () => {},
+            onCancel: () => {}
+          });
       }
+    },
+    columnsExtractor(data) {
+      if (data.length == 0) {
+        return [];
+      }
+      var res = [];
+      for (var i in data[0]) {
+        switch (i) {
+          case "cellClassName":
+            break;
+          case "score":
+            res.push({
+              title: i,
+              slot: i
+            });
+            break;
+          case "detail":
+            res.push({
+              title: i,
+              key: i,
+              width: 400
+            });
+            break;
+          default:
+            res.push({
+              title: i,
+              key: i
+            });
+        }
+      }
+      return res;
     },
     indexesToCheckbox(row, key) {
       var chosen = [];
@@ -192,23 +293,10 @@ export default {
         allIndexes.push(...this.indexes[key][i]);
       }
       for (var i in allIndexes) {
-        console.log(row[allIndexes[i]]);
         if (row[allIndexes[i]] == "1") {
           chosen.push(allIndexes[i]);
         }
       }
-      // for (var i in row) {
-      //   if (i.startsWith(key)) {
-      //     if (i.length == 1) {
-      //       continue;
-      //     }
-      //     if (row[i] === 1) {
-      //       chosen.push(i);
-      //     }
-      //     allIndexes.push(i);
-      //     continue;
-      //   }
-      // }
       this.judgingModal.chosen = chosen;
       this.judgingModal.allIndexes = allIndexes;
     },
@@ -220,6 +308,15 @@ export default {
     modalUndo(index, country) {
       // country: "china",
       // index: "legal",
+    },
+    addModalCellStyle(data) {
+      for (var i in data) {
+        data[i]["cellClassName"] = {};
+        if (data[i]["status"] === "冲突") {
+          data[i]["cellClassName"]["status"] = "zero";
+        } else if (data[i]["status"] === "无评分")
+          data[i]["cellClassName"]["status"] = "mid";
+      }
     }
   },
   data() {
@@ -231,10 +328,12 @@ export default {
         panel: ["1", "2"],
         chosen: [],
         allIndexes: [],
-        selected: ""
+        selected: "",
+        tableColumns: [],
+        tableValue: []
       },
       columns: [],
-      columnss: [
+      XXXcolumnss: [
         {
           title: "地区名",
           key: "country",
@@ -301,7 +400,8 @@ export default {
           ]
         }
       ],
-      dataEmpty: []
+      dataEmpty: [],
+      tableWidth: 0
     };
   }
 };

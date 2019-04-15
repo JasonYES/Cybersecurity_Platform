@@ -20,7 +20,7 @@
           <score-board
             :indexesChosen="indexesChosen"
             :data="[...valueFileterByCbox(scoringValue, chosen, 'country')]"
-            :type="'manual'"
+            :type="'final'"
           ></score-board>
         </Card>
       </i-col>
@@ -53,16 +53,13 @@ export default {
     initData() {
       //Cbox的初始化  国家目录与visual模块不一定一致
       this.typeValue = tmpData["countries"];
-      var tmpScoringValue = tmpData["scoringData"];
-      this.addCellStyleField(tmpScoringValue);
+      var tmpScoringValue = tmpData["scoringDataFinal"];
+      for (var i in tmpScoringValue) {
+        tmpScoringValue[i]["cellClassName"] = {};
+      }
       this.scoringValue = tmpScoringValue;
     },
     valueFileterByCbox,
-    addCellStyleField(value) {
-      for (var i in value) {
-        value[i]["cellClassName"] = {};
-      }
-    },
     checkedData(chosen) {
       this.chosen = { ...chosen };
     },
