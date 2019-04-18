@@ -94,6 +94,7 @@ export default {
           break;
         case "final":
           var api;
+          this.statusData = tmpData["scoringStatus"];
           break;
       }
     },
@@ -109,8 +110,12 @@ export default {
       }
       return "mid";
     },
+    cellStyleParserFinal(mark) {
+      if (mark == 0) {
+        return "zero";
+      }
+    },
     addCellStyle(data) {
-      // console.log(data);
       for (var i in data) {
         var cellClassName = {};
         for (var j in data[i]) {
@@ -118,7 +123,16 @@ export default {
             // 如果是1 2 country之类的是标志位, 不是具体分数, 所以跳过
             continue;
           }
-          cellClassName[j] = this.cellStyleParser(data[i][j]);
+          switch (this.type) {
+            case "manual":
+              cellClassName[j] = this.cellStyleParser(data[i][j]);
+              break;
+            case "final":
+              cellClassName[j] = this.cellStyleParserFinal(
+                this.statusData[i][j]
+              );
+              break;
+          }
         }
         data[i]["cellClassName"] = cellClassName;
       }
@@ -401,7 +415,8 @@ export default {
         }
       ],
       dataEmpty: [],
-      tableWidth: 0
+      tableWidth: 0,
+      statusData: []
     };
   }
 };

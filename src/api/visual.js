@@ -2,21 +2,15 @@ import axios from '@/libs/api.request'
 
 
 
-export const getMapData = () => {
-    return axios.request({
-      url: 'get_drag_list',
-      method: 'get'
-    })
-  }
-
-///////////////  /assets/maps/world-eckert3-lowres.geo.json
-
-export const getDragList = () => {
+export const getScores = () => {
   return axios.request({
-    url: '/assets/maps/world-eckert3-lowres.geo.json',
+    url: 'visual/scores',
     method: 'get'
   })
 }
+
+///////////////  /assets/maps/world-eckert3-lowres.geo.json
+
 
 export const errorReq = () => {
   return axios.request({

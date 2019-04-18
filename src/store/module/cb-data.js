@@ -1,4 +1,5 @@
 import tmpData from './tmp-data'
+import { getScores } from '@/api/visual'
 export default {
   state: {
     scores: [],
@@ -16,7 +17,10 @@ export default {
   getters: {},
   mutations: {
     setScores(state, data) {
-      state.scores = data
+      state.scores = data;
+      for (var i in data) {
+        state.cbox.chosenScores.push({ ...data[i] });
+      }
     },
     setCbox(state, data) {
       for (var i in data) {
@@ -56,6 +60,15 @@ export default {
   actions: {
     initData(context) {
       // 总数据
+      // getScores().then(res => {
+      //   // console.log(res);
+      //   // var scores = res.data;
+      //   // context.commit('setScores', scores)
+      //   // var scores = tmpData['scores']
+      //   // context.commit('setScores', scores)
+      // }).catch(err => {
+      //   alert(err);
+      // })
       var scores = tmpData['scores']
       context.commit('setScores', scores)
       // cbox
