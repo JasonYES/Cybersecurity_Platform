@@ -1,7 +1,7 @@
 <template>
   <div class="scoring scoreBoard">
     <Table border :columns="columns" :data="data" height="650" :width="tableWidth"></Table>
-    <Modal v-if="type=='manual'" v-model="judgingModal.showModal1" width="800">
+    <Modal v-if="type=='manual'" v-model="judgingModal.showModal1" width="1200">
       <p slot="header">
         <span>{{judgingModal.title}}</span>
       </p>
@@ -17,9 +17,10 @@
         <Panel name="2">
           资料参考
           <div slot="content">
-            <Select v-model="judgingModal.selected" style="width:200px">
+            <!-- <Select v-model="judgingModal.selected" style="width:200px">
               <Option v-for="i in judgingModal.allIndexes" :value="i" :key="i">{{dName[i]}}</Option>
-            </Select>
+            </Select>-->
+            <Switch/>
             <br>
             <br>
             <Card style="height:400px"></Card>
@@ -27,7 +28,7 @@
         </Panel>
       </Collapse>
     </Modal>
-    <Modal v-if="type=='final'" v-model="judgingModal.showModal1" width="800">
+    <Modal v-if="type=='final'" v-model="judgingModal.showModal1" width="1200">
       <p slot="header">
         <span>{{judgingModal.title}}</span>
       </p>
@@ -35,11 +36,15 @@
         <Panel name="1">
           评分
           <div slot="content">
-            <Table border :columns="judgingModal.tableColumns" :data="judgingModal.tableValue">
-              <template slot-scope="{ row, index }" slot="score">
-                <InputNumber :max="1" :min="0" v-model="judgingModal.tableValue[index].score"></InputNumber>
-              </template>
-            </Table>
+            <Row type="flex" justify="center" align="middle">
+              <i-col span="18">
+                <Table border :columns="judgingModal.tableColumns" :data="judgingModal.tableValue">
+                  <template slot-scope="{ row, index }" slot="score">
+                    <InputNumber :max="1" :min="0" v-model="judgingModal.tableValue[index].score"></InputNumber>
+                  </template>
+                </Table>
+              </i-col>
+            </Row>
           </div>
         </Panel>
         <Panel name="2">
@@ -50,7 +55,14 @@
             </Select>
             <br>
             <br>
-            <Card style="height:400px"></Card>
+            <Row>
+              <i-col span="12">
+                <Card style="height:400px"></Card>
+              </i-col>
+              <i-col span="12">
+                <Card style="height:400px"></Card>
+              </i-col>
+            </Row>
           </div>
         </Panel>
       </Collapse>

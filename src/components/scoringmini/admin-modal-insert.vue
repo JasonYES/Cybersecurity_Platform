@@ -9,7 +9,7 @@
       ok-text="保存"
     >
       <Form :model="value" :label-width="80">
-        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
           <template v-if="field === 'continent'">
             <Select v-model="value[field]" style="width:200px">
               <Option v-for="item in country.continents" :value="item" :key="item">{{item}}</Option>
@@ -30,7 +30,7 @@
       ok-text="保存"
     >
       <Form :model="value" :label-width="80">
-        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
           <template>
             <Input v-model="value[field]"/>
           </template>
@@ -46,7 +46,7 @@
       ok-text="保存"
     >
       <Form :model="value" :label-width="80">
-        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
           <template v-if="field === 'pid'">
             <Select v-model="value[field]" style="width:200px">
               <Option
@@ -71,7 +71,7 @@
       ok-text="保存"
     >
       <Form :model="value" :label-width="80">
-        <FormItem label="index1">
+        <FormItem label="一级指标">
           <Select @on-query-change="index3SelectorHelper" style="width:200px">
             <Option
               v-for="index in index3.index1Selector"
@@ -80,7 +80,7 @@
             >{{index['nickname']}}</Option>
           </Select>
         </FormItem>
-        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
           <template v-if="field === 'pid'">
             <Select v-model="value[field]" style="width:200px">
               <Option
@@ -105,14 +105,14 @@
       ok-text="保存"
     >
       <Form :model="value" :label-width="80">
-        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
           <template v-if="field === 'countries'">
             <Select v-model="value[field]" filterable multiple>
               <Option
                 v-for="item in orgs.countries"
-                :value="item.country"
+                :value="item.nickname"
                 :key="item.id"
-              >{{item.country}}</Option>
+              >{{item.nickname}}</Option>
             </Select>
           </template>
           <template v-else>
@@ -130,7 +130,7 @@
       ok-text="保存"
     >
       <Form :model="value" :label-width="80">
-        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
           <template>
             <Input v-model="value[field]"/>
           </template>
@@ -141,6 +141,7 @@
 </template>
 <script>
 import tmpData from "@/store/module/tmp-data";
+import vname from "@/config/view-name";
 export default {
   name: "AdminModalInsert",
   props: {
@@ -159,10 +160,10 @@ export default {
   },
   data() {
     return {
+      vname,
       value: {},
       dataTemplate: {
         country: {
-          country: "",
           name: "",
           nickname: "",
           continent: "",

@@ -1,5 +1,5 @@
 import tmpData from './tmp-data'
-import { getScores } from '@/api/visual'
+import { getScores, getCountries, getOrgs, getDname, getIndexes } from '@/api/visual'
 export default {
   state: {
     scores: [],
@@ -60,30 +60,65 @@ export default {
   actions: {
     initData(context) {
       // 总数据
-      // getScores().then(res => {
-      //   // console.log(res);
-      //   // var scores = res.data;
-      //   // context.commit('setScores', scores)
-      //   // var scores = tmpData['scores']
-      //   // context.commit('setScores', scores)
-      // }).catch(err => {
-      //   alert(err);
-      // })
-      var scores = tmpData['scores']
-      context.commit('setScores', scores)
+      getScores().then(res => {
+        if (res.data.code == 0) {
+          var scores = res.data.data;
+          context.commit('setScores', scores)
+        } else { alert(res.data.msg) }
+      }).catch(err => {
+        alert(err);
+      })
+      // var scores = tmpData['scores']
+      // context.commit('setScores', scores)
       // cbox
-      var countries = tmpData['countries']
-      context.commit('setCbox', { 'countries': countries })
-      context.commit('setCbox', { 'chosenCountries': countries })
-      var orgs = tmpData['orgs']
-      context.commit('setCbox', { 'orgs': { ...orgs } })
-      context.commit('setCbox', { 'chosenOrgs': { ...orgs } })
+      getCountries().then(res => {
+        if (res.data.code == 0) {
+          var countries = res.data.data;
+          context.commit('setCbox', { 'countries': countries })
+          context.commit('setCbox', { 'chosenCountries': countries })
+        } else { alert(res.data.msg) }
+      }).catch(err => {
+        alert(err);
+      })
+      // var countries = tmpData['countries']
+      // context.commit('setCbox', { 'countries': countries })
+      // context.commit('setCbox', { 'chosenCountries': countries })
+      getOrgs().then(res => {
+        if (res.data.code == 0) {
+          var orgs = res.data.data;
+          context.commit('setCbox', { 'orgs': { ...orgs } })
+          context.commit('setCbox', { 'chosenOrgs': { ...orgs } })
+        } else { alert(res.data.msg) }
+      }).catch(err => {
+        alert(err);
+      })
+
+      getDname().then(res => {
+        if (res.data.code == 0) {
+          var dynamicName = res.data.data;
+          context.commit('setDynamicName', dynamicName)
+        } else { alert(res.data.msg) }
+      }).catch(err => {
+        alert(err);
+      })
+      // var orgs = tmpData['orgs']
+      // context.commit('setCbox', { 'orgs': { ...orgs } })
+      // context.commit('setCbox', { 'chosenOrgs': { ...orgs } })
       // dynamicName
-      var dynamicName = tmpData['dynamicName']
-      context.commit('setDynamicName', dynamicName)
+      // var dynamicName = tmpData['dynamicName']
+      // context.commit('setDynamicName', dynamicName)
       // indexes
-      var indexes = tmpData['indexes']
-      context.commit('setIndexes', indexes)
+
+      getIndexes().then(res => {
+        if (res.data.code == 0) {
+          var indexes = res.data.data;
+          context.commit('setIndexes', indexes)
+        } else { alert(res.data.msg) }
+      }).catch(err => {
+        alert(err);
+      })
+      // var indexes = tmpData['indexes']
+      // context.commit('setIndexes', indexes)
     },
     checkInited(context, dataArray) {
       for (var i in dataArray) {

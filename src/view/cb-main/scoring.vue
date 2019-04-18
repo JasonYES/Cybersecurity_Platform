@@ -32,6 +32,8 @@ import { Cbox, CboxIndex } from "_c/charts";
 import { ScoreBoard } from "_c/scoring";
 import tmpData from "@/store/module/tmp-data";
 import { valueFileterByCbox } from "@/libs/tools";
+import { getCountries } from "@/api/visual";
+import { getScoringData } from "@/api/scoring";
 export default {
   components: {
     Cbox,
@@ -52,7 +54,32 @@ export default {
   methods: {
     initData() {
       //Cbox的初始化  国家目录与visual模块不一定一致
-      this.typeValue = tmpData["countries"];
+      getCountries()
+        .then(res => {
+          if (res.data.code == 0) {
+            var data = res.data.data;
+            this.typeValue = data;
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert(err);
+        });
+      // this.typeValue = tmpData["countries"];
+      // getScoringData()
+      //   .then(res => {
+      //     if (res.data.code == 0) {
+      //       var data = res.data.data;
+      //       this.addCellStyleField(data);
+      //       this.scoringValue = data;
+      //     } else {
+      //       alert(res.data.msg);
+      //     }
+      //   })
+      //   .catch(err => {
+      //     alert(err);
+      //   });
       var tmpScoringValue = tmpData["scoringData"];
       this.addCellStyleField(tmpScoringValue);
       this.scoringValue = tmpScoringValue;

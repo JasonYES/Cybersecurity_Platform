@@ -77,6 +77,7 @@ import { getNewTagList, routeEqual } from "@/libs/util";
 import routers from "@/router/routers";
 import minLogo from "@/assets/images/logo-min.jpg";
 import maxLogo from "@/assets/images/logo.jpg";
+import { getScores } from "@/api/visual";
 import "./main.less";
 export default {
   name: "Main",

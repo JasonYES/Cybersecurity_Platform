@@ -49,6 +49,15 @@ export default {
       cbox: state => state.cbdata.cbox,
       dname: state => state.cbdata.dynamicName
     })
+    // typeValueComputed: function() {
+    //   return this.typeValue;
+    // }
+  },
+  watch: {
+    typeValue: function() {
+      this.value = this.typeValue;
+      this.checked = this.copyObject(this.value);
+    }
   },
   data() {
     return {

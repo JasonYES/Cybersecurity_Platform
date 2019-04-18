@@ -57,6 +57,7 @@
 <script>
 import { AdminModal, AdminModalInsert, AdminTableExpand } from "_c/scoringmini";
 import tmpData from "@/store/module/tmp-data";
+import vname from "@/config/view-name";
 export default {
   name: "AdminBoard",
   props: {
@@ -197,7 +198,7 @@ export default {
         var width = this.columnWidthGetter(i);
         tableWidth += width;
         res.push({
-          title: i,
+          title: vname[i],
           key: i,
           width: width
         });

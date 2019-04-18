@@ -2,7 +2,7 @@
   <div>
     <Modal v-if="country.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
       <Form :model="value" :label-width="80">
-        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
           <template v-if="field === 'continent'">
             <Select v-model="value[field]" style="width:200px">
               <Option v-for="item in country.continents" :value="item" :key="item">{{item}}</Option>
@@ -16,7 +16,7 @@
     </Modal>
     <Modal v-if="index.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
       <Form :model="value" :label-width="80">
-        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
           <template>
             <Input v-model="value[field]" :disabled="formDisable(field)"/>
           </template>
@@ -25,14 +25,14 @@
     </Modal>
     <Modal v-if="orgs.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
       <Form :model="value" :label-width="80">
-        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
           <template v-if="field === 'countries'">
             <Select v-model="value[field]" filterable multiple>
               <Option
                 v-for="item in orgs.countries"
-                :value="item.country"
+                :value="item.nickname"
                 :key="item.id"
-              >{{item.country}}</Option>
+              >{{item.nickname}}</Option>
             </Select>
           </template>
           <template v-else>
@@ -43,7 +43,7 @@
     </Modal>
     <Modal v-if="users.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
       <Form :model="value" :label-width="80" style="margin-bottom: 8px;">
-        <FormItem v-for="(field) in formFields" :key="field" :label="field">
+        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
           <template>
             <Input v-model="value[field]" placeholder="Enter something..."/>
           </template>
@@ -55,7 +55,7 @@
               <FormItem
                 v-for="(field) in Object.keys(formFormatter.fieldsInsert)"
                 :key="field"
-                :label="field"
+                :label="vname[field]"
               >
                 <template>
                   <Input v-model="value[field]" placeholder="不修改密码则无需输入"/>
@@ -70,6 +70,7 @@
 </template>
 <script>
 import tmpData from "@/store/module/tmp-data";
+import vname from "@/config/view-name";
 export default {
   name: "AdminModal",
   props: {
@@ -98,6 +99,7 @@ export default {
   data() {
     return {
       // valueBackup: {},
+      vname,
       formFormatter: {
         fieldsHidden: [],
         fieldsDisable: new Set(),
