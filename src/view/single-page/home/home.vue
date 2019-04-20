@@ -32,6 +32,32 @@
         </infor-card>
       </i-col>
     </Row>-->
+    <Row :gutter="20" style="margin-top: 10px;">
+      <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
+        <Card shadow>
+          <Collapse :value="'1'">
+            <Panel name="1">
+              筛选和操作
+              <div slot="content">
+                <Row :gutter="20" style="margin-top: 0px;">
+                  <i-col offset="1" :md="7" :lg="7">
+                    <Input
+                      search
+                      @on-search="searchHandler"
+                      enter-button
+                      placeholder="Enter something..."
+                    />
+                  </i-col>
+                </Row>
+              </div>
+            </Panel>
+          </Collapse>
+        </Card>
+      </i-col>
+    </Row>
+    <Row type="flex" justify="center" style="margin-top: 20px">
+      <Tablexs></Tablexs>
+    </Row>
   </div>
 </template>
 
@@ -41,7 +67,8 @@ import win2 from "@/assets/images/win2.png";
 import win3 from "@/assets/images/win3.jpg";
 import InforCard from "_c/info-card";
 import CountTo from "_c/count-to";
-import { ChartPie, ChartBar } from "_c/charts";
+import { ChartPie, ChartBar, Tablex } from "_c/charts";
+import { Tablexs } from "_c/chartsx";
 import Example from "./example.vue";
 export default {
   name: "home",
@@ -50,7 +77,8 @@ export default {
     CountTo,
     ChartPie,
     ChartBar,
-    Example
+    Example,
+    Tablexs
   },
   data() {
     return {
@@ -93,7 +121,10 @@ export default {
       }
     };
   },
-  mounted() {}
+  mounted() {},
+  methods: {
+    searchHandler() {}
+  }
 };
 </script>
 

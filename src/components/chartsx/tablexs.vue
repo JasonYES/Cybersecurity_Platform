@@ -7,6 +7,18 @@
         </i-col>
       </Row>
     </TabPane>
+    <TabPane :label="'集合视图+地图'">
+      <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
+        <i-col :md="14" :lg="14" style="margin-bottom: 20px;">
+          <Tablex :value="dataCombined" :text="paneCombined"/>
+        </i-col>
+        <i-col :md="10" :lg="10" style="margin-top: 25px;">
+          <Card shadow>
+            <chart-map style="height:500px;" :index="'score'"></chart-map>
+          </Card>
+        </i-col>
+      </Row>
+    </TabPane>
     <TabPane :label="paneDivided">
       <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
         <i-col :md="16" :lg="16" style="margin-bottom: 20px;">
@@ -21,13 +33,14 @@
   </Tabs>
 </template>
 <script>
-import { Tablex } from "_c/charts";
+import { Tablex, ChartMap } from "_c/charts";
 import vname from "@/config/view-name";
 import { mapState } from "vuex";
 import { divideScoresBy } from "@/libs/tools";
 export default {
   components: {
-    Tablex
+    Tablex,
+    ChartMap
   },
   mounted() {},
   computed: {
@@ -40,6 +53,7 @@ export default {
   },
   data() {
     return {
+      vname,
       paneCombined: vname["集合"],
       paneDivided: vname["各洲"],
       paneSuffix: vname["视图"]

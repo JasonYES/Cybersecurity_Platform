@@ -48,7 +48,7 @@
                 span="22"
                 style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;"
               >
-                <CheckboxGroup v-model="checked[continent]">
+                <CheckboxGroup v-model="checkedOrgs[continent]">
                   <Checkbox v-for="c in object" :key="c" :label="c">{{c}}</Checkbox>
                 </CheckboxGroup>
               </i-col>

@@ -35,6 +35,8 @@ export default [
     component: Main,
     meta: {
       hideInMenu: true,
+      // icon: 'logo-buffer',
+      // title: '首页',
       notCache: true
     },
     children: [

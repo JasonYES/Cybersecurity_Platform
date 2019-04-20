@@ -41,7 +41,7 @@ export default {
   tree_table_page: '树状表格',
   org_tree_page: '组织结构树',
   drag_drawer_page: '可拖动抽屉',
-  'tablex-page': '总体评分结果-按国家',
+  'tablex-page': '总体评分结果',
   'cb-view': '统计',
   'bar-page': '多国家比较',
   "plain-scores": '',
@@ -53,8 +53,8 @@ export default {
   'pie-page': '显著性统计',
   'test': '测试',
   'tablex-page-orgs': '总体评分结果-按组织',
-  "map-all": "网络空间能力展示-按总分",
-  "map-indexes": "网络空间能力展示-按指标",
+  "map-all": "网络空间能力-总分",
+  "map-indexes": "网络空间能力-指标",
   "scoring": "评分",
   "cb-scoring": "评分",
   "main": "x",
@@ -69,5 +69,7 @@ export default {
   'admin-dborgs': "组织管理",
   'admin-dbusers': "用户管理",
   "manual": "人工评分",
-  "final": "评分审核"
+  "final": "评分审核",
+  "scoring-dbsets": "评分批次",
+  "_home": "首页"
 }

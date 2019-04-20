@@ -1,12 +1,15 @@
 <template>
   <div class="charts tablex">
     <h2 style="padding-left:10px">{{text}}</h2>
-    <Table border :row-class-name="rowClassName" :columns="columns" :data="data"></Table>
+    <div>
+      <Table border :row-class-name="rowClassName" :columns="columns" :data="data"></Table>
+    </div>
     <br>
   </div>
 </template>
 <script>
 import * as math from "mathjs";
+import vname from "@/config/view-name";
 export default {
   name: "tablex",
   props: {
@@ -73,6 +76,8 @@ export default {
   },
   data() {
     return {
+      vname,
+      splitRatio: 0.8,
       columns: [
         {
           title: "地区名",
