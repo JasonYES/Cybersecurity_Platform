@@ -23,7 +23,18 @@
             <Switch/>
             <br>
             <br>
-            <Card style="height:400px"></Card>
+            <Row>
+              <i-col span="12">
+                <Card style="height:400px">
+                  <p>Ecuador plans to invest eight million dollars to create a command of cyber defense unit for the country that he expects to be completely operable by mid 2015. General Luis Garzón, head of the joint command of the armed forces, said he expects the project to begin within 30 days. They are in the process of selecting qualified personnel from both civilian and military segments</p>
+                </Card>
+              </i-col>
+              <i-col span="12">
+                <Card style="height:400px">
+                  <p>厄瓜多尔计划投资800万美元为该国建立一个网络防御部队指挥部，预计他将在2015年中期完全投入使用。武装部队联合指挥部负责人路易斯·加尔松将军表示，他预计该项目将开始 30天内。 他们正在从民用和军用部门中挑选合格人员</p>
+                </Card>
+              </i-col>
+            </Row>
           </div>
         </Panel>
       </Collapse>
@@ -57,10 +68,14 @@
             <br>
             <Row>
               <i-col span="12">
-                <Card style="height:400px"></Card>
+                <Card style="height:400px">
+                  <p>Ecuador plans to invest eight million dollars to create a command of cyber defense unit for the country that he expects to be completely operable by mid 2015. General Luis Garzón, head of the joint command of the armed forces, said he expects the project to begin within 30 days. They are in the process of selecting qualified personnel from both civilian and military segments</p>
+                </Card>
               </i-col>
               <i-col span="12">
-                <Card style="height:400px"></Card>
+                <Card style="height:400px">
+                  <p>厄瓜多尔计划投资800万美元为该国建立一个网络防御部队指挥部，预计他将在2015年中期完全投入使用。武装部队联合指挥部负责人路易斯·加尔松将军表示，他预计该项目将开始 30天内。 他们正在从民用和军用部门中挑选合格人员</p>
+                </Card>
               </i-col>
             </Row>
           </div>
@@ -79,7 +94,8 @@ export default {
     data: Array,
     text: String,
     indexesChosen: Array,
-    type: String
+    type: String,
+    tableLoading: Boolean
   },
   computed: {
     ...mapState({

@@ -5,7 +5,7 @@
         <Card shadow>
           <Collapse :value="'1'">
             <Panel name="1">
-              筛选和新建
+              筛选和操作
               <div slot="content">
                 <Row :gutter="20" style="margin-top: 0px;">
                   <i-col offset="1" :md="7" :lg="7">
@@ -19,6 +19,22 @@
                   <i-col offset="0" :md="2" :lg="2" style="margin-top: 1px;">
                     <Button icon="md-add" type="primary" shape="circle" @click="createHandler">新建</Button>
                   </i-col>
+                  <div v-if="type==='sets'">
+                    <i-col span="5" offset="1">
+                      <Select v-model="dbsets['chosen']">
+                        <Option
+                          v-for="item in dbsets['options']"
+                          :value="item.name"
+                          :key="item.id"
+                        >{{item.name}}</Option>
+                      </Select>
+                    </i-col>
+                    <i-col offset="0" size="large" span="1">
+                      <div style="margin-left:0px">
+                        <Button type="primary" shape="circle">选定当前批次</Button>
+                      </div>
+                    </i-col>
+                  </div>
                 </Row>
               </div>
             </Panel>
@@ -29,8 +45,15 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
+          <br>
           <div align="center">
-            <Table border :width="tableWidth" :columns="columns" :data="value">
+            <Table
+              border
+              :width="tableWidth"
+              :columns="columns"
+              :data="value"
+              :row-class-name="addRowStyle"
+            >
               <template slot-scope="{ row, index }" slot="action">
                 <Button
                   type="primary"
@@ -91,6 +114,10 @@ export default {
       page: {
         start: 0,
         limit: 10
+      },
+      dbsets: {
+        chosen: "",
+        options: []
       }
     };
   },
@@ -126,6 +153,20 @@ export default {
         case "users":
           this.value = tmpData["dbusers"];
           this.columnsHidden = new Set(["id"]);
+          break;
+        case "sets":
+          var tmp = tmpData["dbsets"];
+          for (var i in tmp) {
+            if (tmp[i]["is_active"] == 1 || tmp[i]["is_active"] == "是") {
+              tmp[i]["is_active"] = "是";
+            } else {
+              tmp[i]["is_active"] = "否";
+            }
+          }
+          this.value = tmp;
+          this.columnsHidden = new Set(["id"]);
+          this.dbsets.options = tmpData["dbsets"];
+          this.dbsets.chosen = tmpData["dbsets"][4]["name"];
           break;
       }
     },
@@ -258,7 +299,19 @@ export default {
     },
     createHandler() {
       this.modalOn.new = true;
+    },
+    addRowStyle(row) {
+      if (row["is_active"] == "是") {
+        return "demo-table-info-row";
+      }
+      return "";
     }
   }
 };
 </script>
+<style>
+.ivu-table .demo-table-info-row td {
+  background-color: #2db7f5;
+  color: #fff;
+}
+</style>

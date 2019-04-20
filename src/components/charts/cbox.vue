@@ -1,6 +1,6 @@
 <template>
   <div class="charts cbox">
-    <Collapse :value="'1'">
+    <Collapse :value="'1'" accordion>
       <Panel name="1">
         国家选择
         <div slot="content">
@@ -19,6 +19,37 @@
               >
                 <CheckboxGroup v-model="checked[continent]">
                   <Checkbox v-for="c in object" :key="c" :label="c">{{dname[c]}}</Checkbox>
+                </CheckboxGroup>
+              </i-col>
+            </Row>
+          </div>
+          <div style="margin-bottom:-10px;">
+            <Row type="flex" justify="center">
+              <i-col span="6">
+                <Button long @click="confirmHander">确认</Button>
+              </i-col>
+            </Row>
+          </div>
+        </div>
+      </Panel>
+      <Panel name="2">
+        组织选择
+        <div slot="content">
+          <div v-for="(object, continent)  in orgsValue" :key="continent">
+            <Row>
+              <i-col span="2">
+                <Button
+                  size="small"
+                  :key="continent"
+                  @click="handleCheckAll(continent)"
+                >全选:{{continent}}</Button>
+              </i-col>
+              <i-col
+                span="22"
+                style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;"
+              >
+                <CheckboxGroup v-model="checked[continent]">
+                  <Checkbox v-for="c in object" :key="c" :label="c">{{c}}</Checkbox>
                 </CheckboxGroup>
               </i-col>
             </Row>
@@ -54,7 +85,11 @@ export default {
     // }
   },
   watch: {
+    // 这是为了typeValue异步加载的实时更新
     typeValue: function() {
+      if (this.type == null || this.type == "") {
+        return;
+      }
       this.value = this.typeValue;
       this.checked = this.copyObject(this.value);
     }
@@ -62,6 +97,10 @@ export default {
   data() {
     return {
       checked: {},
+      checkedOrgs: {
+        大洲: ["亚洲", "非洲", "欧洲", "北美洲", "拉丁美洲", "大洋洲"],
+        联盟: ["欧盟", "东盟", "亚太经合组织", "上合组织", "G20", "G8"]
+      },
       confirmAction: "",
       value: {
         亚洲: [
@@ -144,6 +183,10 @@ export default {
           "多米尼加",
           "多米尼克"
         ]
+      },
+      orgsValue: {
+        大洲: ["亚洲", "非洲", "欧洲", "北美洲", "拉丁美洲", "大洋洲"],
+        联盟: ["欧盟", "东盟", "亚太经合组织", "上合组织", "G20", "G8"]
       }
     };
   },

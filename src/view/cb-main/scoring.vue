@@ -18,6 +18,7 @@
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
           <score-board
+            :tableLoading="tableLoading"
             :indexesChosen="indexesChosen"
             :data="[...valueFileterByCbox(scoringValue, chosen, 'country')]"
             :type="'manual'"
@@ -42,6 +43,7 @@ export default {
   },
   data() {
     return {
+      tableLoading: true,
       scoringValue: [],
       typeValue: {},
       chosen: null,
@@ -67,22 +69,23 @@ export default {
           alert(err);
         });
       // this.typeValue = tmpData["countries"];
-      // getScoringData()
-      //   .then(res => {
-      //     if (res.data.code == 0) {
-      //       var data = res.data.data;
-      //       this.addCellStyleField(data);
-      //       this.scoringValue = data;
-      //     } else {
-      //       alert(res.data.msg);
-      //     }
-      //   })
-      //   .catch(err => {
-      //     alert(err);
-      //   });
-      var tmpScoringValue = tmpData["scoringData"];
-      this.addCellStyleField(tmpScoringValue);
-      this.scoringValue = tmpScoringValue;
+      getScoringData()
+        .then(res => {
+          if (res.data.code == 0) {
+            var data = res.data.data;
+            this.addCellStyleField(data);
+            this.scoringValue = data;
+            this.tableLoading = false;
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert(err);
+        });
+      // var tmpScoringValue = tmpData["scoringData"];
+      // this.addCellStyleField(tmpScoringValue);
+      // this.scoringValue = tmpScoringValue;
     },
     valueFileterByCbox,
     addCellStyleField(value) {

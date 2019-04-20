@@ -18,7 +18,7 @@ export default {
     // 指标5: "指标5",
     评分: "评",
     // 数据库表对应
-    name: "英文名",
+    name: "名称",
     nickname: "中文名",
     type: "类型",
     est: "成立时间",
@@ -43,5 +43,7 @@ export default {
     password: "密码",
     password2: "确认密码",
     countries: "包含国家",
-    adminValidate: "管理员密码"
+    adminValidate: "管理员密码",
+    is_active: "是否当前指标",
+    date: "创建日期",
 }

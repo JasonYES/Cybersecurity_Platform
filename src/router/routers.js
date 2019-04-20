@@ -63,6 +63,15 @@ export default [
     component: Main,
     children: [
       {
+        path: 'dbsets',
+        name: 'scoring-dbsets',
+        meta: {
+          icon: 'md-cog',
+          title: 'scoring-dbsets'
+        },
+        component: () => import('@/view/cb-main/scoring-sets.vue')
+      },
+      {
         path: 'manual',
         name: 'manual',
         meta: {
@@ -100,15 +109,15 @@ export default [
         },
         component: () => import('@/view/cb-view/tablex-page.vue')
       },
-      {
-        path: 'tablex-page-orgs',
-        name: 'tablex-page-orgs',
-        meta: {
-          icon: 'md-trending-up',
-          title: '总分2'
-        },
-        component: () => import('@/view/cb-view/tablex-page-orgs.vue')
-      },
+      // {
+      //   path: 'tablex-page-orgs',
+      //   name: 'tablex-page-orgs',
+      //   meta: {
+      //     icon: 'md-trending-up',
+      //     title: '总分2'
+      //   },
+      //   component: () => import('@/view/cb-view/tablex-page-orgs.vue')
+      // },
       {
         path: 'map-all',
         name: 'map-all',
@@ -154,37 +163,46 @@ export default [
         },
         component: () => import('@/view/cb-view/pie-page.vue')
       },
+      // {
+      //   path: 'test',
+      //   name: 'test',
+      //   meta: {
+      //     icon: 'md-cog',
+      //     title: 'Test'
+      //   },
+      //   component: () => import('@/view/cb-view/charts-test.vue')
+      // },
+    ]
+  },
+  {
+    path: '/data',
+    name: 'data',
+    meta: {
+      icon: 'md-cog',
+      title: 'data'
+    },
+    component: Main,
+    children: [
       {
-        path: 'test',
-        name: 'test',
+        path: 'crawler',
+        name: 'crawler',
         meta: {
           icon: 'md-cog',
-          title: 'Test'
+          title: 'crawler'
         },
-        component: () => import('@/view/cb-view/charts-test.vue')
+        component: () => import('@/view/cb-main/data-crawler.vue')
+      },
+      {
+        path: 'output',
+        name: 'output',
+        meta: {
+          icon: 'md-cog',
+          title: 'output'
+        },
+        component: () => import('@/view/cb-main/data-crawler.vue')
       },
     ]
   },
-  // {
-  //   path: '/data',
-  //   name: 'data',
-  //   meta: {
-  //     icon: 'md-cog',
-  //     title: 'data'
-  //   },
-  //   component: Main,
-  //   children: [
-  //     {
-  //       path: 'crawler',
-  //       name: 'crawler',
-  //       meta: {
-  //         icon: 'md-cog',
-  //         title: 'crawler'
-  //       },
-  //       component: () => import('@/view/cb-main/data-crawler.vue')
-  //     },
-  //   ]
-  // },
   {
     path: '/admin',
     name: 'admin',

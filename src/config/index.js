@@ -17,8 +17,8 @@ export default {
    * @description api请求基础路径
    */
   baseUrl: {
-    dev: '',
-    pro: 'https://produce.com'
+    dev: 'http://47.99.158.30:8080',
+    pro: 'http://47.99.158.30:8080'
   },
   /**
    * @description 默认打开的首页的路由name值，默认为home
