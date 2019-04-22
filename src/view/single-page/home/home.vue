@@ -1,22 +1,24 @@
 <template>
   <div>
-    <Carousel v-model="carousel" loop>
-      <CarouselItem>
-        <div class="demo-carousel" align="center">
-          <img :src="win1" key="win1" height="500px">
-        </div>
-      </CarouselItem>
-      <CarouselItem>
-        <div class="demo-carousel" align="center">
-          <img :src="win2" key="win2" height="500px">
-        </div>
-      </CarouselItem>
-      <CarouselItem>
-        <div class="demo-carousel" align="center">
-          <img :src="win3" key="win3" height="500px">
-        </div>
-      </CarouselItem>
-    </Carousel>
+    <div align="center">
+      <Carousel v-model="carousel" loop>
+        <CarouselItem>
+          <div class="demo-carousel">
+            <img :src="win1" key="win1" height="500px">
+          </div>
+        </CarouselItem>
+        <CarouselItem>
+          <div class="demo-carousel">
+            <img :src="win2" key="win2" height="500px">
+          </div>
+        </CarouselItem>
+        <CarouselItem>
+          <div class="demo-carousel">
+            <img :src="win3" key="win3" height="500px">
+          </div>
+        </CarouselItem>
+      </Carousel>
+    </div>
     <!-- <Row :gutter="20">
       <i-col
         :xs="12"

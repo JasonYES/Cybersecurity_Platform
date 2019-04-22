@@ -1,59 +1,40 @@
 <template>
   <div class="scoring scoreBoard">
-    <Table border :columns="columns" :data="data" height="650" :width="tableWidth"></Table>
-    <Modal v-if="type=='manual'" v-model="judgingModal.showModal1" width="1200">
+    <Table border :loading="tableLoading" :columns="columns" :data="dataByPage" :width="tableWidth"></Table>
+    <br>
+    <div align="center">
+      <Page :current="page.now" :total="page.all" @on-change="pageOnChange" simple/>
+    </div>
+    <Modal v-model="judgingModal.showModal1" width="1200">
       <p slot="header">
         <span>{{judgingModal.title}}</span>
       </p>
       <Collapse v-model="judgingModal.panel">
         <Panel name="1">
           评分
-          <CheckboxGroup v-model="judgingModal.chosen" slot="content">
+          <!-- <CheckboxGroup v-model="judgingModal.chosen" slot="content">
             <Checkbox v-for="i in judgingModal.allIndexes" :key="i" :label="i">
               <span>{{dName[i]}}</span>
             </Checkbox>
-          </CheckboxGroup>
-        </Panel>
-        <Panel name="2">
-          资料参考
-          <div slot="content">
-            <!-- <Select v-model="judgingModal.selected" style="width:200px">
-              <Option v-for="i in judgingModal.allIndexes" :value="i" :key="i">{{dName[i]}}</Option>
-            </Select>-->
-            <Switch/>
-            <br>
-            <br>
-            <Row>
-              <i-col span="12">
-                <Card style="height:400px">
-                  <p>Ecuador plans to invest eight million dollars to create a command of cyber defense unit for the country that he expects to be completely operable by mid 2015. General Luis Garzón, head of the joint command of the armed forces, said he expects the project to begin within 30 days. They are in the process of selecting qualified personnel from both civilian and military segments</p>
-                </Card>
-              </i-col>
-              <i-col span="12">
-                <Card style="height:400px">
-                  <p>厄瓜多尔计划投资800万美元为该国建立一个网络防御部队指挥部，预计他将在2015年中期完全投入使用。武装部队联合指挥部负责人路易斯·加尔松将军表示，他预计该项目将开始 30天内。 他们正在从民用和军用部门中挑选合格人员</p>
-                </Card>
-              </i-col>
-            </Row>
-          </div>
-        </Panel>
-      </Collapse>
-    </Modal>
-    <Modal v-if="type=='final'" v-model="judgingModal.showModal1" width="1200">
-      <p slot="header">
-        <span>{{judgingModal.title}}</span>
-      </p>
-      <Collapse v-model="judgingModal.panel">
-        <Panel name="1">
-          评分
+          </CheckboxGroup>-->
           <div slot="content">
             <Row type="flex" justify="center" align="middle">
-              <i-col span="18">
-                <Table border :columns="judgingModal.tableColumns" :data="judgingModal.tableValue">
-                  <template slot-scope="{ row, index }" slot="score">
-                    <InputNumber :max="1" :min="0" v-model="judgingModal.tableValue[index].score"></InputNumber>
-                  </template>
-                </Table>
+              <i-col span="24">
+                <div align="center">
+                  <Table
+                    border
+                    :columns="judgingModal.tableColumns"
+                    :width="judgingModal.tableWidth"
+                    :data="judgingModal.tableValue"
+                  >
+                    <template slot-scope="{ row, index }" slot="score">
+                      <InputNumber :max="1" :min="0" v-model="judgingModal.tableValue[index].score"></InputNumber>
+                    </template>
+                    <template slot-scope="{ row, index }" slot="action">
+                      <Button type="primary" icon="ios-search" @click="modalReference(row, index)"></Button>
+                    </template>
+                  </Table>
+                </div>
               </i-col>
             </Row>
           </div>
@@ -61,20 +42,19 @@
         <Panel name="2">
           资料参考
           <div slot="content">
-            <Select v-model="judgingModal.selected" style="width:200px">
-              <Option v-for="i in judgingModal.allIndexes" :value="i" :key="i">{{dName[i]}}</Option>
-            </Select>
-            <br>
+            <div align="center">
+              <h1>{{judgingModal.refName + "评分依据"}}</h1>
+            </div>
             <br>
             <Row>
               <i-col span="12">
-                <Card style="height:400px">
-                  <p>Ecuador plans to invest eight million dollars to create a command of cyber defense unit for the country that he expects to be completely operable by mid 2015. General Luis Garzón, head of the joint command of the armed forces, said he expects the project to begin within 30 days. They are in the process of selecting qualified personnel from both civilian and military segments</p>
+                <Card>
+                  <p>{{judgingModal.refContent[0][0]}}</p>
                 </Card>
               </i-col>
               <i-col span="12">
-                <Card style="height:400px">
-                  <p>厄瓜多尔计划投资800万美元为该国建立一个网络防御部队指挥部，预计他将在2015年中期完全投入使用。武装部队联合指挥部负责人路易斯·加尔松将军表示，他预计该项目将开始 30天内。 他们正在从民用和军用部门中挑选合格人员</p>
+                <Card>
+                  <p>{{judgingModal.refContent[0][1]}}</p>
                 </Card>
               </i-col>
             </Row>
@@ -100,12 +80,22 @@ export default {
   computed: {
     ...mapState({
       dName: state => state.cbdata.dynamicName,
-      indexes: state => state.cbdata.indexes
-    })
+      indexes: state => state.cbdata.indexes,
+      indexesSet1: state => {
+        return new Set(Object.keys(state.cbdata.indexes));
+      }
+    }),
+    dataByPage: function() {
+      return this.data.slice((this.page.now - 1) * 10, this.page.now * 10);
+    }
   },
   watch: {
     data: function() {
       this.addCellStyle(this.data);
+      this.page.all = this.data.length;
+      this.page.now = 1;
+    },
+    dataByPage: function() {
       this.boardDrawer();
     }
   },
@@ -139,6 +129,9 @@ export default {
       return "mid";
     },
     cellStyleParserFinal(mark) {
+      var i = Math.random();
+      if (i < 0.05) return "zero";
+      return "";
       if (mark == 0) {
         return "zero";
       }
@@ -147,7 +140,11 @@ export default {
       for (var i in data) {
         var cellClassName = {};
         for (var j in data[i]) {
-          if (j === "country" || j === "cellClassName") {
+          if (
+            j === "country" ||
+            j === "cellClassName" ||
+            this.indexesSet1.has(j)
+          ) {
             // 如果是1 2 country之类的是标志位, 不是具体分数, 所以跳过
             continue;
           }
@@ -157,7 +154,7 @@ export default {
               break;
             case "final":
               cellClassName[j] = this.cellStyleParserFinal(
-                this.statusData[i][j]
+                "this.statusData[i][j]"
               );
               break;
           }
@@ -265,8 +262,11 @@ export default {
 
       switch (params.row[params.column.key]) {
         case "no":
-          this.indexesToCheckbox(params.row, params.column.key);
           /// final modal adjust
+          if (this.type === "manual") {
+            this.indexesToCheckbox(params.row, params.column.key);
+            this.judgingModal.tableWidth = 450;
+          }
           if (this.type === "final") {
             var tableValue = tmpData["scoringDetail"];
             this.judgingModal.tableColumns = this.columnsExtractor([
@@ -274,8 +274,11 @@ export default {
             ]);
             this.addModalCellStyle(tableValue);
             this.judgingModal.tableValue = tableValue;
+            this.judgingModal.tableWidth = 750;
           }
           ///
+          this.judgingModal.refName = "";
+          this.judgingModal.refContent = [["", ""]];
           this.judgingModal.showModal1 = true;
           break;
         case "yes":
@@ -283,7 +286,20 @@ export default {
           this.$Modal.confirm({
             title: this.judgingModal.title,
             content: "<p>该指标已审阅过, 是否撤销并重新审阅?</p>",
-            onOk: () => {},
+            onOk: () => {
+              this.indexesToCheckbox(params.row, params.column.key);
+              /// final modal adjust
+              if (this.type === "final") {
+                var tableValue = tmpData["scoringDetail"];
+                this.judgingModal.tableColumns = this.columnsExtractor([
+                  ...tableValue
+                ]);
+                this.addModalCellStyle(tableValue);
+                this.judgingModal.tableValue = tableValue;
+              }
+              ///
+              this.judgingModal.showModal1 = true;
+            },
             onCancel: () => {}
           });
           break;
@@ -309,14 +325,15 @@ export default {
           case "score":
             res.push({
               title: i,
-              slot: i
+              slot: i,
+              width: 120
             });
             break;
           case "detail":
             res.push({
               title: i,
               key: i,
-              width: 400
+              width: 300
             });
             break;
           default:
@@ -326,9 +343,17 @@ export default {
             });
         }
       }
+      res.push({
+        title: "评分依据",
+        slot: "action",
+        width: 90
+      });
       return res;
     },
     indexesToCheckbox(row, key) {
+      console.log(row);
+      var tableData = [];
+
       var chosen = [];
       var allIndexes = [];
       for (var i in this.indexes[key]) {
@@ -338,7 +363,15 @@ export default {
         if (row[allIndexes[i]] == "1") {
           chosen.push(allIndexes[i]);
         }
+        tableData.push({
+          index: allIndexes[i],
+          score: row[allIndexes[i]]
+        });
       }
+
+      this.judgingModal.tableColumns = this.columnsExtractor([...tableData]);
+      this.judgingModal.tableValue = tableData;
+
       this.judgingModal.chosen = chosen;
       this.judgingModal.allIndexes = allIndexes;
     },
@@ -359,6 +392,14 @@ export default {
         } else if (data[i]["status"] === "无评分")
           data[i]["cellClassName"]["status"] = "mid";
       }
+    },
+    pageOnChange(page) {
+      this.page.now = page;
+    },
+    modalReference(row, rowIndex) {
+      var indexName = row.index;
+      this.judgingModal.refName = indexName;
+      this.judgingModal.refContent = [tmpData["scoringRef"][rowIndex % 3]];
     }
   },
   data() {
@@ -372,76 +413,16 @@ export default {
         allIndexes: [],
         selected: "",
         tableColumns: [],
-        tableValue: []
+        tableValue: [],
+        tableWidth: 750,
+        refName: "x",
+        refContent: [["x", "x"]]
+      },
+      page: {
+        now: 1,
+        all: 30
       },
       columns: [],
-      XXXcolumnss: [
-        {
-          title: "地区名",
-          key: "country",
-          width: 130
-        },
-        {
-          title: vname["指标1"],
-          align: "center",
-          children: [
-            { title: 1, key: 1.1 },
-            { title: 2, key: 1.2 },
-            { title: 3, key: 1.3 },
-            { title: 4, key: 1.4 },
-            { title: 5, key: 1.5 },
-            { title: vname["评分"], key: "1", render: this.render }
-          ]
-        },
-        {
-          title: vname["指标2"],
-          align: "center",
-          children: [
-            { title: 1, key: 2.1 },
-            { title: 2, key: 2.2 },
-            { title: 3, key: 2.3 },
-            { title: 4, key: 2.4 },
-            { title: 5, key: 2.5 },
-            { title: vname["评分"], key: "2", render: this.render }
-          ]
-        },
-        {
-          title: vname["指标3"],
-          align: "center",
-          children: [
-            { title: 1, key: 3.1 },
-            { title: 2, key: 3.2 },
-            { title: 3, key: 3.3 },
-            { title: 4, key: 3.4 },
-            { title: 5, key: 3.5 },
-            { title: vname["评分"], key: "3", render: this.render }
-          ]
-        },
-        {
-          title: vname["指标4"],
-          align: "center",
-          children: [
-            { title: 1, key: 4.1 },
-            { title: 2, key: 4.2 },
-            { title: 3, key: 4.3 },
-            { title: 4, key: 4.4 },
-            { title: 5, key: 4.5 },
-            { title: vname["评分"], key: "4", render: this.render }
-          ]
-        },
-        {
-          title: vname["指标5"],
-          align: "center",
-          children: [
-            { title: 1, key: 5.1 },
-            { title: 2, key: 5.2 },
-            { title: 3, key: 5.3 },
-            { title: 4, key: 5.4 },
-            { title: 5, key: 5.5 },
-            { title: vname["评分"], key: "5", render: this.render }
-          ]
-        }
-      ],
       dataEmpty: [],
       tableWidth: 0,
       statusData: []

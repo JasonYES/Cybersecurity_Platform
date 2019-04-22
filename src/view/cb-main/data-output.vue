@@ -13,28 +13,28 @@
           <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
             <i-col span="6">
               <Card>
-                <p slot="title">采集类型</p>
+                <p slot="title">导出批次</p>
                 <div style="width:100px">
                   <CheckboxGroup>
                     <Checkbox label="twitter">
                       <Icon type="md-flag"></Icon>
-                      <span>指标1</span>
+                      <span>2017.5.4</span>
                     </Checkbox>
                     <Checkbox label="twitter">
                       <Icon type="md-flag"></Icon>
-                      <span>指标2</span>
+                      <span>2017.12.8</span>
                     </Checkbox>
                     <Checkbox label="twitter">
                       <Icon type="md-flag"></Icon>
-                      <span>指标3</span>
+                      <span>2018.6.4</span>
                     </Checkbox>
                     <Checkbox label="twitter">
                       <Icon type="md-flag"></Icon>
-                      <span>指标4</span>
+                      <span>2018.10.9</span>
                     </Checkbox>
                     <Checkbox label="twitter">
                       <Icon type="md-flag"></Icon>
-                      <span>指标5</span>
+                      <span>2019.2.1</span>
                     </Checkbox>
                   </CheckboxGroup>
                 </div>
@@ -42,28 +42,28 @@
             </i-col>
             <i-col span="6">
               <Card>
-                <p slot="title">采集来源</p>
+                <p slot="title">导出内容</p>
                 <div style="width:140px">
                   <CheckboxGroup>
                     <Checkbox label="twitter">
                       <Icon type="md-flag"></Icon>
-                      <span>政府网站</span>
+                      <span>原始数据</span>
                     </Checkbox>
                     <Checkbox label="twitter">
                       <Icon type="md-flag"></Icon>
-                      <span>国际组织</span>
+                      <span>翻译数据</span>
                     </Checkbox>
                     <Checkbox label="twitter">
                       <Icon type="md-flag"></Icon>
-                      <span>公开网域</span>
+                      <span>人工打分结果</span>
                     </Checkbox>
                     <Checkbox label="twitter">
                       <Icon type="md-flag"></Icon>
-                      <span>媒体</span>
+                      <span>审核结果</span>
                     </Checkbox>
                     <Checkbox label="twitter">
                       <Icon type="md-flag"></Icon>
-                      <span>院校和研究机构</span>
+                      <span>图表及报告</span>
                     </Checkbox>
                   </CheckboxGroup>
                 </div>

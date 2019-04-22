@@ -201,7 +201,7 @@ export default [
           icon: 'md-cog',
           title: 'output'
         },
-        component: () => import('@/view/cb-main/data-crawler.vue')
+        component: () => import('@/view/cb-main/data-output.vue')
       },
     ]
   },

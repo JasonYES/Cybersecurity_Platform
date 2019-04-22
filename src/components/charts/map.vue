@@ -34,7 +34,11 @@ export default {
   data() {
     return {
       dom: null,
-      wat: null
+      wat: null,
+      visualMap: {
+        min: 1,
+        max: 5
+      }
     };
   },
   methods: {
@@ -82,8 +86,8 @@ export default {
           }
         },
         visualMap: {
-          min: 0,
-          max: 1,
+          min: this.visualMap.min,
+          max: this.visualMap.max,
           text: ["High", "Low"],
           realtime: false,
           calculable: true,
@@ -115,6 +119,10 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
+      if (this.index == "score") {
+        this.visualMap.max = 30;
+        this.visualMap.min = 15;
+      }
       this.draw();
     });
   },

@@ -7,6 +7,15 @@ export const getScoringData = () => {
     })
 }
 
+export const getScoreFinal = () => {
+    return axios.request({
+        url: '/api/scorefinal/data',
+        method: 'get'
+    })
+}
+
+///////////////
+
 export const getCountries = () => {
     return axios.request({
         url: '/api/visual/countries',

@@ -58,7 +58,7 @@ export default {
   "scoring": "评分",
   "cb-scoring": "评分",
   "main": "x",
-  "crawler": "数据",
+  "crawler": "数据爬取",
   "data": "数据",
   'admin-data': "数据库管理",
   'admin-dbcountry': "国家管理",
@@ -71,5 +71,6 @@ export default {
   "manual": "人工评分",
   "final": "评分审核",
   "scoring-dbsets": "评分批次",
-  "_home": "首页"
+  "_home": "首页",
+  "output": "数据导出"
 }
