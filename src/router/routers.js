@@ -203,6 +203,15 @@ export default [
         },
         component: () => import('@/view/cb-main/data-output.vue')
       },
+      {
+        path: 'report',
+        name: 'report',
+        meta: {
+          icon: 'md-cog',
+          title: 'report'
+        },
+        component: () => import('@/view/cb-main/data-report.vue')
+      },
     ]
   },
   {

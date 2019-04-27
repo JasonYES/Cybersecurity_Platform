@@ -72,5 +72,6 @@ export default {
   "final": "评分审核",
   "scoring-dbsets": "评分批次",
   "_home": "首页",
-  "output": "数据导出"
+  "output": "数据导出",
+  "report": "报告预览"
 }
