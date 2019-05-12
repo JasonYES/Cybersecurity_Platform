@@ -14,36 +14,47 @@ export const getScoreFinal = () => {
     })
 }
 
+export const getFinalStatus = () => {
+    return axios.request({
+        url: '/api/scorefinal/status',
+        method: 'get'
+    })
+}
+
+export const manualSubmit = data => {
+    return axios.request({
+        url: '/api/scoring/submit',
+        data: data,
+        method: 'post'
+    })
+}
+
+export const manualUndo = data => {
+    return axios.request({
+        url: '/api/scoring/undo',
+        data: data,
+        method: 'post'
+    })
+}
+
+export const finalSubmit = data => {
+    return axios.request({
+        url: '/api/scorefinal/submit',
+        data: data,
+        method: 'post'
+    })
+}
+
+export const finalUndo = data => {
+    return axios.request({
+        url: '/api/scorefinal/undo',
+        data: data,
+        method: 'post'
+    })
+}
 ///////////////
 
-export const getCountries = () => {
-    return axios.request({
-        url: '/api/visual/countries',
-        method: 'get'
-    })
-}
 
-export const getOrgs = () => {
-    return axios.request({
-        url: '/api/visual/orgs',
-        method: 'get'
-    })
-}
-
-export const getDname = () => {
-    return axios.request({
-        url: '/api/visual/dname',
-        method: 'get'
-    })
-}
-
-export const getIndexes = () => {
-    return axios.request({
-        url: '/api/visual/indexes',
-        method: 'get'
-    })
-}
-///////////////  /assets/maps/world-eckert3-lowres.geo.json
 
 
 export const errorReq = () => {

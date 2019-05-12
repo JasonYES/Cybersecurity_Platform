@@ -5,7 +5,7 @@
     <div align="center">
       <Page :current="page.now" :total="page.all" @on-change="pageOnChange" simple/>
     </div>
-    <Modal v-model="judgingModal.showModal1" width="1200">
+    <Modal v-model="judgingModal.showModal1" ok-text="保存" @on-ok="modalSave" width="1200">
       <p slot="header">
         <span>{{judgingModal.title}}</span>
       </p>
@@ -68,6 +68,9 @@
 import vname from "@/config/view-name";
 import tmpData from "@/store/module/tmp-data";
 import { mapState } from "vuex";
+import { manualSubmit, manualUndo } from "@/api/scoring";
+import { finalSubmit, finalUndo } from "@/api/scoring";
+import { getFinalStatus } from "@/api/scoring";
 export default {
   name: "ScoreBoard",
   props: {
@@ -101,18 +104,30 @@ export default {
   },
   mounted() {
     this.initByType(this.type);
-    this.addCellStyle(this.data);
-    this.boardDrawer();
   },
   methods: {
     initByType(type) {
       switch (type) {
         case "manual":
-          var api;
+          this.addCellStyle(this.data);
+          this.boardDrawer();
           break;
         case "final":
-          var api;
-          this.statusData = tmpData["scoringStatus"];
+          getFinalStatus()
+            .then(res => {
+              if (res.data.code == 0) {
+                var data = res.data.data;
+                this.statusData = data;
+                this.addCellStyle(this.data);
+                this.boardDrawer();
+                this.tableLoading = false;
+              } else {
+                alert(res.data.msg);
+              }
+            })
+            .catch(err => {
+              alert(err);
+            });
           break;
       }
     },
@@ -129,14 +144,14 @@ export default {
       return "mid";
     },
     cellStyleParserFinal(mark) {
-      var i = Math.random();
-      if (i < 0.05) return "zero";
-      return "";
-      if (mark == 0) {
+      if (mark === 0) {
         return "zero";
+      } else {
+        return "";
       }
     },
     addCellStyle(data) {
+      // this method only modifies data, has nothing to do with drawing
       for (var i in data) {
         var cellClassName = {};
         for (var j in data[i]) {
@@ -153,8 +168,12 @@ export default {
               cellClassName[j] = this.cellStyleParser(data[i][j]);
               break;
             case "final":
+              if (this.statusData.length === 0) {
+                cellClassName[j] = this.cellStyleParserFinal("uninit");
+                break;
+              }
               cellClassName[j] = this.cellStyleParserFinal(
-                "this.statusData[i][j]"
+                this.statusData[i][j]
               );
               break;
           }
@@ -252,14 +271,32 @@ export default {
       }
       this.columns = structure;
     },
-
-    // Modal框内方法
+    AdaptedSubmit(data) {
+      console.log(data);
+      switch (this.type) {
+        case "manual":
+          return manualSubmit(data);
+        case "final":
+          return finalSubmit(data);
+      }
+    },
+    AdaptedUndo(data) {
+      switch (this.type) {
+        case "manual":
+          return manualUndo(data);
+        case "final":
+          return finalUndo(data);
+      }
+    },
+    // 以下都是Modal框方法
     judgingBoard(params) {
-      // 是否已审阅的判定
-      // console.log(params);
+      // 基本信息的设定
       this.judgingModal.title =
         params.row["country"] + " - " + this.dName[params.column.key];
+      this.judgingModal.country = params.row["country"];
+      this.judgingModal.index = params.column.key;
 
+      // 是否已审阅的判定
       switch (params.row[params.column.key]) {
         case "no":
           /// final modal adjust
@@ -287,18 +324,21 @@ export default {
             title: this.judgingModal.title,
             content: "<p>该指标已审阅过, 是否撤销并重新审阅?</p>",
             onOk: () => {
-              this.indexesToCheckbox(params.row, params.column.key);
-              /// final modal adjust
-              if (this.type === "final") {
-                var tableValue = tmpData["scoringDetail"];
-                this.judgingModal.tableColumns = this.columnsExtractor([
-                  ...tableValue
-                ]);
-                this.addModalCellStyle(tableValue);
-                this.judgingModal.tableValue = tableValue;
-              }
-              ///
-              this.judgingModal.showModal1 = true;
+              var postData = {
+                country: params.row["country"],
+                index: params.column.key
+              };
+              this.AdaptedUndo(postData)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.$emit("refresh");
+                  } else {
+                    alert(res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert(err);
+                });
             },
             onCancel: () => {}
           });
@@ -351,7 +391,6 @@ export default {
       return res;
     },
     indexesToCheckbox(row, key) {
-      console.log(row);
       var tableData = [];
 
       var chosen = [];
@@ -375,10 +414,32 @@ export default {
       this.judgingModal.chosen = chosen;
       this.judgingModal.allIndexes = allIndexes;
     },
-    modalSave(chosen, index, country) {
-      // country: "china",
-      // index: "legal",
-      // chosen: ['1.1.1', '1.2.3']
+    modalSave() {
+      let postData = {
+        country: this.judgingModal.country,
+        index: this.judgingModal.index,
+        scores: this.modalTableValueExtractor()
+      };
+      this.AdaptedSubmit(postData)
+        .then(res => {
+          if (res.data.code == 0) {
+            this.$emit("refresh");
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert(err);
+        });
+    },
+    modalTableValueExtractor() {
+      let tableValue = this.judgingModal.tableValue;
+      console.log(tableValue);
+      let scoreObj = {};
+      for (let i in tableValue) {
+        scoreObj[tableValue[i]["index"]] = tableValue[i]["score"];
+      }
+      return scoreObj;
     },
     modalUndo(index, country) {
       // country: "china",
@@ -407,6 +468,8 @@ export default {
       judgingModal: {
         status: 0, // 是否已审阅过
         title: "",
+        country: "",
+        index: "",
         showModal1: false, // 默认modal
         panel: ["1", "2"],
         chosen: [],

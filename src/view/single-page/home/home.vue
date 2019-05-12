@@ -1,21 +1,33 @@
 <template>
   <div>
-    <div align="center">
+    <div>
       <Carousel v-model="carousel" loop>
         <CarouselItem>
-          <div class="demo-carousel">
-            <img :src="win1" key="win1" height="500px">
-          </div>
+          <Row type="flex" justify="center">
+            <i-col span="16">
+              <div align="center">
+                <img :src="win1" key="win1" height="500px">
+              </div>
+            </i-col>
+          </Row>
         </CarouselItem>
         <CarouselItem>
-          <div class="demo-carousel">
-            <img :src="win2" key="win2" height="500px">
-          </div>
+          <Row type="flex" justify="center">
+            <i-col span="16">
+              <div align="center">
+                <img :src="win2" key="win2" height="500px">
+              </div>
+            </i-col>
+          </Row>
         </CarouselItem>
         <CarouselItem>
-          <div class="demo-carousel">
-            <img :src="win3" key="win3" height="500px">
-          </div>
+          <Row type="flex" justify="center">
+            <i-col span="16">
+              <div align="center">
+                <img :src="win3" key="win3" height="500px">
+              </div>
+            </i-col>
+          </Row>
         </CarouselItem>
       </Carousel>
     </div>
@@ -131,7 +143,4 @@ export default {
 </script>
 
 <style lang="less">
-.count-style {
-  font-size: 50px;
-}
 </style>

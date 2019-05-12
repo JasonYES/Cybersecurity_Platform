@@ -22,6 +22,7 @@
             :indexesChosen="indexesChosen"
             :data="[...valueFileterByCbox(scoringValue, chosen, 'country')]"
             :type="'final'"
+            @refresh="refreshTable"
           ></score-board>
         </Card>
       </i-col>
@@ -67,7 +68,18 @@ export default {
         .catch(err => {
           alert(err);
         });
+      this.refreshTable();
       // this.typeValue = tmpData["countries"];
+
+      //Cbox的初始化  国家目录与visual模块不一定一致
+      // this.typeValue = tmpData["countries"];
+      // var tmpScoringValue = tmpData["scoringDataFinal"];
+      // for (var i in tmpScoringValue) {
+      //   tmpScoringValue[i]["cellClassName"] = {};
+      // }
+      // this.scoringValue = tmpScoringValue;
+    },
+    refreshTable() {
       getScoreFinal()
         .then(res => {
           if (res.data.code == 0) {
@@ -82,13 +94,6 @@ export default {
         .catch(err => {
           alert(err);
         });
-      //Cbox的初始化  国家目录与visual模块不一定一致
-      // this.typeValue = tmpData["countries"];
-      // var tmpScoringValue = tmpData["scoringDataFinal"];
-      // for (var i in tmpScoringValue) {
-      //   tmpScoringValue[i]["cellClassName"] = {};
-      // }
-      // this.scoringValue = tmpScoringValue;
     },
     valueFileterByCbox,
     checkedData(chosen) {

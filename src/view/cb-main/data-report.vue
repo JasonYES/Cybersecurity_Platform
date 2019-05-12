@@ -10,14 +10,14 @@
             <br>
             <br>
             <br>
-            <img :src="win1" key="win1" height="500px">
+            <img class="report" :src="win1" key="win1">
             <br>
             <br>
             <br>
             <br>
             <br>
             <br>
-            <p align="right" style="font-size:70px;padding-right:50px">2019网络安全报告</p>
+            <p align="right" style="font-size:65px;padding-right:50px">2019网络安全报告</p>
           </div>
         </Card>
       </i-col>
@@ -46,9 +46,6 @@
                   <br>
                   <p>有关计算机网络威胁的统计数据令人警醒，并反映出从过去相对真实的垃圾邮件转变为更恶意的威胁。 一家安全公司在2016年跟踪事件发现，恶意电子邮件成为各种网络攻击的首选武器，这些网络攻击在每年从国家赞助的网络间谍团体到大规模邮件勒索软件团伙使用。 发送的131封电子邮件是恶意的，是五年来最高的。</p>
                   <br>
-                  <p>信息和通信技术（ICT）网络，设备和服务对于日常生活越来越重要。 2016年，全球几乎有一半使用互联网（35亿用户），据估计，到2020年将有超过120亿台机器对机器设备连接到互联网。 然而，就像在现实世界中一样，网络世界面临着各种可能造成巨大破坏的安全威胁。</p>
-                  <br>
-                  <p>有关计算机网络威胁的统计数据令人警醒，并反映出从过去相对真实的垃圾邮件转变为更恶意的威胁。 一家安全公司在2016年跟踪事件发现，恶意电子邮件成为各种网络攻击的首选武器，这些网络攻击在每年从国家赞助的网络间谍团体到大规模邮件勒索软件团伙使用。 发送的131封电子邮件是恶意的，是五年来最高的。</p>
                 </div>
               </i-col>
             </Row>
@@ -69,7 +66,7 @@
                 <br>
                 <br>
                 <br>
-                <img :src="report1" height="500px">
+                <img class="report" :src="report1">
                 <div align="left" style="font-size:18px">
                   <br>
                   <br>
@@ -98,7 +95,7 @@
                 <br>
                 <br>
                 <br>
-                <img :src="report2" height="200px">
+                <img class="report" :src="report2">
                 <div align="left" style="font-size:18px">
                   <br>
                   <br>
@@ -127,7 +124,7 @@
                 <br>
                 <br>
                 <br>
-                <img :src="report3" height="400px">
+                <img class="report" :src="report3">
                 <div align="left" style="font-size:18px">
                   <br>
                   <br>
@@ -164,4 +161,10 @@ export default {
   }
 };
 </script>
+<style>
+.report {
+  width: 100%;
+  height: auto;
+}
+</style>
 

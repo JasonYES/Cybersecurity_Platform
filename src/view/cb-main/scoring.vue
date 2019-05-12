@@ -22,6 +22,7 @@
             :indexesChosen="indexesChosen"
             :data="[...valueFileterByCbox(scoringValue, chosen, 'country')]"
             :type="'manual'"
+            @refresh="refreshTable"
           ></score-board>
         </Card>
       </i-col>
@@ -68,7 +69,20 @@ export default {
         .catch(err => {
           alert(err);
         });
+      this.refreshTable();
       // this.typeValue = tmpData["countries"];
+
+      // var tmpScoringValue = tmpData["scoringData"];
+      // this.addCellStyleField(tmpScoringValue);
+      // this.scoringValue = tmpScoringValue;
+    },
+    valueFileterByCbox,
+    addCellStyleField(value) {
+      for (var i in value) {
+        value[i]["cellClassName"] = {};
+      }
+    },
+    refreshTable() {
       getScoringData()
         .then(res => {
           if (res.data.code == 0) {
@@ -83,15 +97,6 @@ export default {
         .catch(err => {
           alert(err);
         });
-      // var tmpScoringValue = tmpData["scoringData"];
-      // this.addCellStyleField(tmpScoringValue);
-      // this.scoringValue = tmpScoringValue;
-    },
-    valueFileterByCbox,
-    addCellStyleField(value) {
-      for (var i in value) {
-        value[i]["cellClassName"] = {};
-      }
     },
     checkedData(chosen) {
       this.chosen = { ...chosen };
