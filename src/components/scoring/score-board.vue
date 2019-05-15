@@ -70,7 +70,7 @@ import tmpData from "@/store/module/tmp-data";
 import { mapState } from "vuex";
 import { manualSubmit, manualUndo } from "@/api/scoring";
 import { finalSubmit, finalUndo } from "@/api/scoring";
-import { getFinalStatus } from "@/api/scoring";
+import { getFinalStatus, getFinalDetail } from "@/api/scoring";
 export default {
   name: "ScoreBoard",
   props: {
@@ -303,20 +303,49 @@ export default {
           if (this.type === "manual") {
             this.indexesToCheckbox(params.row, params.column.key);
             this.judgingModal.tableWidth = 450;
+
+            this.judgingModal.refName = "";
+            this.judgingModal.refContent = [["", ""]];
+            this.judgingModal.showModal1 = true;
           }
           if (this.type === "final") {
-            var tableValue = tmpData["scoringDetail"];
-            this.judgingModal.tableColumns = this.columnsExtractor([
-              ...tableValue
-            ]);
-            this.addModalCellStyle(tableValue);
-            this.judgingModal.tableValue = tableValue;
-            this.judgingModal.tableWidth = 750;
+            getFinalDetail(this.judgingModal.country, this.judgingModal.index)
+              .then(res => {
+                if (res.data.code == 0) {
+                  var data = res.data.data;
+
+                  var tableValue = data;
+                  this.judgingModal.tableColumns = this.columnsExtractor([
+                    ...tableValue
+                  ]);
+                  this.addModalCellStyle(tableValue);
+                  this.judgingModal.tableValue = tableValue;
+                  this.judgingModal.tableWidth = 750;
+
+                  this.judgingModal.refName = "";
+                  this.judgingModal.refContent = [["", ""]];
+                  this.judgingModal.showModal1 = true;
+                } else {
+                  alert(res.data.msg);
+                }
+              })
+              .catch(err => {
+                alert(err);
+              });
+
+            // var tableValue = tmpData["scoringDetail"];
+            // this.judgingModal.tableColumns = this.columnsExtractor([
+            //   ...tableValue
+            // ]);
+            // this.addModalCellStyle(tableValue);
+            // this.judgingModal.tableValue = tableValue;
+            // this.judgingModal.tableWidth = 750;
+
+            // this.judgingModal.refName = "";
+            // this.judgingModal.refContent = [["", ""]];
+            // this.judgingModal.showModal1 = true;
           }
-          ///
-          this.judgingModal.refName = "";
-          this.judgingModal.refContent = [["", ""]];
-          this.judgingModal.showModal1 = true;
+
           break;
         case "yes":
           this.judgingModal.selected = "";
@@ -434,7 +463,6 @@ export default {
     },
     modalTableValueExtractor() {
       let tableValue = this.judgingModal.tableValue;
-      console.log(tableValue);
       let scoreObj = {};
       for (let i in tableValue) {
         scoreObj[tableValue[i]["index"]] = tableValue[i]["score"];

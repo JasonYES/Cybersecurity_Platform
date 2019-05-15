@@ -21,6 +21,17 @@ export const getFinalStatus = () => {
     })
 }
 
+export const getFinalDetail = (country, index) => {
+    return axios.request({
+        url: '/api/scorefinal/detail',
+        method: 'get',
+        params: {
+            country,
+            index
+        }
+    })
+}
+
 export const manualSubmit = data => {
     return axios.request({
         url: '/api/scoring/submit',
@@ -52,6 +63,7 @@ export const finalUndo = data => {
         method: 'post'
     })
 }
+
 ///////////////
 
 

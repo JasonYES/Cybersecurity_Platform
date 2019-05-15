@@ -1,8 +1,8 @@
 <template>
   <div>
     <Modal v-if="country.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
-      <Form :model="value" :label-width="80">
-        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
+      <Form ref="country" :rules="validateRules.country" :model="value" :label-width="80">
+        <FormItem v-for="(field) in formFields" :key="field" :prop="field" :label="vname[field]">
           <template v-if="field === 'continent'">
             <Select v-model="value[field]" style="width:200px">
               <Option v-for="item in country.continents" :value="item" :key="item">{{item}}</Option>
@@ -15,17 +15,17 @@
       </Form>
     </Modal>
     <Modal v-if="index.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
-      <Form :model="value" :label-width="80">
-        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
+      <Form ref="index" :rules="validateRules.index" :model="value" :label-width="80">
+        <FormItem v-for="(field) in formFields" :key="field" :prop="field" :label="vname[field]">
           <template>
             <Input v-model="value[field]" :disabled="formDisable(field)"/>
           </template>
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-if="orgs.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
-      <Form :model="value" :label-width="80">
-        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
+    <Modal v-if="orgs.modalShow" v-model="modalOn.on" title="信息修 改" @on-ok="modalOK" ok-text="保存">
+      <Form ref="orgs" :rules="validateRules.orgs" :model="value" :label-width="80">
+        <FormItem v-for="(field) in formFields" :key="field" :prop="field" :label="vname[field]">
           <template v-if="field === 'countries'">
             <Select v-model="value[field]" filterable multiple>
               <Option
@@ -42,8 +42,14 @@
       </Form>
     </Modal>
     <Modal v-if="users.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
-      <Form :model="value" :label-width="80" style="margin-bottom: 8px;">
-        <FormItem v-for="(field) in formFields" :key="field" :label="vname[field]">
+      <Form
+        ref="users"
+        :rules="validateRules.users"
+        :model="value"
+        :label-width="80"
+        style="margin-bottom: 8px;"
+      >
+        <FormItem v-for="(field) in formFields" :key="field" :prop="field" :label="vname[field]">
           <template>
             <Input v-model="value[field]" placeholder="Enter something..."/>
           </template>
@@ -66,11 +72,31 @@
         </Collapse>
       </Form>
     </Modal>
+    <Modal v-if="sets.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
+      <Form ref="sets" :rules="validateRules.sets" :model="value" :label-width="80">
+        <FormItem v-for="(field) in formFields" :key="field" :prop="field" :label="vname[field]">
+          <template v-if="field === 'countries'">
+            <Select v-model="value[field]" filterable multiple>
+              <Option
+                v-for="item in orgs.countries"
+                :value="item.nickname"
+                :key="item.id"
+              >{{item.nickname}}</Option>
+            </Select>
+          </template>
+          <template v-else>
+            <Input v-model="value[field]" placeholder="Enter something..."/>
+          </template>
+        </FormItem>
+      </Form>
+    </Modal>
   </div>
 </template>
 <script>
 import tmpData from "@/store/module/tmp-data";
 import vname from "@/config/view-name";
+import { postSets, postOrgs, postUsers, postCountry } from "@/api/admin";
+import { postIndex3, postIndex2, postIndex1 } from "@/api/admin";
 export default {
   name: "AdminModal",
   props: {
@@ -119,7 +145,45 @@ export default {
       users: {
         modalShow: false
       },
-      api: ""
+      sets: {
+        modalShow: false
+      },
+      api: "",
+      validateRules: {
+        country: {
+          name: [{ required: true, message: "不能为空", trigger: "blur" }],
+          nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
+          continent: [{ required: true, message: "不能为空", trigger: "blur" }],
+          est: "",
+          language: "",
+          capital: "",
+          population: "",
+          area: "",
+          economy: "",
+          other: ""
+        },
+        index: {
+          name: [{ required: true, message: "不能为空", trigger: "blur" }],
+          nickname: [{ required: true, message: "不能为空", trigger: "blur" }]
+          // weight: [{ required: true, message: "不能为空", trigger: "blur" }]
+        },
+        orgs: {
+          name: [{ required: true, message: "不能为空", trigger: "blur" }],
+          nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
+          type: "",
+          countries: []
+        },
+        users: {
+          name: [{ required: true, message: "不能为空", trigger: "blur" }],
+          nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
+          role: [{ required: true, message: "不能为空", trigger: "blur" }],
+          password: [{ required: true, message: "不能为空", trigger: "blur" }],
+          password2: [{ required: true, message: "不能为空", trigger: "blur" }]
+        },
+        sets: {
+          name: [{ required: true, message: "不能为空", trigger: "blur" }]
+        }
+      }
     };
   },
   methods: {
@@ -136,7 +200,11 @@ export default {
         case "index2":
           this.index.modalShow = true;
           this.formFormatter.fieldsHidden = ["id", "id1"];
-          this.formFormatter.fieldsDisable = new Set(["name1", "nickname1"]);
+          this.formFormatter.fieldsDisable = new Set([
+            "name1",
+            "nickname1",
+            "parent"
+          ]);
           break;
         case "index3":
           this.index.modalShow = true;
@@ -145,7 +213,8 @@ export default {
             "name1",
             "nickname1",
             "name2",
-            "nickname2"
+            "nickname2",
+            "parent"
           ]);
           break;
         case "orgs":
@@ -167,6 +236,10 @@ export default {
             adminValidate: ""
           };
           break;
+        case "sets":
+          this.sets.modalShow = true;
+          this.formFormatter.fieldsHidden = ["id", "isactive", "date"];
+          break;
       }
     },
     formDisable(field) {
@@ -175,7 +248,167 @@ export default {
       }
       return false;
     },
-    modalOK() {}
+    modalOK() {
+      let postData;
+      switch (this.type) {
+        case "country":
+          this.$refs[this.type].validate(valid => {
+            if (valid) {
+              postCountry(this.value)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.$emit("refresh");
+                  } else {
+                    alert("错误!" + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误!" + err);
+                });
+            } else {
+              this.$Message.error("错误! 表单填写不规范!");
+            }
+          });
+          break;
+        case "index1":
+          //  注意这里 index 是三级指标公用的
+          postData = { ...this.value };
+          delete postData["parent"]; // 删掉parent
+          this.$refs["index"].validate(valid => {
+            if (valid) {
+              postIndex1(postData)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.$emit("refresh");
+                  } else {
+                    alert("错误!" + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误!" + err);
+                });
+            } else {
+              this.$Message.error("错误! 表单填写不规范!");
+            }
+          });
+          break;
+        case "index2":
+          postData = {
+            id: this.value.id,
+            name: this.value.name
+          };
+          this.$refs["index"].validate(valid => {
+            if (valid) {
+              postIndex2(this.value)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.$emit("refresh");
+                  } else {
+                    alert("错误!" + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误!" + err);
+                });
+            } else {
+              this.$Message.error("错误! 表单填写不规范!");
+            }
+          });
+          break;
+        case "index3":
+          postData = {
+            id: this.value.id,
+            name: this.value.name
+          };
+          this.$refs["index"].validate(valid => {
+            if (valid) {
+              postIndex3(this.value)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.$emit("refresh");
+                  } else {
+                    alert("错误!" + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误!" + err);
+                });
+            } else {
+              this.$Message.error("错误! 表单填写不规范!");
+            }
+          });
+          break;
+        case "orgs":
+          postData = {
+            id: this.value.id,
+            name: this.value.name
+          };
+          this.$refs[this.type].validate(valid => {
+            if (valid) {
+              postOrgs(this.value)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.$emit("refresh");
+                  } else {
+                    alert("错误!" + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误!" + err);
+                });
+            } else {
+              this.$Message.error("错误! 表单填写不规范!");
+            }
+          });
+          break;
+        case "users":
+          postData = {
+            id: this.value.id,
+            name: this.value.name
+          };
+          this.$refs[this.type].validate(valid => {
+            if (valid) {
+              postUsers(this.value)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.$emit("refresh");
+                  } else {
+                    alert("错误!" + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误!" + err);
+                });
+            } else {
+              this.$Message.error("错误! 表单填写不规范!");
+            }
+          });
+          break;
+        case "sets":
+          postData = {
+            id: this.value.id,
+            name: this.value.name
+          };
+          this.$refs[this.type].validate(valid => {
+            if (valid) {
+              postSets(postData)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.$emit("refresh");
+                  } else {
+                    alert("错误!" + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误!" + err);
+                });
+            } else {
+              this.$Message.error("错误! 表单填写不规范!");
+            }
+          });
+          break;
+      }
+    }
   }
 };
 </script>

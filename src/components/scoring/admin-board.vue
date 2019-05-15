@@ -24,14 +24,14 @@
                       <Select v-model="dbsets['chosen']">
                         <Option
                           v-for="item in dbsets['options']"
-                          :value="item.name"
+                          :value="item.id"
                           :key="item.id"
                         >{{item.name}}</Option>
                       </Select>
                     </i-col>
                     <i-col offset="0" size="large" span="1">
                       <div style="margin-left:0px">
-                        <Button type="primary" shape="circle">选定当前批次</Button>
+                        <Button type="primary" shape="circle" @click="chooseSet">选定当前批次</Button>
                       </div>
                     </i-col>
                   </div>
@@ -59,28 +59,32 @@
                   type="primary"
                   size="small"
                   style="margin-right: 5px"
-                  @click="actionHandler('edit', index)"
+                  @click="actionHandler('edit', index, row)"
                 >修改</Button>
-                <Poptip confirm title="确认删除吗?" @on-ok="actionHandler('delete', index)">
+                <Poptip confirm title="确认删除吗?" @on-ok="actionHandler('delete', index, row)">
                   <Button type="error" size="small">删除</Button>
                 </Poptip>
               </template>
             </Table>
             <br>
-            <Page :current="2" :total="50" simple/>
+            <Page :current="page.start+1" :total="page.total" @on-change="pageOnChange" simple/>
             <br>
           </div>
         </Card>
       </i-col>
     </Row>
-    <admin-modal :type="type" :value="rowData" :modalOn="modalOn"></admin-modal>
-    <admin-modal-insert :type="type" :modalOn="modalOn"></admin-modal-insert>
+    <admin-modal :type="type" :value="rowData" :modalOn="modalOn" @refresh="refresh"></admin-modal>
+    <admin-modal-insert :type="type" :modalOn="modalOn" @refresh="refresh"></admin-modal-insert>
   </div>
 </template>
 <script>
 import { AdminModal, AdminModalInsert, AdminTableExpand } from "_c/scoringmini";
 import tmpData from "@/store/module/tmp-data";
 import vname from "@/config/view-name";
+import { getSets, getOrgs, getUsers, getCountry } from "@/api/admin";
+import { getIndex3, getIndex2, getIndex1, chooseSets } from "@/api/admin";
+import { delSets, delOrgs, delUsers, delCountry } from "@/api/admin";
+import { delIndex3, delIndex2, delIndex1 } from "@/api/admin";
 export default {
   name: "AdminBoard",
   props: {
@@ -94,6 +98,12 @@ export default {
   computed: {
     columns: function() {
       return this.columnsExtractor(this.value);
+    }
+  },
+  watch: {
+    // ??? 是否有用?
+    page: function() {
+      this.getValue(this.page, this.searchWord);
     }
   },
   data() {
@@ -111,10 +121,13 @@ export default {
       },
       columnsHidden: new Set(),
       columnExpand: null,
+      // 分页的控制
       page: {
         start: 0,
-        limit: 10
+        limit: 10,
+        total: 10
       },
+      // 当前数据集选框 (只sets页面可见)
       dbsets: {
         chosen: "",
         options: []
@@ -122,92 +135,139 @@ export default {
     };
   },
   mounted() {
-    this.getValue(this.page, this.searchWord, this.type);
+    this.getValue(this.page, this.searchWord);
   },
   methods: {
     // 改为分页处理!
-    getValue(page, searchWord, type) {
-      switch (type) {
+    getValue(page, searchWord) {
+      let startIndex = page.start * page.limit;
+      switch (this.type) {
         case "country":
-          this.value = tmpData["dbcountries"];
+          getCountry(startIndex, page.limit, searchWord)
+            .then(res => {
+              if (res.data.code == 0) {
+                var data = res.data.data;
+                this.page.total = data.total; // 分页记录总数
+                this.value = data.countries;
+              } else {
+                alert("错误! " + res.data.msg);
+              }
+            })
+            .catch(err => {
+              alert("错误! " + err);
+            });
           this.columnsHidden = new Set(["id"]);
           break;
         case "index1":
-          this.value = tmpData["dbindex1"];
-          this.columnsHidden = new Set(["id"]);
+          getIndex1(startIndex, page.limit, searchWord)
+            .then(res => {
+              if (res.data.code == 0) {
+                var data = res.data.data;
+                this.page.total = data.total; // 分页记录总数
+                this.value = data.indexs;
+              } else {
+                alert("错误! " + res.data.msg);
+              }
+            })
+            .catch(err => {
+              alert("错误! " + err);
+            });
+          this.columnsHidden = new Set(["id", "parent"]);
           break;
         case "index2":
-          this.value = tmpData["dbindex2"];
-          this.columnsHidden = new Set(["id", "id1"]);
+          getIndex2(startIndex, page.limit, searchWord)
+            .then(res => {
+              if (res.data.code == 0) {
+                var data = res.data.data;
+                this.page.total = data.total; // 分页记录总数
+                this.value = data.index2List;
+              } else {
+                alert("错误! " + res.data.msg);
+              }
+            })
+            .catch(err => {
+              alert("错误! " + err);
+            });
+          this.columnsHidden = new Set(["id", "id1", "parent"]);
           break;
         case "index3":
-          this.value = tmpData["dbindex3"];
-          this.columnsHidden = new Set(["id", "id1", "id2"]);
+          getIndex3(startIndex, page.limit, searchWord)
+            .then(res => {
+              if (res.data.code == 0) {
+                var data = res.data.data;
+                this.page.total = data.total; // 分页记录总数
+                this.value = data.index3s;
+              } else {
+                alert("错误! " + res.data.msg);
+              }
+            })
+            .catch(err => {
+              alert("错误! " + err);
+            });
+          this.columnsHidden = new Set(["id", "id1", "id2", "parent"]);
           break;
         case "orgs":
-          this.value = tmpData["dborgs"];
+          getOrgs(startIndex, page.limit, searchWord)
+            .then(res => {
+              if (res.data.code == 0) {
+                var data = res.data.data;
+                this.page.total = data.total; // 分页记录总数
+                this.value = data.org1s;
+              } else {
+                alert("错误! " + res.data.msg);
+              }
+            })
+            .catch(err => {
+              alert("错误! " + err);
+            });
           this.columnsHidden = new Set(["id", "countries"]);
           this.columnsWidthSpecified = { _common: 170 };
           this.columnExpand = "countries";
           break;
         case "users":
-          this.value = tmpData["dbusers"];
-          this.columnsHidden = new Set(["id"]);
+          getUsers(startIndex, page.limit, searchWord)
+            .then(res => {
+              if (res.data.code == 0) {
+                var data = res.data.data;
+                this.page.total = data.total; // 分页记录总数
+                this.value = data.users;
+                this.columnsHidden = new Set(["id"]);
+              } else {
+                alert("错误! " + res.data.msg);
+              }
+            })
+            .catch(err => {
+              alert("错误! " + err);
+            });
           break;
         case "sets":
-          var tmp = tmpData["dbsets"];
-          for (var i in tmp) {
-            if (tmp[i]["is_active"] == 1 || tmp[i]["is_active"] == "是") {
-              tmp[i]["is_active"] = "是";
-            } else {
-              tmp[i]["is_active"] = "否";
-            }
-          }
-          this.value = tmp;
-          this.columnsHidden = new Set(["id"]);
-          this.dbsets.options = tmpData["dbsets"];
-          this.dbsets.chosen = tmpData["dbsets"][4]["name"];
+          getSets(startIndex, page.limit, searchWord)
+            .then(res => {
+              if (res.data.code == 0) {
+                var data = res.data.data;
+                this.page.total = data.total; // 分页记录总数
+                var tmp = data.sets;
+                for (var i in tmp) {
+                  if (tmp[i]["isactive"] == 1 || tmp[i]["isactive"] == "是") {
+                    tmp[i]["isactive"] = "是";
+                  } else {
+                    tmp[i]["isactive"] = "否";
+                  }
+                }
+                this.value = tmp;
+                this.columnsHidden = new Set(["id"]);
+                this.dbsets.options = tmp;
+              } else {
+                alert("错误! " + res.data.msg);
+              }
+            })
+            .catch(err => {
+              alert("错误! " + err);
+            });
           break;
       }
     },
     // 所有开头为XXX的方法都为deprecated, 都不再使用
-    XXXrender(h, params) {
-      return h("div", [
-        h(
-          "Button",
-          {
-            props: {
-              type: "primary",
-              size: "small"
-            },
-            style: {
-              marginRight: "5px"
-            },
-            on: {
-              click: () => {
-                this.actionHandler("edit", params);
-              }
-            }
-          },
-          "编辑"
-        ),
-        h(
-          "Button",
-          {
-            props: {
-              type: "error",
-              size: "small"
-            },
-            on: {
-              click: () => {
-                this.actionHandler("delete", params);
-              }
-            }
-          },
-          "删除"
-        )
-      ]);
-    },
     columnsExtractor(data) {
       if (data.length == 0) {
         return [];
@@ -281,14 +341,106 @@ export default {
         return res;
       }
     },
-    actionHandler(modalType, index) {
+    actionHandler(modalType, index, row) {
       switch (modalType) {
         case "edit":
           this.modalOn.on = true;
           this.rowData = { ...this.value[index] }; // 改用index
           break;
         case "delete":
-          //delete API here
+          switch (this.type) {
+            case "country":
+              delCountry(row.id)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.refresh();
+                  } else {
+                    alert("错误! " + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误! " + err);
+                });
+              break;
+            case "index1":
+              delIndex1(row.id)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.refresh();
+                  } else {
+                    alert("错误! " + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误! " + err);
+                });
+              break;
+            case "index2":
+              delIndex2(row.id)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.refresh();
+                  } else {
+                    alert("错误! " + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误! " + err);
+                });
+              break;
+            case "index3":
+              delIndex3(row.id)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.refresh();
+                  } else {
+                    alert("错误! " + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误! " + err);
+                });
+              break;
+            case "orgs":
+              delOrgs(row.id)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.refresh();
+                  } else {
+                    alert("错误! " + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误! " + err);
+                });
+              break;
+            case "users":
+              delUsers(row.id)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.refresh();
+                  } else {
+                    alert("错误! " + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误! " + err);
+                });
+              break;
+            case "sets":
+              delSets(row.id)
+                .then(res => {
+                  if (res.data.code == 0) {
+                    this.refresh();
+                  } else {
+                    alert("错误! " + res.data.msg);
+                  }
+                })
+                .catch(err => {
+                  alert("错误! " + err);
+                });
+              break;
+          }
           break;
       }
     },
@@ -301,17 +453,40 @@ export default {
       this.modalOn.new = true;
     },
     addRowStyle(row) {
-      if (row["is_active"] == "是") {
+      if (row["isactive"] == "是") {
         return "demo-table-info-row";
       }
       return "";
+    },
+    refresh() {
+      this.getValue(this.page, this.searchWord);
+    },
+    pageOnChange(page) {
+      this.page.start = page - 1;
+      this.refresh();
+    },
+    chooseSet() {
+      let postData = {
+        id: this.dbsets.chosen
+      };
+      chooseSets(postData)
+        .then(res => {
+          if (res.data.code == 0) {
+            this.refresh();
+          } else {
+            alert("错误!" + res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert("错误!" + err);
+        });
     }
   }
 };
 </script>
 <style>
 .ivu-table .demo-table-info-row td {
-  background-color: #2db7f5;
-  color: #fff;
+  background-color: #6cc9f5;
+  color: rgb(73, 55, 55);
 }
 </style>

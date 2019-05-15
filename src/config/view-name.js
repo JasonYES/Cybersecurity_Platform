@@ -44,6 +44,8 @@ export default {
     password2: "确认密码",
     countries: "包含国家",
     adminValidate: "管理员密码",
-    is_active: "是否当前指标",
+    is_active: "当前批次?",
+    isactive: "当前批次?",
     date: "创建日期",
+
 }

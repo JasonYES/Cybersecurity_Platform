@@ -2,17 +2,21 @@
   <div>
     <Row class="expand-row" v-for="(unit, index) in row" :key="index" type="flex">
       <i-col :md="5" :lg="5" offset="1" v-for="(countryName, index2) in unit" :key="index2">
-        <p style="font-size:14px">{{countryName}}</p>
+        <p style="font-size:14px">{{dname[countryName]}}</p>
       </i-col>
     </Row>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   props: {
     value: Array
   },
   computed: {
+    ...mapState({
+      dname: state => state.cbdata.dynamicName
+    }),
     row: function() {
       var res = [];
       var unit = [];
@@ -26,7 +30,6 @@ export default {
       if (unit.length > 0) {
         res.push(unit);
       }
-      console.log(res);
       return res;
     }
   }
