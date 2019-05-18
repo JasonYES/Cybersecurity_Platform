@@ -30,7 +30,7 @@
             <Select v-model="value[field]" filterable multiple>
               <Option
                 v-for="item in orgs.countries"
-                :value="item.nickname"
+                :value="item.name"
                 :key="item.id"
               >{{item.nickname}}</Option>
             </Select>
@@ -97,6 +97,7 @@ import tmpData from "@/store/module/tmp-data";
 import vname from "@/config/view-name";
 import { postSets, postOrgs, postUsers, postCountry } from "@/api/admin";
 import { postIndex3, postIndex2, postIndex1 } from "@/api/admin";
+import { getCountry } from "@/api/admin";
 export default {
   name: "AdminModal",
   props: {
@@ -220,7 +221,18 @@ export default {
         case "orgs":
           this.orgs.modalShow = true;
           this.formFormatter.fieldsHidden = ["id"];
-          this.orgs.countries = tmpData["dbcountries"];
+          getCountry(0, 300, "") // 这里有magic number, 只适用于一级指标不多于300的情况, 否则得改.
+            .then(res => {
+              if (res.data.code == 0) {
+                var data = res.data.data;
+                this.orgs.countries = data.countries;
+              } else {
+                alert("错误! " + res.data.msg);
+              }
+            })
+            .catch(err => {
+              alert("错误! " + err);
+            });
           break;
         case "users":
           this.users.modalShow = true;
@@ -364,11 +376,16 @@ export default {
         case "users":
           postData = {
             id: this.value.id,
-            name: this.value.name
+            name: this.value.name,
+            nickname: this.value.nickname,
+            role: this.value.role
           };
+          if (this.value.password != "") {
+            postData["password"] = this.value.password;
+          }
           this.$refs[this.type].validate(valid => {
             if (valid) {
-              postUsers(this.value)
+              postUsers(postData)
                 .then(res => {
                   if (res.data.code == 0) {
                     this.$emit("refresh");

@@ -28,6 +28,16 @@ export const chooseSets = data => {
     })
 }
 
+export const delSets = (id) => {
+    return axios.request({
+        url: '/api/scoring/delsets',
+        method: 'get',
+        params: {
+            id
+        }
+    })
+}
+
 export const getIndex1 = (start, limit, search) => {
     return axios.request({
         url: '/api/admin/index1',
