@@ -7,7 +7,7 @@ import echarts from "echarts";
 import tdTheme from "./theme.json";
 import ecStat, { regression } from "echarts-stat";
 import { on, off } from "@/libs/tools";
-import vname from "@/config/view-name";
+import { vname } from "@/config/properties";
 echarts.registerTheme("tdTheme", tdTheme);
 export default {
   name: "ChartScatter",

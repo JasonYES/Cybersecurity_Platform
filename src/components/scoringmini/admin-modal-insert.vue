@@ -131,7 +131,12 @@
     >
       <Form ref="users" :rules="validateRules.users" :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :prop="field" :label="vname[field]">
-          <template>
+          <template v-if="field === 'role'">
+            <Select v-model="value[field]" style="width:200px">
+              <Option v-for="item in users.roles" :value="item" :key="item">{{num2role[item]}}</Option>
+            </Select>
+          </template>
+          <template v-else>
             <Input v-model="value[field]"/>
           </template>
         </FormItem>
@@ -158,7 +163,7 @@
 </template>
 <script>
 import tmpData from "@/store/module/tmp-data";
-import vname from "@/config/view-name";
+import { vname, continents, num2role, roleNums } from "@/config/properties";
 import { postSets, postOrgs, postUsers, postCountry } from "@/api/admin";
 import { postIndex3, postIndex2, postIndex1 } from "@/api/admin";
 import { getIndex3, getIndex2, getIndex1 } from "@/api/admin";
@@ -182,6 +187,7 @@ export default {
   data() {
     return {
       vname,
+      num2role,
       value: {},
       dataTemplate: {
         country: {
@@ -232,7 +238,9 @@ export default {
         country: {
           name: [{ required: true, message: "不能为空", trigger: "blur" }],
           nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
-          continent: [{ required: true, message: "不能为空", trigger: "blur" }],
+          continent: [
+            { required: true, message: "不能为空", trigger: "change" }
+          ],
           est: "",
           language: "",
           capital: "",
@@ -270,7 +278,14 @@ export default {
         users: {
           name: [{ required: true, message: "不能为空", trigger: "blur" }],
           nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
-          role: [{ required: true, message: "不能为空", trigger: "blur" }],
+          role: [
+            {
+              required: true,
+              message: "不能为空",
+              trigger: "change",
+              type: "number"
+            }
+          ],
           password: [{ required: true, message: "不能为空", trigger: "blur" }],
           password2: [{ required: true, message: "不能为空", trigger: "blur" }]
         },
@@ -279,7 +294,7 @@ export default {
         }
       },
       country: {
-        continents: ["asia", "america", "africa", "europe"]
+        continents: continents
       },
       index2: {
         index1Selector: []
@@ -291,6 +306,9 @@ export default {
       },
       orgs: {
         countries: []
+      },
+      users: {
+        roles: roleNums
       },
       api: ""
     };

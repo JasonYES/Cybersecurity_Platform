@@ -9,7 +9,7 @@
 </template>
 <script>
 import * as math from "mathjs";
-import vname from "@/config/view-name";
+import { vname } from "@/config/properties";
 export default {
   name: "tablex",
   props: {

@@ -34,7 +34,7 @@
 
 <script>
 import { mapState } from "vuex";
-import vname from "@/config/view-name";
+import { vname } from "@/config/properties";
 export default {
   name: "CboxIndexes",
   computed: {

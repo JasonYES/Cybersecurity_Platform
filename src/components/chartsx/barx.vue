@@ -18,7 +18,7 @@
 </template>
 <script>
 import { ChartBar } from "_c/charts";
-import vname from "@/config/view-name";
+import { vname } from "@/config/properties";
 import { mapState } from "vuex";
 import { divideScoresBy } from "@/libs/tools";
 export default {

@@ -80,7 +80,7 @@
 <script>
 import { AdminModal, AdminModalInsert, AdminTableExpand } from "_c/scoringmini";
 import tmpData from "@/store/module/tmp-data";
-import vname from "@/config/view-name";
+import { vname } from "@/config/properties";
 import { getSets, getOrgs, getUsers, getCountry } from "@/api/admin";
 import { getIndex3, getIndex2, getIndex1, chooseSets } from "@/api/admin";
 import { delSets, delOrgs, delUsers, delCountry } from "@/api/admin";

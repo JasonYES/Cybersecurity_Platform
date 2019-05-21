@@ -17,7 +17,10 @@
     <Modal v-if="index.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
       <Form ref="index" :rules="validateRules.index" :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :prop="field" :label="vname[field]">
-          <template>
+          <template v-if="field === 'weight'">
+            <Input number v-model="value[field]" :disabled="formDisable(field)"/>
+          </template>
+          <template v-else>
             <Input v-model="value[field]" :disabled="formDisable(field)"/>
           </template>
         </FormItem>
@@ -50,7 +53,12 @@
         style="margin-bottom: 8px;"
       >
         <FormItem v-for="(field) in formFields" :key="field" :prop="field" :label="vname[field]">
-          <template>
+          <template v-if="field === 'role'">
+            <Select v-model="value[field]" style="width:200px">
+              <Option v-for="item in users.roles" :value="item" :key="item">{{num2role[item]}}</Option>
+            </Select>
+          </template>
+          <template v-else>
             <Input v-model="value[field]" placeholder="Enter something..."/>
           </template>
         </FormItem>
@@ -94,7 +102,7 @@
 </template>
 <script>
 import tmpData from "@/store/module/tmp-data";
-import vname from "@/config/view-name";
+import { vname, continents, num2role, roleNums } from "@/config/properties";
 import { postSets, postOrgs, postUsers, postCountry } from "@/api/admin";
 import { postIndex3, postIndex2, postIndex1 } from "@/api/admin";
 import { getCountry } from "@/api/admin";
@@ -126,6 +134,7 @@ export default {
   data() {
     return {
       vname,
+      num2role,
       formFormatter: {
         fieldsHidden: [],
         fieldsDisable: new Set(),
@@ -133,7 +142,7 @@ export default {
       },
       country: {
         modalShow: false,
-        continents: ["asia", "america", "africa", "europe"]
+        continents: continents
       },
       index: {
         modalShow: false
@@ -143,7 +152,8 @@ export default {
         countries: []
       },
       users: {
-        modalShow: false
+        modalShow: false,
+        roles: roleNums
       },
       sets: {
         modalShow: false
@@ -153,7 +163,9 @@ export default {
         country: {
           name: [{ required: true, message: "不能为空", trigger: "blur" }],
           nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
-          continent: [{ required: true, message: "不能为空", trigger: "blur" }],
+          continent: [
+            { required: true, message: "不能为空", trigger: "change" }
+          ],
           est: "",
           language: "",
           capital: "",
@@ -165,7 +177,14 @@ export default {
         index: {
           name: [{ required: true, message: "不能为空", trigger: "blur" }],
           nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
-          weight: [{ required: true, message: "不能为空", trigger: "blur" }]
+          weight: [
+            {
+              required: true,
+              message: "不能为空 / 只能为数字",
+              trigger: "blur",
+              type: "number"
+            }
+          ]
         },
         orgs: {
           name: [{ required: true, message: "不能为空", trigger: "blur" }],
@@ -176,7 +195,14 @@ export default {
         users: {
           name: [{ required: true, message: "不能为空", trigger: "blur" }],
           nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
-          role: [{ required: true, message: "不能为空", trigger: "blur" }]
+          role: [
+            {
+              required: true,
+              message: "不能为空",
+              trigger: "change",
+              type: "number"
+            }
+          ]
         },
         sets: {
           name: [{ required: true, message: "不能为空", trigger: "blur" }]
@@ -380,6 +406,7 @@ export default {
           if (this.value.password != "") {
             postData["password"] = this.value.password;
           }
+          console.log(this.$refs[this.type]);
           this.$refs[this.type].validate(valid => {
             if (valid) {
               postUsers(postData)

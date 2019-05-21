@@ -34,4 +34,21 @@ var vname = {
     date: "创建日期",
 }
 
-export { vname }
+var continents = [
+    "亚洲",
+    "欧洲",
+    "北美洲",
+    "南美洲",
+    "非洲",
+    "大洋洲",
+]
+
+var num2role = {
+    0: "普通用户",
+    1: "评分员",
+    2: "管理员"
+}
+
+var roleNums = Object.keys(num2role).map(str => parseInt(str))
+
+export { vname, continents, num2role, roleNums }

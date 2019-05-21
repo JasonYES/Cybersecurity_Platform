@@ -6,7 +6,7 @@
 import echarts from "echarts";
 import tdTheme from "./theme.json";
 import { on, off } from "@/libs/tools";
-import vname from "@/config/view-name";
+import { vname } from "@/config/properties";
 import { mapState } from "vuex";
 echarts.registerTheme("tdTheme", tdTheme);
 export default {
