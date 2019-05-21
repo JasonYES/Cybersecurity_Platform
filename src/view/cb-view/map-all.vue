@@ -3,7 +3,7 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <Cbox></Cbox>
+          <Cbox :type="'visualMap'"></Cbox>
         </Card>
       </i-col>
     </Row>

@@ -358,5 +358,15 @@ export default {
       "A high profiled delegation of experts and interested parties assembled at the Jolly Beach Resort on Monday, to participate in a Training Workshop for the Caribbean on Cyber Security and Cyber Crime. The four day workshop has attracted delegates from across the Caribbean and aims at creating dialogues and suggestions to combat cyber related crime. Prime Minister the Hon. Dr. Baldwin Spencer, while delivering the feature address, expressed thanks to the OAS for their active involvement in disseminating information about cyber security. Director of the Office of the National Drug Control Policy (ONDCP), Lieutenant Colonel Edward Croft, is pleased that Antigua and Barbuda has been chosen to host the event. OAS Representative in Antigua and Barbuda, Ambassador Jean Dormeus, says the adequate use of cyber technologies can grow the region's economies and also empower citizens and residents. He maintains that Caribbean islands need to join forces and exchange information that will guarantee the security of the region's cyber space, which cannot be overlooked. The workshop will focus on cyber security incident management and investigation, and will also look at the investigation and prosecution of cyber crimes, with an overarching focus on strengthening national and regional coordination."
       , "周一在欢乐海滩度假村聚集的高级专家和有关方面代表团将参加加勒比地区网络安全和网络犯罪培训研讨会。 为期四天的研讨会吸引了来自加勒比地区的代表，旨在创建对抗网络犯罪的对话和建议。 总理大会。 Baldwin Spencer博士在发表专题演讲时表示感谢美洲国家组织积极参与传播有关网络安全的信息。 国家药物管制政策办公室（ONDCP）主任爱德华克罗夫特中校很高兴安提瓜和巴布达被选中主办此次活动。 美洲国家组织驻安提瓜和巴布达代表Jean Dormeus大使表示，充分利用网络技术可以促进该地区的经济发展，并增强公民和居民的能力。 他坚持认为，加勒比岛屿需要联合起来并交换信息，以保证该地区网络空间的安全，这是不容忽视的。研讨会将重点关注网络安全事件管理和调查，并将着眼于网络犯罪的调查和起诉，重点是加强国家和地区的协调。"
     ]
+  ],
+  scoreOrgs: [
+    { "country": "亚洲", "score": 0.73, "legal": 0.6, "technical": 0.89, "organization": 0.59, "capacity": 0.69, "cooperation": 0.29 },
+    { "country": "欧洲", "score": 0.38, "legal": 0.52, "technical": 0.95, "organization": 0.9, "capacity": 0.62, "cooperation": 0.19 },
+    { "country": "非洲", "score": 0.37, "legal": 0.84, "technical": 0.29, "organization": 0.31, "capacity": 0.28, "cooperation": 0.09 },
+    { "country": "大洋洲", "score": 0, "legal": 0.62, "technical": 0.69, "organization": 0.41, "capacity": 0.63, "cooperation": 0.18 },
+    { "country": "南美洲", "score": 0.73, "legal": 0.6, "technical": 0.89, "organization": 0.59, "capacity": 0.69, "cooperation": 0.29 },
+    { "country": "23", "score": 0.38, "legal": 0.52, "technical": 0.95, "organization": 0.9, "capacity": 0.62, "cooperation": 0.19 },
+    { "country": "2333", "score": 0.37, "legal": 0.84, "technical": 0.29, "organization": 0.31, "capacity": 0.28, "cooperation": 0.09 },
+    { "country": "goup12", "score": 0, "legal": 0.62, "technical": 0.69, "organization": 0.41, "capacity": 0.63, "cooperation": 0.18 },
   ]
 }

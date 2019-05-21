@@ -3,7 +3,11 @@ import { getScores, getCountries, getOrgs, getDname, getIndexes } from '@/api/vi
 export default {
   state: {
     scores: [],
+    scoresOrgs: [],
     cbox: {
+      // 切换国家 / 组织功能
+      cboxFlag: "countries",
+      // 国家 / 组织
       countries: {},
       orgs: {},
       chosenCountries: {},
@@ -18,11 +22,49 @@ export default {
   mutations: {
     setScores(state, data) {
       state.scores = data;
+      // 一开始就初始化所有数据
       for (var i in data) {
         state.cbox.chosenScores.push({ ...data[i] });
       }
     },
+    setScoresOrgs(state, data) {
+      state.scoresOrgs = data;
+    },
     setCbox(state, data) {
+      for (var i in data) {
+        // cbox值的设定
+        state.cbox[i] = { ...data[i] } // 用展开式实现clone
+      }
+    },
+    updateChosenScores(state, cboxFlag) {
+      state.cbox.cboxFlag = cboxFlag
+      if (cboxFlag === "countries") { // if 国家为单位的score
+        var chosen = state.cbox.chosenCountries;
+        var originalScore = state.scores;
+      } else if (cboxFlag === "orgs") {
+        var chosen = state.cbox.chosenOrgs;
+        var originalScore = state.scoresOrgs;
+      }
+
+      // 将选择扁平化
+      var allChosen = [];
+      for (var j in chosen) {
+        allChosen.push(...chosen[j]);
+      }
+      var set = new Set(allChosen);
+      console.log(set)
+      // 更新chosenScores
+      state.cbox.chosenScores = [];
+      for (var i in originalScore) {
+        var row = originalScore[i];
+        console.log(row)
+        if (set.has(row['country'])) {
+          state.cbox.chosenScores.push({ ...row });
+        }
+      }
+    }
+    ,
+    XXXsetCbox(state, data) {
       for (var i in data) {
         // cbox值的设定
         state.cbox[i] = { ...data[i] } // 用展开式实现clone
@@ -68,9 +110,7 @@ export default {
       }).catch(err => {
         alert(err);
       })
-      // var scores = tmpData['scores']
-      // context.commit('setScores', scores)
-      // cbox
+
       getCountries().then(res => {
         if (res.data.code == 0) {
           var countries = res.data.data;
@@ -80,9 +120,7 @@ export default {
       }).catch(err => {
         alert(err);
       })
-      // var countries = tmpData['countries']
-      // context.commit('setCbox', { 'countries': countries })
-      // context.commit('setCbox', { 'chosenCountries': countries })
+
       getOrgs().then(res => {
         if (res.data.code == 0) {
           var orgs = res.data.data;
@@ -101,13 +139,6 @@ export default {
       }).catch(err => {
         alert(err);
       })
-      // var orgs = tmpData['orgs']
-      // context.commit('setCbox', { 'orgs': { ...orgs } })
-      // context.commit('setCbox', { 'chosenOrgs': { ...orgs } })
-      // dynamicName
-      // var dynamicName = tmpData['dynamicName']
-      // context.commit('setDynamicName', dynamicName)
-      // indexes
 
       getIndexes().then(res => {
         if (res.data.code == 0) {
@@ -117,15 +148,14 @@ export default {
       }).catch(err => {
         alert(err);
       })
-      // var indexes = tmpData['indexes']
-      // context.commit('setIndexes', indexes)
+
+      context.commit('setScoresOrgs', tmpData["scoreOrgs"])
     },
-    checkInited(context, dataArray) {
+    XXXcheckInited(context, dataArray) {
       for (var i in dataArray) {
         if (i === 'dynamicName' && context.dynamicName === {}) {
           var dynamicName = tmpData['dynamicName']
           context.commit('setDynamicName', dynamicName)
-          console.log('done')
         }
 
         if (i === 'indexes' && context.indexes === {}) {

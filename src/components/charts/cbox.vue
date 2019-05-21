@@ -1,7 +1,7 @@
 <template>
   <div class="charts cbox">
-    <Collapse :value="'1'" accordion>
-      <Panel name="1">
+    <Collapse :value="cboxFlag" accordion>
+      <Panel name="countries">
         国家选择
         <div slot="content">
           <div v-for="(object, continent)  in value" :key="continent">
@@ -32,7 +32,7 @@
           </div>
         </div>
       </Panel>
-      <Panel name="2">
+      <Panel name="orgs" v-if="type == null">
         组织选择
         <div slot="content">
           <div v-for="(object, continent)  in orgsValue" :key="continent">
@@ -41,7 +41,7 @@
                 <Button
                   size="small"
                   :key="continent"
-                  @click="handleCheckAll(continent)"
+                  @click="handleCheckAllOrgs(continent)"
                 >全选:{{continent}}</Button>
               </i-col>
               <i-col
@@ -57,7 +57,7 @@
           <div style="margin-bottom:-10px;">
             <Row type="flex" justify="center">
               <i-col span="6">
-                <Button long @click="confirmHander">确认</Button>
+                <Button long @click="confirmHanderOrgs">确认</Button>
               </i-col>
             </Row>
           </div>
@@ -78,11 +78,9 @@ export default {
   computed: {
     ...mapState({
       cbox: state => state.cbdata.cbox,
-      dname: state => state.cbdata.dynamicName
+      dname: state => state.cbdata.dynamicName,
+      cboxFlag: state => state.cbdata.cbox.cboxFlag
     })
-    // typeValueComputed: function() {
-    //   return this.typeValue;
-    // }
   },
   watch: {
     // 这是为了typeValue异步加载的实时更新
@@ -195,22 +193,10 @@ export default {
       this.initByType();
     });
   },
-  // beforeUpdate() {
-  //   switch (this.type) {
-  //     case "scoring":
-  //       break;
-  //     case "crawler":
-  //       break;
-  //     default:
-  //       this.value = this.copyObject(this.cbox.countries);
-  //       this.checked = this.copyObject(this.cbox.chosenCountries);
-  //       break;
-  //   }
-  // },
   methods: {
     initByType() {
       switch (this.type) {
-        case "orgs":
+        case "orgs": // XXX deprecated
           this.value = this.cbox.orgs;
           this.checked = this.cbox.chosenOrgs;
           this.confirmAction = "innerOrgs";
@@ -228,7 +214,9 @@ export default {
         default:
           // 默认为visual部分的大多数情况
           this.value = { ...this.cbox.countries };
+          this.orgsValue = { ...this.cbox.orgs };
           this.checked = { ...this.cbox.chosenCountries };
+          this.checkedOrgs = { ...this.cbox.chosenOrgs };
           this.confirmAction = "inner";
           break;
       }
@@ -236,10 +224,17 @@ export default {
     confirmHander() {
       if (this.confirmAction === "inner") {
         this.$store.commit("setCbox", { chosenCountries: this.checked });
+        this.$store.commit("updateChosenScores", "countries");
       } else if (this.confirmAction === "outer") {
         this.$emit("checked", this.checked);
       } else if (this.confirmAction === "innerOrgs") {
         this.$store.commit("setCbox", { chosenOrgs: this.checked });
+      }
+    },
+    confirmHanderOrgs() {
+      if (this.confirmAction === "inner") {
+        this.$store.commit("setCbox", { chosenOrgs: this.checkedOrgs });
+        this.$store.commit("updateChosenScores", "orgs");
       }
     },
     copyObject(obj) {
@@ -250,6 +245,17 @@ export default {
         this.checked[continent] = [];
       } else {
         this.checked[continent] = this.copyObject(this.value[continent]);
+      }
+    },
+    handleCheckAllOrgs(continent) {
+      if (
+        this.checkedOrgs[continent].length == this.orgsValue[continent].length
+      ) {
+        this.checkedOrgs[continent] = [];
+      } else {
+        this.checkedOrgs[continent] = this.copyObject(
+          this.orgsValue[continent]
+        );
       }
     }
   }
