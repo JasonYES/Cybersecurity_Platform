@@ -125,7 +125,6 @@ export default {
   },
   data() {
     return {
-      // valueBackup: {},
       vname,
       formFormatter: {
         fieldsHidden: [],
@@ -165,8 +164,8 @@ export default {
         },
         index: {
           name: [{ required: true, message: "不能为空", trigger: "blur" }],
-          nickname: [{ required: true, message: "不能为空", trigger: "blur" }]
-          // weight: [{ required: true, message: "不能为空", trigger: "blur" }]
+          nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
+          weight: [{ required: true, message: "不能为空", trigger: "blur" }]
         },
         orgs: {
           name: [{ required: true, message: "不能为空", trigger: "blur" }],
@@ -177,9 +176,7 @@ export default {
         users: {
           name: [{ required: true, message: "不能为空", trigger: "blur" }],
           nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
-          role: [{ required: true, message: "不能为空", trigger: "blur" }],
-          password: [{ required: true, message: "不能为空", trigger: "blur" }],
-          password2: [{ required: true, message: "不能为空", trigger: "blur" }]
+          role: [{ required: true, message: "不能为空", trigger: "blur" }]
         },
         sets: {
           name: [{ required: true, message: "不能为空", trigger: "blur" }]

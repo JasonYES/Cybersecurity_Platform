@@ -65,7 +65,7 @@
   </div>
 </template>
 <script>
-import vname from "@/config/view-name";
+import { vname } from "@/config/properties";
 import tmpData from "@/store/module/tmp-data";
 import { mapState } from "vuex";
 import { manualSubmit, manualUndo } from "@/api/scoring";
