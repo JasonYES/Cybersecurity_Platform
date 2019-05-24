@@ -1,4 +1,5 @@
 import Main from '@/components/main'
+import report from '@/view/cb-main/data-report.vue'
 import parentView from '@/components/parent-view'
 import { homedir } from 'os';
 
@@ -214,6 +215,19 @@ export default [
       },
     ]
   },
+
+
+  {
+    path: '/data2',
+    name: 'data2',
+    meta: {
+      icon: 'md-cog',
+      title: 'data2'
+    },
+    component: report
+  },
+
+
   {
     path: '/admin',
     name: 'admin',

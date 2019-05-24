@@ -82,7 +82,6 @@ export default {
         X轴指标: dname["指标1"],
         Y轴指标: dname["指标1"]
       });
-      console.log("one");
       return { X轴指标: indexBox, Y轴指标: indexBox };
     }
   }

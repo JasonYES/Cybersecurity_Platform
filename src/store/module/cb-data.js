@@ -52,12 +52,10 @@ export default {
         allChosen.push(...chosen[j]);
       }
       var set = new Set(allChosen);
-      console.log(set)
       // 更新chosenScores
       state.cbox.chosenScores = [];
       for (var i in originalScore) {
         var row = originalScore[i];
-        console.log(row)
         if (set.has(row['country'])) {
           state.cbox.chosenScores.push({ ...row });
         }
