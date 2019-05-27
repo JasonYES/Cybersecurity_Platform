@@ -216,18 +216,6 @@ export default [
     ]
   },
 
-
-  {
-    path: '/data2',
-    name: 'data2',
-    meta: {
-      icon: 'md-cog',
-      title: 'data2'
-    },
-    component: report
-  },
-
-
   {
     path: '/admin',
     name: 'admin',

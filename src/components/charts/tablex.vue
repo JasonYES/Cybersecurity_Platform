@@ -10,6 +10,7 @@
 <script>
 import * as math from "mathjs";
 import { vname } from "@/config/properties";
+import { mapState } from "vuex";
 export default {
   name: "tablex",
   props: {
@@ -18,9 +19,16 @@ export default {
   },
   computed: {
     data: function() {
-      this.statAverage(this.value);
-      return this.value;
-    }
+      var valueCopy = [];
+      for (var i in this.value) {
+        valueCopy.push({ ...this.value[i] });
+      }
+      this.dataFormatter(valueCopy);
+      return valueCopy;
+    },
+    ...mapState({
+      dname: state => state.cbdata.dynamicName
+    })
   },
   mounted() {},
   methods: {
@@ -34,7 +42,7 @@ export default {
     //       break;
     //   }
     // },
-    statAverage(value) {
+    dataFormatter(value) {
       // 数组未初始化保护
       if (value == null || value.length === 0) {
         return;
@@ -57,6 +65,10 @@ export default {
         var array = [];
         for (var j in value) {
           array.push(value[j][title]);
+          // 中文化
+          if (this.dname[value[j]["country"]] != null) {
+            value[j]["country"] = this.dname[value[j]["country"]];
+          }
         }
         mean[title] = math.mean(array).toFixed(2);
         std[title] = math.std(array).toFixed(2);

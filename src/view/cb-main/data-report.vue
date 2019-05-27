@@ -16,18 +16,9 @@
         </Panel>
       </Collapse>
     </Row>
-
+    <br>
+    <Row></Row>
     <!-- 正文 -->
-
-    <Row type="flex" justify="center" style="margin-top: 10px;">
-      <i-col :md="12" :lg="12" style="margin-bottom: 20px;">
-        <Card shadow>
-          <div id="map">
-            <chart-map style="height:600px;" :index="'score'"></chart-map>
-          </div>
-        </Card>
-      </i-col>
-    </Row>
 
     <!-- 1 -->
 
@@ -42,7 +33,7 @@
             <br>
             <br>
             <Row>
-              <img class="report" :src="win1" key="win1">
+              <img id="reportCover" class="report" :src="win1" key="win1">
             </Row>
             <br>
             <br>
@@ -66,20 +57,19 @@
         <Card>
           <div align="center" :style="height">
             <h2 align="left" style="padding-left:20px">{{reportText.title}} - 前言</h2>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
             <Row type="flex" justify="center">
               <i-col span="18">
-                <div align="left" style="font-size:18px">
-                  <Row type="flex" justify="center">
-                    <i-col span="10">
-                      <Input
-                        v-model="reportText.summary"
-                        type="textarea"
-                        rows="12"
-                        placeholder="输入内容..."
-                      />
-                    </i-col>
-                  </Row>
-                </div>
+                <Input
+                  v-model="reportText.summary"
+                  type="textarea"
+                  :rows="40"
+                  placeholder="输入内容..."
+                />
               </i-col>
             </Row>
           </div>
@@ -91,24 +81,19 @@
       <i-col span="16">
         <Card>
           <div align="center" :style="height">
-            <h2 align="left" style="padding-left:20px">2019网络安全报告 - 图表</h2>
+            <h2 align="left" style="padding-left:20px">{{reportText.title}} - 全球概览</h2>
+            <br>
+            <br>
+            <Card shadow>
+              <div id="reportMap">
+                <chart-map style="height:600px;" :index="'score'"></chart-map>
+              </div>
+            </Card>
+            <br>
+            <br>
             <Row type="flex" justify="center">
               <i-col span="18">
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <img class="report" :src="report1">
-                <div align="left" style="font-size:18px">
-                  <br>
-                  <br>
-                  <p>信息和通信技术（ICT）网络，设备和服务对于日常生活越来越重要。 2016年，全球几乎有一半使用互联网（35亿用户），据估计，到2020年将有超过120亿台机器对机器设备连接到互联网。 然而，就像在现实世界中一样，网络世界面临着各种可能造成巨大破坏的安全威胁。</p>
-                  <br>
-                  <p>有关计算机网络威胁的统计数据令人警醒，并反映出从过去相对真实的垃圾邮件转变为更恶意的威胁。 一家安全公司在2016年跟踪事件发现，恶意电子邮件成为各种网络攻击的首选武器，这些网络攻击在每年从国家赞助的网络间谍团体到大规模邮件勒索软件团伙使用。 发送的131封电子邮件是恶意的，是五年来最高的。</p>
-                  <br>
-                  <p>信息和通信技术（ICT）网络，设备和服务对于日常生活越来越重要。 2016年，全球几乎有一半使用互联网（35亿用户），据估计，到2020年将有超过120亿台机器对机器设备连接到互联网。 然而，就像在现实世界中一样，网络世界面临着各种可能造成巨大破坏的安全威胁。</p>
-                </div>
+                <Input v-model="reportText.map" type="textarea" :rows="15" placeholder="输入内容..."/>
               </i-col>
             </Row>
           </div>
@@ -119,27 +104,23 @@
     <Row type="flex" justify="center">
       <i-col span="16">
         <Card>
-          <div align="center" :style="height">
-            <h2 align="left" style="padding-left:20px">2019网络安全报告 - 图表</h2>
+          <div align="center">
+            <h2 align="left" style="padding-left:20px">{{reportText.title}} - 显著性分析</h2>
+            <br>
+            <br>
+            <Card shadow>
+              <div id="reportPie">
+                <chart-pie style="height: 1000px;" :value="dataCombined"/>
+              </div>
+            </Card>
+            <br>
+            <br>
             <Row type="flex" justify="center">
               <i-col span="18">
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <img class="report" :src="report2">
-                <div align="left" style="font-size:18px">
-                  <br>
-                  <br>
-                  <p>信息和通信技术（ICT）网络，设备和服务对于日常生活越来越重要。 2016年，全球几乎有一半使用互联网（35亿用户），据估计，到2020年将有超过120亿台机器对机器设备连接到互联网。 然而，就像在现实世界中一样，网络世界面临着各种可能造成巨大破坏的安全威胁。</p>
-                  <br>
-                  <p>有关计算机网络威胁的统计数据令人警醒，并反映出从过去相对真实的垃圾邮件转变为更恶意的威胁。 一家安全公司在2016年跟踪事件发现，恶意电子邮件成为各种网络攻击的首选武器，这些网络攻击在每年从国家赞助的网络间谍团体到大规模邮件勒索软件团伙使用。 发送的131封电子邮件是恶意的，是五年来最高的。</p>
-                  <br>
-                  <p>信息和通信技术（ICT）网络，设备和服务对于日常生活越来越重要。 2016年，全球几乎有一半使用互联网（35亿用户），据估计，到2020年将有超过120亿台机器对机器设备连接到互联网。 然而，就像在现实世界中一样，网络世界面临着各种可能造成巨大破坏的安全威胁。</p>
-                </div>
+                <Input v-model="reportText.pie" type="textarea" :rows="15" placeholder="输入内容..."/>
               </i-col>
             </Row>
+            <br>
           </div>
         </Card>
       </i-col>
@@ -148,31 +129,38 @@
     <Row type="flex" justify="center">
       <i-col span="16">
         <Card>
-          <div align="center" :style="height">
-            <h2 align="left" style="padding-left:20px">2019网络安全报告 - 图表</h2>
-            <Row type="flex" justify="center">
-              <i-col span="18">
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <img class="report" :src="report3">
-                <div align="left" style="font-size:18px">
-                  <br>
-                  <br>
-                  <p>信息和通信技术（ICT）网络，设备和服务对于日常生活越来越重要。 2016年，全球几乎有一半使用互联网（35亿用户），据估计，到2020年将有超过120亿台机器对机器设备连接到互联网。 然而，就像在现实世界中一样，网络世界面临着各种可能造成巨大破坏的安全威胁。</p>
-                  <br>
-                  <p>有关计算机网络威胁的统计数据令人警醒，并反映出从过去相对真实的垃圾邮件转变为更恶意的威胁。 一家安全公司在2016年跟踪事件发现，恶意电子邮件成为各种网络攻击的首选武器，这些网络攻击在每年从国家赞助的网络间谍团体到大规模邮件勒索软件团伙使用。 发送的131封电子邮件是恶意的，是五年来最高的。</p>
-                  <br>
-                  <p>信息和通信技术（ICT）网络，设备和服务对于日常生活越来越重要。 2016年，全球几乎有一半使用互联网（35亿用户），据估计，到2020年将有超过120亿台机器对机器设备连接到互联网。 然而，就像在现实世界中一样，网络世界面临着各种可能造成巨大破坏的安全威胁。</p>
-                </div>
-              </i-col>
-            </Row>
+          <div align="center">
+            <h2 align="left" style="padding-left:20px">{{reportText.title}} - 分数列表</h2>
+            <br>
+            <br>
+            <Card shadow>
+              <Tablex id="reportTable" :value="dataCombined"/>
+            </Card>
+            <br>
           </div>
         </Card>
       </i-col>
     </Row>
+    <br>
+    <Row type="flex" justify="center">
+      <i-col span="16">
+        <Card>
+          <div align="center">
+            <h2 align="left" style="padding-left:20px">{{reportText.title}} - 总结报告</h2>
+            <br>
+            <br>
+            <br>
+            <Row type="flex" justify="center">
+              <i-col span="18">
+                <Input v-model="reportText.final" type="textarea" :rows="40" placeholder="输入内容..."/>
+              </i-col>
+            </Row>
+            <br>
+          </div>
+        </Card>
+      </i-col>
+    </Row>
+    <br>
   </div>
 </template>
 <script>
@@ -181,9 +169,15 @@ import report1 from "@/assets/images/report1.jpg";
 import report2 from "@/assets/images/report2.jpg";
 import report3 from "@/assets/images/report3.jpg";
 import report4 from "@/assets/images/report4.jpg";
-import { Cbox, ChartMap } from "_c/charts";
-import jsPDF from "jspdf";
+import { Cbox, ChartMap, Tablex, ChartPie } from "_c/charts";
 import html2canvas from "html2canvas";
+import { divideScoresBy } from "@/libs/tools";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { font } from "@/assets/fonts/msyhx-normal.js";
+import { mapState } from "vuex";
+import { resolve } from "q";
+import { vname } from "@/config/properties";
 export default {
   data() {
     return {
@@ -197,72 +191,203 @@ export default {
         title: "",
         summary: "",
         map: "",
-        table: ""
-      }
+        table: "",
+        pie: "",
+        final: ""
+      },
+      reportPage: {
+        width: 595.28,
+        height: 841.89,
+        margin: 30
+      },
+      pdf: null
     };
   },
+  computed: {
+    ...mapState({
+      dname: state => state.cbdata.dynamicName,
+      dataCombined: state => [...state.cbdata.cbox.chosenScores], // 防止被更改
+      dataDivided: state =>
+        divideScoresBy(state.cbdata.cbox.chosenScores, "continent") // 防止被更改 方法内已做处理
+    })
+  },
   components: {
-    ChartMap
+    ChartMap,
+    Tablex,
+    ChartPie
   },
-  mounted() {
-    // this.drawFromHTML();
-  },
+  mounted() {},
   methods: {
-    draw() {
-      let pdfName = "test";
-      var doc = new jsPDF();
-      doc.text("Hello World", 10, 10);
-      doc.save(pdfName + ".pdf");
-    },
     drawFromHTML() {
-      let pdfName = "test";
-      var doc = new jsPDF({
-        unit: "px",
-        format: "a4"
+      this.pdf = new jsPDF("", "pt", "a4");
+
+      // fonts support
+      this.pdf.addFileToVFS("msyh-normal.ttf", font);
+      this.pdf.addFont("msyh-normal.ttf", "msyh", "normal");
+      this.pdf.addFont("msyh-normal.ttf", "msyh", "bold");
+      this.pdf.setFont("msyh");
+      var windoc = window.document;
+      var text = this.reportText;
+
+      var reportAddPic = this.reportAddPic;
+      var reportAddLine = this.reportAddLine;
+      var reportAddTitle = this.reportAddTitle;
+      var reportAddParagraph = this.reportAddParagraph;
+
+      // 以下是报告的编排和生成过程
+      reportAddPic(windoc.getElementById("reportCover"), 0, 1 / 5)
+        .then(() => {
+          return reportAddLine(text.title, 560, 600, 23, "r");
+        })
+        .then(() => {
+          return reportAddTitle("前言");
+        })
+        .then(() => {
+          return reportAddParagraph(text.summary, 1 / 5);
+        })
+        .then(() => {
+          return reportAddTitle("全球概览");
+        })
+        .then(() => {
+          return reportAddPic(windoc.getElementById("reportMap"), 0, 1 / 10);
+        })
+        .then(() => {
+          return reportAddParagraph(text.map, 3 / 5);
+        })
+        .then(() => {
+          return reportAddTitle("显著性分析");
+        })
+        .then(() => {
+          return reportAddPic(windoc.getElementById("reportPie"), 0, 1 / 10);
+        })
+        .then(() => {
+          return reportAddTitle("显著性分析-续");
+        })
+        .then(() => {
+          return reportAddParagraph(text.pie, 1 / 7);
+        })
+        .then(() => {
+          return reportAddTitle("分数列表");
+        })
+        .then(() => {
+          return this.reportAddTable();
+        })
+        .then(() => {
+          return reportAddTitle("总结报告");
+        })
+        .then(() => {
+          return reportAddParagraph(text.final, 1 / 7);
+        })
+        .then(() => {
+          window.open(this.pdf.output("bloburl"));
+        });
+    },
+    reportAddPic(source, x, y) {
+      return new Promise((resolve, reject) => {
+        html2canvas(source).then(canvas => {
+          var pic = canvas.toDataURL("image/jpeg", 1.0);
+          var picMargin = this.reportPage.margin - 15;
+          var picWidth = this.reportPage.width - 2 * picMargin;
+          this.pdf.addImage(
+            pic,
+            "JPEG",
+            picMargin,
+            y * this.reportPage.height,
+            picWidth,
+            (picWidth / canvas.width) * canvas.height
+          );
+          resolve(1);
+        });
       });
-      var source = window.document.getElementById("map");
-      console.log(source);
-      doc.text("Hello World", 10, 10);
-
-      html2canvas(source).then(canvas => {
-        //返回图片dataURL，参数：图片格式和清晰度(0-1)
-        var pageData = canvas.toDataURL("image/jpeg", 1.0);
-        //方向默认竖直，尺寸ponits，格式a4[595.28,841.89]
-        var pdf = new jsPDF("", "pt", "a4");
-        //addImage后两个参数控制添加图片的尺寸，此处将页面高度按照a4纸宽高比列进行压缩
-        pdf.addImage(
-          pageData,
-          "JPEG",
-          0,
-          0,
-          595.28,
-          (592.28 / canvas.width) * canvas.height
-        );
-        this.test();
-        window.open(pdf.output("bloburl"));
-        // pdf.save("stone.pdf");
+    },
+    reportAddLine(text, x, y, size, align) {
+      return new Promise((resolve, reject) => {
+        this.pdf.setFontSize(size);
+        switch (align) {
+          case "r":
+            this.pdf.text(text, x, y, null, null, "right");
+            break;
+          default:
+            this.pdf.text(text, x, y);
+            break;
+        }
+        resolve(1);
       });
-
-      // doc.fromHTML(
-      //   source,
-      //   15,
-      //   15,
-      //   {
-      //     width: 180
-      //   },
-      //   () => doc.save("saveInCallback.pdf")
-      // );
-      // window.html2canvas = html2canvas;
-
-      // doc.html(source, {
-      //   callback: doc => window.open(doc.output("bloburl"))
-      // });
+    },
+    reportAddParagraph(text, y) {
+      let page = this.reportPage;
+      let textLines = this.pdf
+        .setFontSize(14)
+        .splitTextToSize(text, page.width - 2 * page.margin);
+      this.pdf.text(textLines, page.margin, y * page.height);
+    },
+    reportAddTitle(text) {
+      return new Promise((resolve, reject) => {
+        let page = this.reportPage;
+        this.pdf.addPage();
+        this.pdf.setFontSize(16);
+        this.pdf.text(text, page.margin, page.margin);
+        resolve(1);
+      });
+    },
+    reportAddTable() {
+      return new Promise((resolve, reject) => {
+        let page = this.reportPage;
+        var headers = this.reportTableHeader();
+        this.pdf.autoTable({
+          startY: page.margin + 20,
+          head: headers,
+          body: this.dataCombined,
+          styles: { font: "msyh" }
+        });
+        resolve(1);
+      });
     },
     reportDownload() {
       this.drawFromHTML();
+      // this.reportDownloadX();
     },
-    test() {
-      console.log("xx");
+    reportDownloadX() {
+      this.pdf = new jsPDF("", "pt", "a4");
+
+      // fonts support
+      this.pdf.addFileToVFS("msyh-normal.ttf", font);
+      this.pdf.addFont("msyh-normal.ttf", "msyh", "normal");
+      this.pdf.addFont("msyh-normal.ttf", "msyh", "bold");
+      this.pdf.setFont("msyh");
+      var windoc = window.document;
+      var text = this.reportText;
+
+      var reportAddPic = this.reportAddPic;
+      var reportAddLine = this.reportAddLine;
+      var reportAddTitle = this.reportAddTitle;
+      var reportAddParagraph = this.reportAddParagraph;
+
+      // console.log(this.dataDivided);
+      // 以下是报告的编排和生成过程
+      reportAddTitle("全球概览")
+        .then(() => {
+          return this.reportAddTable();
+        })
+        .then(() => {
+          window.open(this.pdf.output("bloburl"));
+        });
+    },
+    reportTableHeader() {
+      if (this.dataCombined.length != 0) {
+        var tmpHeader = this.dataCombined[0];
+      }
+      var header = {};
+      for (var i in tmpHeader) {
+        if (this.dname[i] != null) {
+          header[i] = this.dname[i];
+        } else if (vname[i] != null) {
+          header[i] = vname[i];
+        } else {
+          header[i] = i;
+        }
+      }
+      return [header];
     }
   }
 };
@@ -273,4 +398,5 @@ export default {
   height: auto;
 }
 </style>
+
 
