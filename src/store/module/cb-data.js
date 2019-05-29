@@ -103,7 +103,8 @@ export default {
       getScores().then(res => {
         if (res.data.code == 0) {
           var scores = res.data.data;
-          context.commit('setScores', scores)
+          context.commit('setScores', scores.countries)
+          context.commit('setScoresOrgs', scores.orgs)
         } else { alert(res.data.msg) }
       }).catch(err => {
         alert(err);
@@ -147,7 +148,6 @@ export default {
         alert(err);
       })
 
-      context.commit('setScoresOrgs', tmpData["scoreOrgs"])
     },
     XXXcheckInited(context, dataArray) {
       for (var i in dataArray) {

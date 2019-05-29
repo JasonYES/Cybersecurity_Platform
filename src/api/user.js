@@ -12,6 +12,8 @@ export const login = ({ userName, password }) => {
   })
 }
 
+
+// 以下都没有用到
 export const getUserInfo = (token) => {
   return axios.request({
     url: 'get_info',

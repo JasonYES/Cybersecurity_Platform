@@ -174,10 +174,10 @@ import html2canvas from "html2canvas";
 import { divideScoresBy } from "@/libs/tools";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import { font } from "@/assets/fonts/msyhx-normal.js";
+import { font } from "@/assets/fonts/Alibaba-3500.js";
 import { mapState } from "vuex";
 import { resolve } from "q";
-import { vname } from "@/config/properties";
+import { vname, reportText } from "@/config/properties";
 export default {
   data() {
     return {
@@ -187,14 +187,7 @@ export default {
       report3,
       report4,
       height: "height:1200px",
-      reportText: {
-        title: "",
-        summary: "",
-        map: "",
-        table: "",
-        pie: "",
-        final: ""
-      },
+      reportText: reportText,
       reportPage: {
         width: 595.28,
         height: 841.89,
@@ -222,10 +215,10 @@ export default {
       this.pdf = new jsPDF("", "pt", "a4");
 
       // fonts support
-      this.pdf.addFileToVFS("msyh-normal.ttf", font);
-      this.pdf.addFont("msyh-normal.ttf", "msyh", "normal");
-      this.pdf.addFont("msyh-normal.ttf", "msyh", "bold");
-      this.pdf.setFont("msyh");
+      this.pdf.addFileToVFS("font.ttf", font);
+      this.pdf.addFont("font.ttf", "ali", "normal");
+      this.pdf.addFont("font.ttf", "ali", "bold");
+      this.pdf.setFont("ali");
       var windoc = window.document;
       var text = this.reportText;
 
@@ -338,7 +331,7 @@ export default {
           startY: page.margin + 20,
           head: headers,
           body: this.dataCombined,
-          styles: { font: "msyh" }
+          styles: { font: "ali" }
         });
         resolve(1);
       });
@@ -351,10 +344,10 @@ export default {
       this.pdf = new jsPDF("", "pt", "a4");
 
       // fonts support
-      this.pdf.addFileToVFS("msyh-normal.ttf", font);
-      this.pdf.addFont("msyh-normal.ttf", "msyh", "normal");
-      this.pdf.addFont("msyh-normal.ttf", "msyh", "bold");
-      this.pdf.setFont("msyh");
+      this.pdf.addFileToVFS("font.ttf", font);
+      this.pdf.addFont("font.ttf", "ali", "normal");
+      this.pdf.addFont("font.ttf", "ali", "bold");
+      this.pdf.setFont("ali");
       var windoc = window.document;
       var text = this.reportText;
 

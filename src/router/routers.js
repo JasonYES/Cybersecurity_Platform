@@ -195,15 +195,15 @@ export default [
         },
         component: () => import('@/view/cb-main/data-crawler.vue')
       },
-      {
-        path: 'output',
-        name: 'output',
-        meta: {
-          icon: 'md-cog',
-          title: 'output'
-        },
-        component: () => import('@/view/cb-main/data-output.vue')
-      },
+      // {
+      //   path: 'output',
+      //   name: 'output',
+      //   meta: {
+      //     icon: 'md-cog',
+      //     title: 'output'
+      //   },
+      //   component: () => import('@/view/cb-main/data-output.vue')
+      // },
       {
         path: 'report',
         name: 'report',
