@@ -1,4 +1,5 @@
 import tmpData from './tmp-data'
+import { vname } from "@/config/properties";
 import { getScores, getCountries, getOrgs, getDname, getIndexes } from '@/api/visual'
 export default {
   state: {
@@ -133,6 +134,8 @@ export default {
       getDname().then(res => {
         if (res.data.code == 0) {
           var dynamicName = res.data.data;
+          // 合并本地别名
+          Object.assign(dynamicName, vname);
           context.commit('setDynamicName', dynamicName)
         } else { alert(res.data.msg) }
       }).catch(err => {
@@ -148,19 +151,6 @@ export default {
         alert(err);
       })
 
-    },
-    XXXcheckInited(context, dataArray) {
-      for (var i in dataArray) {
-        if (i === 'dynamicName' && context.dynamicName === {}) {
-          var dynamicName = tmpData['dynamicName']
-          context.commit('setDynamicName', dynamicName)
-        }
-
-        if (i === 'indexes' && context.indexes === {}) {
-          var indexes = tmpData['indexes']
-          context.commit('setIndexes', indexes)
-        }
-      }
     }
   }
 }

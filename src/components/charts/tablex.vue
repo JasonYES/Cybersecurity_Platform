@@ -23,26 +23,25 @@ export default {
       for (var i in this.value) {
         valueCopy.push({ ...this.value[i] });
       }
-      this.dataFormatter(valueCopy);
+      this.dataCalculator(valueCopy);
+      this.dataTranslator(valueCopy);
       return valueCopy;
     },
     ...mapState({
-      dname: state => state.cbdata.dynamicName
+      dname: state => state.cbdata.dynamicName,
+      indexOne: state => Object.keys(state.cbdata.indexes)
     })
   },
-  mounted() {},
+  watch: {
+    indexOne: function() {
+      this.columnsBuilder();
+    }
+  },
+  mounted() {
+    this.columnsBuilder();
+  },
   methods: {
-    // dataSet() {
-    //   switch (this.dataset) {
-    //     case "countries":
-    //       this.data = this.countriesData;
-    //       break;
-    //     case "orgs":
-    //       this.data = this.orgsData;
-    //       break;
-    //   }
-    // },
-    dataFormatter(value) {
+    dataCalculator(value) {
       // 数组未初始化保护
       if (value == null || value.length === 0) {
         return;
@@ -51,23 +50,17 @@ export default {
       var mean = { country: "平均数" };
       var std = { country: "标准差" };
       var median = { country: "中位数" };
-      var indexes = [
-        "score",
-        "legal",
-        "technical",
-        "organization",
-        "capacity",
-        "cooperation"
-      ];
+      var indexes = ["score", ...this.indexOne];
       // 遍历统计
       for (var i in indexes) {
         var title = indexes[i];
         var array = [];
         for (var j in value) {
-          array.push(value[j][title]);
-          // 中文化
-          if (this.dname[value[j]["country"]] != null) {
-            value[j]["country"] = this.dname[value[j]["country"]];
+          // 放数组, 方便计算数学数据
+          if (value[j][title] == null) {
+            array.push(0);
+          } else {
+            array.push(value[j][title]);
           }
         }
         mean[title] = math.mean(array).toFixed(2);
@@ -78,6 +71,33 @@ export default {
       value.push(mean);
       value.push(std);
       value.push(median);
+    },
+    dataTranslator(value) {
+      // 数组未初始化保护
+      if (value == null || value.length === 0) {
+        return;
+      }
+      // 遍历统计
+      for (var i in value) {
+        // 中文化
+        if (this.dname[value[i]["country"]] != null) {
+          value[i]["country"] = this.dname[value[i]["country"]];
+        }
+      }
+    },
+    columnsBuilder() {
+      this.columns = [];
+      this.columns.push({
+        title: vname["country"],
+        key: "country"
+      });
+      for (let i in this.indexOne) {
+        this.columns.push({
+          title: this.dname[this.indexOne[i]],
+          key: this.indexOne[i],
+          sortable: true
+        });
+      }
     },
     rowClassName(row, index) {
       if (row.country == "平均数") return "stats";
@@ -90,42 +110,7 @@ export default {
     return {
       vname,
       splitRatio: 0.8,
-      columns: [
-        {
-          title: "地区名",
-          key: "country"
-        },
-        {
-          title: "总得分",
-          key: "score",
-          sortable: true
-        },
-        {
-          title: "法律",
-          key: "legal",
-          sortable: true
-        },
-        {
-          title: "技术",
-          key: "technical",
-          sortable: true
-        },
-        {
-          title: "组织",
-          key: "organization",
-          sortable: true
-        },
-        {
-          title: "建设",
-          key: "capacity",
-          sortable: true
-        },
-        {
-          title: "合作",
-          key: "cooperation",
-          sortable: true
-        }
-      ],
+      columns: [],
       countriesData: [
         {
           country: "新加坡",

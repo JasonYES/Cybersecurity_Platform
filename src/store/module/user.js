@@ -17,7 +17,7 @@ export default {
     userId: '',
     avatorImgPath: '',
     token: getToken(),
-    access: '',
+    access: '1',
     hasGetInfo: false,
     unreadCount: 0,
     messageUnreadList: [],

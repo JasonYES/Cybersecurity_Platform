@@ -5,9 +5,10 @@
 <script>
 import echarts from "echarts";
 import tdTheme from "./theme.json";
-import { on, off } from "@/libs/tools";
+import { on, off, dvname } from "@/libs/tools";
 import * as math from "mathjs";
 import { vname } from "@/config/properties";
+import { mapState } from "vuex";
 echarts.registerTheme("tdTheme", tdTheme);
 export default {
   name: "ChartBar",
@@ -72,6 +73,11 @@ export default {
     value: function() {
       this.draw();
     }
+  },
+  computed: {
+    ...mapState({
+      dname: state => state.cbdata.dynamicName
+    })
   },
   methods: {
     markingLine(param) {
@@ -150,7 +156,7 @@ export default {
         legend: {
           padding: 15,
           formatter: param => {
-            return vname[param];
+            return this.dname[param];
           }
         },
         tooltip: {},

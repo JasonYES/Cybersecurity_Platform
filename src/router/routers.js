@@ -13,7 +13,7 @@ import { homedir } from 'os';
  *  hideInBread: (false) 设为true后此级路由将不会出现在面包屑中，示例看QQ群路由配置
  *  hideInMenu: (false) 设为true后在左侧菜单不会显示该页面选项
  *  notCache: (false) 设为true后页面在切换标签后不会缓存，如果需要缓存，无需设置这个字段，而且需要设置页面组件name属性和路由配置的name一致
- *  access: (null) 可访问该页面的权限数组，当前路由设置的权限会影响子路由
+ *  access: (null) 可访问该页面的权限数组，当前路由设置的权限会影响子路由  必须是字符串类型!!
  *  icon: (-) 该页面在左侧菜单、面包屑和标签导航处显示的图标，如果是自定义图标，需要在图标名称前加下划线'_'
  *  beforeCloseName: (-) 设置该字段，则在关闭当前tab页时会去'@/router/before-close.js'里寻找该字段名对应的方法，作为关闭前的钩子函数
  * }
@@ -60,6 +60,7 @@ export default [
     path: '/cb-scoring',
     name: 'cb-scoring',
     meta: {
+      access: ['1', '2'],
       icon: 'logo-buffer',
       title: '评分'
     },
@@ -69,6 +70,7 @@ export default [
         path: 'dbsets',
         name: 'scoring-dbsets',
         meta: {
+          access: ['2'], // 必须是字符串类型
           icon: 'md-cog',
           title: 'scoring-dbsets'
         },
@@ -78,6 +80,7 @@ export default [
         path: 'manual',
         name: 'manual',
         meta: {
+          access: ['1'],
           icon: 'md-trending-up',
           title: '评分'
         },
@@ -87,6 +90,7 @@ export default [
         path: 'final',
         name: 'final',
         meta: {
+          access: ['2'],
           icon: 'md-trending-up',
           title: '评分'
         },
@@ -112,15 +116,6 @@ export default [
         },
         component: () => import('@/view/cb-view/tablex-page.vue')
       },
-      // {
-      //   path: 'tablex-page-orgs',
-      //   name: 'tablex-page-orgs',
-      //   meta: {
-      //     icon: 'md-trending-up',
-      //     title: '总分2'
-      //   },
-      //   component: () => import('@/view/cb-view/tablex-page-orgs.vue')
-      // },
       {
         path: 'map-all',
         name: 'map-all',
@@ -181,20 +176,22 @@ export default [
     path: '/data',
     name: 'data',
     meta: {
+      access: ['2'],
       icon: 'md-cog',
       title: 'data'
     },
     component: Main,
     children: [
-      {
-        path: 'crawler',
-        name: 'crawler',
-        meta: {
-          icon: 'md-cog',
-          title: 'crawler'
-        },
-        component: () => import('@/view/cb-main/data-crawler.vue')
-      },
+      // {
+      //   path: 'crawler',
+      //   name: 'crawler',
+      //   meta: {
+      //     access: ['2'],
+      //     icon: 'md-cog',
+      //     title: 'crawler'
+      //   },
+      //   component: () => import('@/view/cb-main/data-crawler.vue')
+      // },
       // {
       //   path: 'output',
       //   name: 'output',
@@ -215,11 +212,11 @@ export default [
       },
     ]
   },
-
   {
     path: '/admin',
     name: 'admin',
     meta: {
+      access: ['2'],
       icon: 'md-cog',
       title: 'admin'
     },

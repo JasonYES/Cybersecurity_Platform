@@ -20,7 +20,7 @@ var vname = {
     nickname1: "一级指标(中)",
     name2: "二级指标(英)",
     nickname2: "二级指标(中)",
-    country: "国家",
+    country: "国家/地区",
     score: "分数",
     role: "权限",
     index1: "一级指标",

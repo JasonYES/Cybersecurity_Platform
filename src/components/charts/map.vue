@@ -36,8 +36,8 @@ export default {
       dom: null,
       wat: null,
       visualMap: {
-        min: 1,
-        max: 5
+        min: 0,
+        max: 1
       }
     };
   },
@@ -119,10 +119,10 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      if (this.index == "score") {
-        this.visualMap.max = 30;
-        this.visualMap.min = 15;
-      }
+      // if (this.index == "score") {
+      //   this.visualMap.max = 30;
+      //   this.visualMap.min = 15;
+      // }
       this.draw();
     });
   },
