@@ -43,18 +43,18 @@
           资料参考
           <div slot="content">
             <div align="center">
-              <h1>{{judgingModal.refName + "评分依据"}}</h1>
+              <h1>{{judgingModal.refName + " 评分依据"}}</h1>
             </div>
             <br>
             <Row>
               <i-col span="12">
-                <Card>
-                  <p>{{judgingModal.refContent[0][0]}}</p>
+                <Card style="height: 400px; overflow-y:scroll">
+                  <p v-if="judgingModal.refContent.length != 0">{{judgingModal.refContent[0]['en']}}</p>
                 </Card>
               </i-col>
               <i-col span="12">
-                <Card>
-                  <p>{{judgingModal.refContent[0][1]}}</p>
+                <Card style="height: 400px; overflow-y:scroll">
+                  <p v-if="judgingModal.refContent.length != 0">{{judgingModal.refContent[0]['cn']}}</p>
                 </Card>
               </i-col>
             </Row>
@@ -144,7 +144,8 @@ export default {
       return "mid";
     },
     cellStyleParserFinal(mark) {
-      if (mark === 0) {
+      // 1 表示有问题
+      if (mark === 1) {
         return "zero";
       } else {
         return "";
@@ -488,7 +489,7 @@ export default {
     modalReference(row, rowIndex) {
       var indexName = row.index;
       this.judgingModal.refName = indexName;
-      this.judgingModal.refContent = [tmpData["scoringRef"][rowIndex % 3]];
+      this.judgingModal.refContent = tmpData["scoringRef"];
     }
   },
   data() {
@@ -507,7 +508,9 @@ export default {
         tableValue: [],
         tableWidth: 750,
         refName: "x",
-        refContent: [["x", "x"]]
+        refContent: [],
+        refPageAll: 1,
+        refPageNow: 0
       },
       page: {
         now: 1,

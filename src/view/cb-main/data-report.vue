@@ -165,10 +165,6 @@
 </template>
 <script>
 import win1 from "@/assets/images/win1.jpg";
-import report1 from "@/assets/images/report1.jpg";
-import report2 from "@/assets/images/report2.jpg";
-import report3 from "@/assets/images/report3.jpg";
-import report4 from "@/assets/images/report4.jpg";
 import { Cbox, ChartMap, Tablex, ChartPie } from "_c/charts";
 import html2canvas from "html2canvas";
 import { divideScoresBy } from "@/libs/tools";
@@ -182,10 +178,6 @@ export default {
   data() {
     return {
       win1,
-      report1,
-      report2,
-      report3,
-      report4,
       height: "height:1200px",
       reportText: reportText,
       reportPage: {

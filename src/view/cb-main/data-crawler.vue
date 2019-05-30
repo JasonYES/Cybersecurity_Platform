@@ -74,10 +74,16 @@
           <div style>
             <Row type="flex" justify="center">
               <i-col span="6">
-                <Button long>确认</Button>
+                <Button long @click="progress = !progress">确认</Button>
               </i-col>
             </Row>
           </div>
+          <br>
+          <Row type="flex" justify="center">
+            <i-col span="10">
+              <Progress v-if="progress" :percent="5" status="active"/>
+            </i-col>
+          </Row>
         </Card>
       </i-col>
     </Row>
@@ -86,6 +92,7 @@
 <script>
 import { Cbox } from "_c/charts";
 import { ScoreBoard } from "_c/scoring";
+import { getCountries } from "@/api/visual";
 import tmpData from "@/store/module/tmp-data";
 export default {
   components: {
@@ -93,7 +100,8 @@ export default {
   },
   data() {
     return {
-      typeValue: {}
+      typeValue: {},
+      progress: false
     };
   },
   mounted() {
@@ -101,7 +109,18 @@ export default {
   },
   methods: {
     getTypeValue() {
-      this.typeValue = tmpData["countries"];
+      getCountries()
+        .then(res => {
+          if (res.data.code == 0) {
+            var data = res.data.data;
+            this.typeValue = data;
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert(err);
+        });
     },
     checkedData() {}
   }

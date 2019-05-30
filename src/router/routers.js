@@ -60,7 +60,6 @@ export default [
     path: '/cb-scoring',
     name: 'cb-scoring',
     meta: {
-      access: ['1', '2'],
       icon: 'logo-buffer',
       title: '评分'
     },
@@ -182,16 +181,15 @@ export default [
     },
     component: Main,
     children: [
-      // {
-      //   path: 'crawler',
-      //   name: 'crawler',
-      //   meta: {
-      //     access: ['2'],
-      //     icon: 'md-cog',
-      //     title: 'crawler'
-      //   },
-      //   component: () => import('@/view/cb-main/data-crawler.vue')
-      // },
+      {
+        path: 'crawler',
+        name: 'crawler',
+        meta: {
+          icon: 'md-cog',
+          title: 'crawler'
+        },
+        component: () => import('@/view/cb-main/data-crawler.vue')
+      },
       // {
       //   path: 'output',
       //   name: 'output',

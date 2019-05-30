@@ -5,7 +5,7 @@
         <Card shadow>
           <Collapse :value="'1'">
             <Panel name="1">
-              筛选和操作
+              搜索
               <div slot="content">
                 <Row :gutter="20" style="margin-top: 0px;">
                   <i-col offset="1" :md="7" :lg="7">

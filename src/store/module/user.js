@@ -17,7 +17,7 @@ export default {
     userId: '',
     avatorImgPath: '',
     token: getToken(),
-    access: '1',
+    access: ['0'],
     hasGetInfo: false,
     unreadCount: 0,
     messageUnreadList: [],
@@ -75,15 +75,14 @@ export default {
   actions: {
     // 登录
     handleLogin({ commit }, { userName, password }) {
-      userName = userName.trim()
+      // userName = userName.trim()
       return new Promise((resolve, reject) => {
         login({
-          userName,
-          password
+          name: userName,
+          password: password
         }).then(res => {
-          const data = res.data
-          commit('setToken', data.token)
-          resolve()
+          // commit('setToken', data.token)
+          resolve(res)
         }).catch(err => {
           reject(err)
         })
@@ -92,18 +91,24 @@ export default {
     // 退出登录
     handleLogOut({ state, commit }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('setToken', '')
-          commit('setAccess', [])
-          resolve()
-        }).catch(err => {
-          reject(err)
-        })
+        // logout(state.token).then(() => {
+        //   commit('setToken', '')
+        //   commit('setAccess', [])
+        //   resolve()
+        // }).catch(err => {
+        //   reject(err)
+        // })
         // 如果你的退出登录无需请求接口，则可以直接使用下面三行代码而无需使用logout调用接口
         // commit('setToken', '')
-        // commit('setAccess', [])
-        // resolve()
+        commit('setAccess', [])
+        setToken('')
+        resolve()
       })
+    },
+    // 设置setAccess的唯一地方
+    getUserCacheInfo({ state, commit }) {
+      commit('setAccess', [getToken().toString()])
+      commit('setHasGetInfo', true)
     },
     // 获取用户相关信息
     getUserInfo({ state, commit }) {

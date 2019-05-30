@@ -4,7 +4,7 @@ import config from '@/config'
 import { forEach, hasOneOf, objEqual } from '@/libs/tools'
 const { title, cookieExpires, useI18n } = config
 
-export const TOKEN_KEY = 'token'
+export const TOKEN_KEY = 'localtoken'
 
 export const setToken = (token) => {
   Cookies.set(TOKEN_KEY, token, { expires: cookieExpires || 1 })
@@ -115,6 +115,8 @@ export const setTagNavListInLocalstorage = list => {
  */
 export const getTagNavListFromLocalstorage = () => {
   const list = localStorage.tagNaveList
+  // 修改了, 强制不缓存
+  return []
   return list ? JSON.parse(list) : []
 }
 

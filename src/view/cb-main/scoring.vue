@@ -70,11 +70,6 @@ export default {
           alert(err);
         });
       this.refreshTable();
-      // this.typeValue = tmpData["countries"];
-
-      // var tmpScoringValue = tmpData["scoringData"];
-      // this.addCellStyleField(tmpScoringValue);
-      // this.scoringValue = tmpScoringValue;
     },
     valueFileterByCbox,
     addCellStyleField(value) {

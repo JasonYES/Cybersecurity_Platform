@@ -46,12 +46,12 @@
         </infor-card>
       </i-col>
     </Row>-->
-    <Row :gutter="20" style="margin-top: 10px;">
+    <!-- <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
           <Collapse :value="'1'">
             <Panel name="1">
-              筛选和操作
+              搜索
               <div slot="content">
                 <Row :gutter="20" style="margin-top: 0px;">
                   <i-col offset="1" :md="7" :lg="7">
@@ -68,7 +68,7 @@
           </Collapse>
         </Card>
       </i-col>
-    </Row>
+    </Row>-->
     <Row type="flex" justify="center" style="margin-top: 20px">
       <Tablexs></Tablexs>
     </Row>

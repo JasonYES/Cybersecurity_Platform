@@ -91,6 +91,11 @@ export default {
         title: vname["country"],
         key: "country"
       });
+      this.columns.push({
+        title: vname["score"],
+        key: "score",
+        sortable: true
+      });
       for (let i in this.indexOne) {
         this.columns.push({
           title: this.dname[this.indexOne[i]],

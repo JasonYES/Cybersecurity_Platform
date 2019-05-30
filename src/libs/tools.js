@@ -1,5 +1,3 @@
-import { vname } from "@/config/properties";
-import { mapState } from "vuex";
 
 export const forEach = (arr, fn) => {
   if (!arr.length || !fn) return
@@ -45,26 +43,6 @@ export const valueFileterByCbox = (value, chosen, keyIndex) => {
   return res;
 }
 
-// 作用是, 当一个集合有的要用本地翻译, 有的用后台翻译时, 统一该方法处理
-export const dvname = (english) => {
-  // 从后台拿到的别名集合
-  var dname = mapState({
-    dname: state => state.cbdata.dynamicName
-  })['dname'];
-  // 本地的别名集合
-  var vname = vname;
-  // 取其一
-  console.log(english);
-  console.log(vname);
-  console.log(dname);
-  if (dname != null) {
-    return dname[english];
-  } else if (vname != null) {
-    return vname[english];
-  } else {
-    return english;
-  }
-}
 /**
  * @param {Array} arr1
  * @param {Array} arr2
