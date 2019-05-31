@@ -21,7 +21,7 @@ export default {
     return {
       dom: null,
       data: {},
-      series: [
+      seriesx: [
         {
           name: "score",
           type: "bar",
@@ -76,7 +76,24 @@ export default {
   },
   computed: {
     ...mapState({
-      dname: state => state.cbdata.dynamicName
+      dname: state => state.cbdata.dynamicName,
+      series: state => {
+        var indexOne = Object.keys(state.cbdata.indexes);
+        var series = [];
+        series.push({
+          name: state.cbdata.dynamicName["score"],
+          type: "bar",
+          markLine: null
+        });
+        for (let i in indexOne) {
+          series.push({
+            name: state.cbdata.dynamicName[indexOne[i]],
+            type: "bar",
+            markLine: null
+          });
+        }
+        return series;
+      }
     })
   },
   methods: {
@@ -98,24 +115,20 @@ export default {
     resize() {
       this.dom.resize();
     },
-    jsonToArray(json) {
+    jsonToArray(jsonArray) {
       var res = [];
-      var dimensions = Object.keys(json[0]);
-
-      // for (var i in dimensions) {
-      //   var item = [];
-      //   item.push(dimensions[i]);
-      //   for (var j in json) {
-      //     item.push(json[j][dimensions[i]]);
-      //   }
-      //   res.push(item);
-      // }
-      // (res);
+      var dimensions = Object.keys(jsonArray[0]);
 
       res.push(dimensions);
-      for (var i in json) {
+      for (var i in jsonArray) {
         var item = [];
-        for (var j in json[i]) item.push(json[i][j]);
+        for (var j in jsonArray[i]) {
+          if (j == "country") {
+            item.push(this.dname[jsonArray[i][j]]);
+          } else {
+            item.push(jsonArray[i][j]);
+          }
+        }
         res.push(item);
       }
       return res;
@@ -135,7 +148,7 @@ export default {
             },
             padding: 15
           },
-          series: this.series
+          series: []
         });
         on(window, "resize", this.resize);
         return;
@@ -156,7 +169,7 @@ export default {
         legend: {
           padding: 15,
           formatter: param => {
-            return this.dname[param];
+            return param;
           }
         },
         tooltip: {},

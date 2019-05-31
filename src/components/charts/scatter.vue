@@ -8,6 +8,7 @@ import tdTheme from "./theme.json";
 import ecStat, { regression } from "echarts-stat";
 import { on, off } from "@/libs/tools";
 import { vname } from "@/config/properties";
+import { mapState } from "vuex";
 echarts.registerTheme("tdTheme", tdTheme);
 export default {
   name: "ChartScatter",
@@ -25,6 +26,11 @@ export default {
       statData: [], // 只供回归分析使用
       statMap: {} // 只供聚类使用
     };
+  },
+  computed: {
+    ...mapState({
+      dname: state => state.cbdata.dynamicName
+    })
   },
   watch: {
     value: function() {
@@ -143,8 +149,13 @@ export default {
     },
     SetDataMap(x, y, country) {
       //该方法用来通过x和y的值查找国家名
-      if (this.statMap[x] == null || this.statMap[x][y] == null) {
+      country = this.dname[country];
+      if (this.statMap[x] == null) {
         this.statMap[x] = {};
+        this.statMap[x][y] = [country];
+        return;
+      }
+      if (this.statMap[x][y] == null) {
         this.statMap[x][y] = [country];
         return;
       }
@@ -178,8 +189,8 @@ export default {
     },
     draw() {
       this.objToArray();
-      this.xAxisName = this.chosenIndexes["X轴指标"]; //定义X轴名字
-      this.yAxisName = this.chosenIndexes["Y轴指标"]; //定义y轴名字
+      this.xAxisName = this.dname[this.chosenIndexes["X轴指标"]]; //定义X轴名字
+      this.yAxisName = this.dname[this.chosenIndexes["Y轴指标"]]; //定义y轴名字
       let option = {
         dataset: {
           source: this.value

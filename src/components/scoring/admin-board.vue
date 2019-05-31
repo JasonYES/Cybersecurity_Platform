@@ -85,6 +85,7 @@ import { getSets, getOrgs, getUsers, getCountry } from "@/api/admin";
 import { getIndex3, getIndex2, getIndex1, chooseSets } from "@/api/admin";
 import { delSets, delOrgs, delUsers, delCountry } from "@/api/admin";
 import { delIndex3, delIndex2, delIndex1 } from "@/api/admin";
+import md5 from "js-md5";
 export default {
   name: "AdminBoard",
   props: {
@@ -239,6 +240,7 @@ export default {
             .catch(err => {
               alert("错误! " + err);
             });
+          this.columnsWidthSpecified = { _common: 200 };
           break;
         case "sets":
           getSets(startIndex, page.limit, searchWord)
@@ -298,11 +300,20 @@ export default {
         }
         var width = this.columnWidthGetter(i);
         tableWidth += width;
-        res.push({
-          title: vname[i],
-          key: i,
-          width: width
-        });
+        if (i === "role") {
+          // 关于role中文的特例...(这是个不好的设计...)
+          res.push({
+            title: "权限(1:评分员,2:审核员)",
+            key: i,
+            width: width
+          });
+        } else {
+          res.push({
+            title: vname[i],
+            key: i,
+            width: width
+          });
+        }
       }
       var actionWidth = 130;
       tableWidth += actionWidth;

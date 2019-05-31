@@ -42,21 +42,53 @@
         <Panel name="2">
           资料参考
           <div slot="content">
-            <div align="center">
-              <h1>{{judgingModal.refName + " 评分依据"}}</h1>
-            </div>
+            <Row>
+              <i-col span="10" offset="7">
+                <div align="center">
+                  <h1>{{judgingModal.refName +"[" +dName[judgingModal.refName] + "] 评分依据"}}</h1>
+                </div>
+              </i-col>
+              <i-col v-if="judgingModal.refContent.length != 0" span="3" offset="4">
+                <Poptip confirm title="确定要将该依据标记为'不相关'并删除吗?">
+                  <Button shape="circle">删除</Button>
+                </Poptip>
+                <Poptip confirm title="确定要请求爬取更多数据吗?">
+                  <Button shape="circle">更多</Button>
+                </Poptip>
+              </i-col>
+              <!-- <i-col v-if="judgingModal.refContent.length != 0" span="2">
+                <Poptip confirm title="确定要请求爬取更多数据吗?">
+                  <Button shape="circle">更多</Button>
+                </Poptip>
+              </i-col>-->
+            </Row>
             <br>
             <Row>
               <i-col span="12">
                 <Card style="height: 400px; overflow-y:scroll">
-                  <p v-if="judgingModal.refContent.length != 0">{{judgingModal.refContent[0]['en']}}</p>
+                  <p
+                    v-if="judgingModal.refContent.length != 0"
+                  >{{judgingModal.refContent[judgingModal.refPageNow-1]['en']}}</p>
                 </Card>
               </i-col>
               <i-col span="12">
                 <Card style="height: 400px; overflow-y:scroll">
-                  <p v-if="judgingModal.refContent.length != 0">{{judgingModal.refContent[0]['cn']}}</p>
+                  <p
+                    v-if="judgingModal.refContent.length != 0"
+                  >{{judgingModal.refContent[judgingModal.refPageNow-1]['cn']}}</p>
                 </Card>
               </i-col>
+            </Row>
+            <br>
+            <Row>
+              <div align="center">
+                <Page
+                  :current="judgingModal.refPageNow"
+                  :total="judgingModal.refPageAll"
+                  @on-change="modalPageOnChange"
+                  simple
+                />
+              </div>
             </Row>
           </div>
         </Panel>
@@ -306,7 +338,9 @@ export default {
             this.judgingModal.tableWidth = 450;
 
             this.judgingModal.refName = "";
-            this.judgingModal.refContent = [["", ""]];
+            this.judgingModal.refContent = [];
+            this.judgingModal.refPageAll = 1;
+            this.judgingModal.refPageNow = 1;
             this.judgingModal.showModal1 = true;
           }
           if (this.type === "final") {
@@ -324,7 +358,9 @@ export default {
                   this.judgingModal.tableWidth = 750;
 
                   this.judgingModal.refName = "";
-                  this.judgingModal.refContent = [["", ""]];
+                  this.judgingModal.refContent = [];
+                  this.judgingModal.refPageAll = 1;
+                  this.judgingModal.refPageNow = 1;
                   this.judgingModal.showModal1 = true;
                 } else {
                   alert(res.data.msg);
@@ -333,18 +369,6 @@ export default {
               .catch(err => {
                 alert(err);
               });
-
-            // var tableValue = tmpData["scoringDetail"];
-            // this.judgingModal.tableColumns = this.columnsExtractor([
-            //   ...tableValue
-            // ]);
-            // this.addModalCellStyle(tableValue);
-            // this.judgingModal.tableValue = tableValue;
-            // this.judgingModal.tableWidth = 750;
-
-            // this.judgingModal.refName = "";
-            // this.judgingModal.refContent = [["", ""]];
-            // this.judgingModal.showModal1 = true;
           }
 
           break;
@@ -490,6 +514,11 @@ export default {
       var indexName = row.index;
       this.judgingModal.refName = indexName;
       this.judgingModal.refContent = tmpData["scoringRef"];
+      this.judgingModal.refPageAll = this.judgingModal.refContent.length * 10;
+      this.judgingModal.refPageNow = 1;
+    },
+    modalPageOnChange(page) {
+      this.judgingModal.refPageNow = page;
     }
   },
   data() {

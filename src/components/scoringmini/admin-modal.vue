@@ -26,7 +26,7 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-if="orgs.modalShow" v-model="modalOn.on" title="信息修 改" @on-ok="modalOK" ok-text="保存">
+    <Modal v-if="orgs.modalShow" v-model="modalOn.on" title="信息修改" @on-ok="modalOK" ok-text="保存">
       <Form ref="orgs" :rules="validateRules.orgs" :model="value" :label-width="80">
         <FormItem v-for="(field) in formFields" :key="field" :prop="field" :label="vname[field]">
           <template v-if="field === 'countries'">
@@ -267,8 +267,8 @@ export default {
           ];
           this.formFormatter.fieldsInsert = {
             password: "",
-            password2: "",
-            adminValidate: ""
+            password2: ""
+            // adminValidate: ""
           };
           break;
         case "sets":
@@ -404,9 +404,13 @@ export default {
             role: this.value.role
           };
           if (this.value.password != "") {
+            if (this.value.password != this.value.password) {
+              console.log("错误!" + "两次密码输入不一致!");
+              alert("错误!" + "两次密码输入不一致!");
+            }
+            return;
             postData["password"] = this.value.password;
           }
-          console.log(this.$refs[this.type]);
           this.$refs[this.type].validate(valid => {
             if (valid) {
               postUsers(postData)

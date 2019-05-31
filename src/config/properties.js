@@ -33,6 +33,7 @@ var vname = {
     is_active: "当前批次?",
     isactive: "当前批次?",
     date: "创建日期",
+    "": ""
 }
 
 var continents = [
@@ -45,9 +46,9 @@ var continents = [
 ]
 
 var num2role = {
-    0: "普通用户",
+    0: "游客",
     1: "评分员",
-    2: "管理员"
+    2: "审核员"
 }
 
 var roleNums = Object.keys(num2role).map(str => parseInt(str))
