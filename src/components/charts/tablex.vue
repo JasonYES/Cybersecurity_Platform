@@ -2,7 +2,8 @@
   <div class="charts tablex">
     <h2 style="padding-left:10px">{{text}}</h2>
     <div>
-      <Table border :row-class-name="rowClassName" :columns="columns" :data="data"></Table>
+      <!-- <Table border :row-class-name="rowClassName" :columns="columns" :data="data"></Table> -->
+      <Table stripe border :columns="columns" :data="data"></Table>
     </div>
     <br>
   </div>
@@ -47,9 +48,9 @@ export default {
         return;
       }
       // 初始化结果项
-      var mean = { country: "平均数" };
-      var std = { country: "标准差" };
-      var median = { country: "中位数" };
+      var mean = { country: "____平均数____" };
+      var std = { country: "____标准差____" };
+      var median = { country: "____中位数____" };
       var indexes = ["score", ...this.indexOne];
       // 遍历统计
       for (var i in indexes) {

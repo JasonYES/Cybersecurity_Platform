@@ -10,6 +10,7 @@ import {
   getUnreadCount
 } from '@/api/user'
 import { setToken, getToken } from '@/libs/util'
+import md5 from "js-md5";
 
 export default {
   state: {
@@ -79,7 +80,7 @@ export default {
       return new Promise((resolve, reject) => {
         login({
           name: userName,
-          password: password
+          password: md5(password)
         }).then(res => {
           // commit('setToken', data.token)
           resolve(res)

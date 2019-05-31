@@ -36,6 +36,7 @@ import tmpData from "@/store/module/tmp-data";
 import { valueFileterByCbox } from "@/libs/tools";
 import { getCountries } from "@/api/visual";
 import { getScoringData } from "@/api/scoring";
+import { mapState } from "vuex";
 export default {
   components: {
     Cbox,
@@ -50,6 +51,11 @@ export default {
       chosen: null,
       indexesChosen: []
     };
+  },
+  computed: {
+    ...mapState({
+      dName: state => state.cbdata.dynamicName
+    })
   },
   mounted() {
     this.initData();
@@ -75,6 +81,8 @@ export default {
     addCellStyleField(value) {
       for (var i in value) {
         value[i]["cellClassName"] = {};
+        // 还有中文化
+        value[i]["country"] = this.dName[value[i]["country"]];
       }
     },
     refreshTable() {

@@ -106,6 +106,7 @@ import { vname, continents, num2role, roleNums } from "@/config/properties";
 import { postSets, postOrgs, postUsers, postCountry } from "@/api/admin";
 import { postIndex3, postIndex2, postIndex1 } from "@/api/admin";
 import { getCountry } from "@/api/admin";
+import md5 from "js-md5";
 export default {
   name: "AdminModal",
   props: {
@@ -404,12 +405,11 @@ export default {
             role: this.value.role
           };
           if (this.value.password != "") {
-            if (this.value.password != this.value.password) {
-              console.log("错误!" + "两次密码输入不一致!");
+            if (this.value.password != this.value.password2) {
               alert("错误!" + "两次密码输入不一致!");
+              return;
             }
-            return;
-            postData["password"] = this.value.password;
+            postData["password"] = md5(this.value.password);
           }
           this.$refs[this.type].validate(valid => {
             if (valid) {

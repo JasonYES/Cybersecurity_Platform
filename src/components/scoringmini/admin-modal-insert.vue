@@ -168,6 +168,7 @@ import { postSets, postOrgs, postUsers, postCountry } from "@/api/admin";
 import { postIndex3, postIndex2, postIndex1 } from "@/api/admin";
 import { getIndex3, getIndex2, getIndex1 } from "@/api/admin";
 import { getSets, getOrgs, getUsers, getCountry } from "@/api/admin";
+import md5 from "js-md5";
 export default {
   name: "AdminModalInsert",
   props: {
@@ -491,6 +492,11 @@ export default {
           break;
         case "users":
           postData = { ...this.value };
+          if (this.value.password != this.value.password2) {
+            alert("错误!" + "两次密码输入不一致!");
+            return;
+          }
+          postData["password"] = md5(postData["password"]);
           delete postData["password2"];
           this.$refs[this.type].validate(valid => {
             if (valid) {
