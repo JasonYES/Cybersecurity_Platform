@@ -24,6 +24,7 @@ export default {
     setScores(state, data) {
       state.scores = data;
       // 一开始就初始化所有数据
+      state.cbox.chosenScores = []
       for (var i in data) {
         state.cbox.chosenScores.push({ ...data[i] });
       }
@@ -134,8 +135,13 @@ export default {
       getDname().then(res => {
         if (res.data.code == 0) {
           var dynamicName = res.data.data;
+          // 中文转英文
+          var dynamicReversed = {}
+          for (var i in dynamicName) {
+            dynamicReversed[dynamicName[i]] = i;
+          }
           // 合并本地别名
-          Object.assign(dynamicName, vname);
+          Object.assign(dynamicName, vname, dynamicReversed);
           context.commit('setDynamicName', dynamicName)
         } else { alert(res.data.msg) }
       }).catch(err => {

@@ -33,7 +33,10 @@ var vname = {
     is_active: "当前批次?",
     isactive: "当前批次?",
     date: "创建日期",
-    "": ""
+    "": "",
+    detail: "详情",
+    index: "指标",
+    status: "状态"
 }
 
 var continents = [

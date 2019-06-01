@@ -121,7 +121,18 @@ export default {
       }
     }),
     dataByPage: function() {
-      return this.data.slice((this.page.now - 1) * 10, this.page.now * 10);
+      var sliced = this.data.slice(
+        (this.page.now - 1) * 10,
+        this.page.now * 10
+      );
+      // 中文化
+      var slicedCN = [];
+      for (var i in sliced) {
+        var sliceObj = { ...sliced[i] };
+        sliceObj["country"] = this.dName[sliceObj["country"]];
+        slicedCN.push(sliceObj);
+      }
+      return slicedCN;
     }
   },
   watch: {
@@ -305,7 +316,6 @@ export default {
       this.columns = structure;
     },
     AdaptedSubmit(data) {
-      console.log(data);
       switch (this.type) {
         case "manual":
           return manualSubmit(data);
@@ -326,7 +336,8 @@ export default {
       // 基本信息的设定
       this.judgingModal.title =
         params.row["country"] + " - " + this.dName[params.column.key];
-      this.judgingModal.country = params.row["country"];
+      // 需要再转回英文
+      this.judgingModal.country = this.dName[params.row["country"]];
       this.judgingModal.index = params.column.key;
 
       // 是否已审阅的判定
@@ -379,7 +390,8 @@ export default {
             content: "<p>该指标已审阅过, 是否撤销并重新审阅?</p>",
             onOk: () => {
               var postData = {
-                country: params.row["country"],
+                // 用dName转回
+                country: this.dName[params.row["country"]],
                 index: params.column.key
               };
               this.AdaptedUndo(postData)
@@ -393,6 +405,7 @@ export default {
                 .catch(err => {
                   alert(err);
                 });
+              this.fakeLoading(3000);
             },
             onCancel: () => {}
           });
@@ -418,21 +431,21 @@ export default {
             break;
           case "score":
             res.push({
-              title: i,
+              title: this.dName[i],
               slot: i,
               width: 120
             });
             break;
           case "detail":
             res.push({
-              title: i,
+              title: this.dName[i],
               key: i,
               width: 300
             });
             break;
           default:
             res.push({
-              title: i,
+              title: this.dName[i],
               key: i
             });
         }
@@ -485,6 +498,13 @@ export default {
         .catch(err => {
           alert(err);
         });
+      this.fakeLoading(3000);
+    },
+    fakeLoading(timeout) {
+      this.$Spin.show();
+      setTimeout(() => {
+        this.$Spin.hide();
+      }, timeout);
     },
     modalTableValueExtractor() {
       let tableValue = this.judgingModal.tableValue;

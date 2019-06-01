@@ -5,27 +5,21 @@
         <CarouselItem>
           <Row type="flex" justify="center">
             <i-col span="16">
-              <div align="center">
-                <img :src="win1" key="win1" height="500px">
-              </div>
+              <img :src="win1" key="win1" height="500px">
             </i-col>
           </Row>
         </CarouselItem>
         <CarouselItem>
           <Row type="flex" justify="center">
             <i-col span="16">
-              <div align="center">
-                <img :src="win2" key="win2" height="500px">
-              </div>
+              <img :src="win2" key="win2" height="500px">
             </i-col>
           </Row>
         </CarouselItem>
         <CarouselItem>
           <Row type="flex" justify="center">
             <i-col span="16">
-              <div align="center">
-                <img :src="win3" key="win3" height="500px">
-              </div>
+              <img :src="win3" key="win3" height="500px">
             </i-col>
           </Row>
         </CarouselItem>

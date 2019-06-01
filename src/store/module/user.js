@@ -9,7 +9,7 @@ import {
   restoreTrash,
   getUnreadCount
 } from '@/api/user'
-import { setToken, getToken } from '@/libs/util'
+import { setToken, getToken, setTagNavListInLocalstorage } from '@/libs/util'
 import md5 from "js-md5";
 
 export default {
@@ -103,6 +103,8 @@ export default {
         // commit('setToken', '')
         commit('setAccess', [])
         setToken('')
+        // 将缓存标签页清空
+        setTagNavListInLocalstorage([])
         resolve()
       })
     },
