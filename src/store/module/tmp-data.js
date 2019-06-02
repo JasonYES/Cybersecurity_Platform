@@ -347,8 +347,8 @@ export default {
   ],
   scoringRef: [
     {
-      "en": "Ecuador plans to invest eight million dollars to create a command of cyber defense unit for the country that he expects to be completely operable by mid 2015. General Luis Garzón, head of the joint command of the armed forces, said he expects the project to begin within 30 days. They are in the process of selecting qualified personnel from both civilian and military segments",
-      "cn": "厄瓜多尔计划投资800万美元为该国建立一个网络防御部队指挥部，预计他将在2015年中期完全投入使用。武装部队联合指挥部负责人路易斯·加尔松将军表示，他预计该项目将开始 30天内。 他们正在从民用和军用部门中挑选合格人员"
+      "en": "The cyber security market in the U.S. is expected to grow from $30.91 billion in 2013 to $51.82 billion in 2019, at a CAGR of 8.70% for the period 2013 to 2019. The market is primarily driven by increasing government regulations and norms due to the widespread cyber threats.Cyber security is a broad collection of technologies, solutions, services, compliances, and risk management approaches to protect organizational and users’ personal and professional data from cyber crimes. The government, public utilities, and enterprises are all dependent on the internet, wireless technologies, and cloud-based services for storage, processing, and retrieval of data. With the increase in this dependency over the years, cyber attacks have increased exponentially in the past few years, and have generated the need for unified cyber security solutions that support the enhanced enterprise mobility and strict data disclosure laws. Cyber security products are defined as products possessing the capability to provide access management, authentication procedures, detection and responses to incidents, security updates or patch management, data recovery, mitigation of impacts, and risk & compliance management. The cyber security market is experiencing a boom because of the need for global cyber security capacity establishment built for a secure and resilient cyberspace.The cyber infringements at International Monetary Fund, Lockheed Martin, and Citibank along with NASDAQ and Google depict worrying situation of serious cyber threats. Owing to the absence of a robust defence system, several companies in the U.S. have fallen victim to intrusions, which have caused heavy business losses. The President’s Critical Infrastructure Board is making efforts towards enhancing the security of national’s critical infrastructure, thereby increasing the research and development budgets and imposing strong regulations. This in turn, enforces organization in the U.S. to implement sophisticated security solutions and services to comply with the regulatory norms. Consequently, this leads to growth in the cyber security market growth in the U.S.The U.S. cyber security market report further provides competitive benchmarking of the leading players in the industry, such as Cisco Systems, IBM, Northrop Grumman, CSC, Symantec, and others in terms of their product offerings, key strategies, and operational parameters. The U.S. cyber security market report provides market trends, overall adoption scenarios, competitive landscapes, key drivers, restraints and opportunities in this market. The U.S. cyber security market report aims at estimating the current size and the future growth potential of this market across different types, solutions, services, and verticals.Report OptionsThe market segmentation detailed in the report is as given below",
+      "cn": "美国的网络安全市场预计将从2013年的309.1亿美元增长到2019年的518.2亿美元，2013年至2019年的复合年增长率为8.70%。由于普遍存在的网络威胁，市场主要受到政府法规和规范的推动。网络安全是一系列广泛的技术、解决方案、服务、合规性和风险管理方法，以保护组织和用户的个人和专业数据免受网络犯罪的影响。政府、公用事业和企业都依赖互联网、无线技术和基于云的服务来存储、处理和检索数据。随着这些年来这种依赖性的增加，网络攻击在过去几年中呈指数级增长，并产生了对支持增强企业移动性和安全性的统一网络安全解决方案的需求。Trict数据披露法。网络安全产品是指能够提供访问管理、认证程序、对事件的检测和响应、安全更新或补丁管理、数据恢复、缓解影响以及风险和合规管理的产品。网络安全市场正经历一场繁荣，因为需要建立全球网络安全能力，以建立一个安全和有弹性的网络空间。国际货币基金组织、洛克希德马丁公司、花旗银行以及纳斯达克和谷歌的网络侵权描述了严重网络威胁的令人担忧的情况。由于缺乏健全的防御系统，美国的几家公司成为了入侵的受害者，这些入侵造成了严重的商业损失。总统的关键基础设施委员会正在努力加强国家安全关键的基础设施，从而增加研发预算和实施强有力的法规。这反过来又迫使美国的组织实施复杂的安全解决方案和服务，以符合监管规范。因此，这导致了美国网络安全市场的增长，《美国网络安全市场报告》进一步为思科系统、IBM、诺斯罗普格鲁曼、CSC、赛门铁克等业内领先企业提供了竞争基准，包括其产品、关键战略和运营参数。特斯。《美国网络安全市场报告》提供了市场趋势、总体采用方案、竞争形势、主要驱动因素、限制和市场机遇。《美国网络安全市场报告》的目的是评估T的当前规模和未来增长潜力。他的市场涉及不同类型、解决方案、服务和垂直市场。报告选项报告中详细介绍的市场细分"
     },
     {
       "en": " The Minister of National Security, The Hon Dr. Bernard J. Nottage, gives remarks at opening of workshop for the development of a National Cyber Security Strategy workshop at the Paul Farquharson Conference Centre on Thursday 23rd April, 2014.This Cyber Workshop was sponsored by The Ministry of National Security and The Organization of American States, (OAS). The faces of the Permanent Secretary Carl Smith, Ministry of National Security and The OAS representative, Mr. Ditto, can be seen to the right of the Minister. Here is a glimpse of some of the participants in attendance at The National Cyber Security Workshop sponsored by The Ministry of National Security and The Organization of American States, (OAS), at The Paul Farquharson Conference Centre, at The Royal Bahamas Police Headquarters. Prison Officers may be seen in the foreground. Here is a glimpse of some of the participants at the opening of a workshop for the development of a National Cyber Security Strategy, at The Paul Farquharson Police Conference Centre, at The Royal Bahamas Police Headquarters, on Thursday 23rd April 2014. Among the participants are officers from The Royal Bahamas Police and Defence Forces, Her Majesty’s Prison and other personnel from The Ministry of National Security. ",
@@ -357,6 +357,48 @@ export default {
     {
       "en": "A high profiled delegation of experts and interested parties assembled at the Jolly Beach Resort on Monday, to participate in a Training Workshop for the Caribbean on Cyber Security and Cyber Crime. The four day workshop has attracted delegates from across the Caribbean and aims at creating dialogues and suggestions to combat cyber related crime. Prime Minister the Hon. Dr. Baldwin Spencer, while delivering the feature address, expressed thanks to the OAS for their active involvement in disseminating information about cyber security. Director of the Office of the National Drug Control Policy (ONDCP), Lieutenant Colonel Edward Croft, is pleased that Antigua and Barbuda has been chosen to host the event. OAS Representative in Antigua and Barbuda, Ambassador Jean Dormeus, says the adequate use of cyber technologies can grow the region's economies and also empower citizens and residents. He maintains that Caribbean islands need to join forces and exchange information that will guarantee the security of the region's cyber space, which cannot be overlooked. The workshop will focus on cyber security incident management and investigation, and will also look at the investigation and prosecution of cyber crimes, with an overarching focus on strengthening national and regional coordination."
       , "cn": "周一在欢乐海滩度假村聚集的高级专家和有关方面代表团将参加加勒比地区网络安全和网络犯罪培训研讨会。 为期四天的研讨会吸引了来自加勒比地区的代表，旨在创建对抗网络犯罪的对话和建议。 总理大会。 Baldwin Spencer博士在发表专题演讲时表示感谢美洲国家组织积极参与传播有关网络安全的信息。 国家药物管制政策办公室（ONDCP）主任爱德华克罗夫特中校很高兴安提瓜和巴布达被选中主办此次活动。 美洲国家组织驻安提瓜和巴布达代表Jean Dormeus大使表示，充分利用网络技术可以促进该地区的经济发展，并增强公民和居民的能力。 他坚持认为，加勒比岛屿需要联合起来并交换信息，以保证该地区网络空间的安全，这是不容忽视的。研讨会将重点关注网络安全事件管理和调查，并将着眼于网络犯罪的调查和起诉，重点是加强国家和地区的协调。"
+    }
+  ],
+  scoringSum: [
+    {
+      "en": "Consequently, this leads to growth in the cyber security market growth in the U.S.The U.S. cyber security market report further provides competitive benchmarking of the leading players in the industry, such as Cisco Systems, IBM, Northrop Grumman, CSC, Symantec, and others in terms of their product offerings, key strategies, and operational parameters.",
+      "cn": `
+                  实体
+            0                   National Security  ORGANIZATION
+            1  Paul Farquharson Conference Centre        PERSON
+            2                                 Hon  ORGANIZATION
+            3                            National  ORGANIZATION
+            4                        Organization  ORGANIZATION
+            5                                 OAS  ORGANIZATION
+            6                        The Ministry  ORGANIZATION
+            7                  Bernard J. Nottage        PERSON
+            8                     American States           GPE
+            触发词
+            'was' 'work'
+           `
+    },
+    {
+      "en": "The Minister of National Security, The Hon Dr. Bernard J. Nottage, gives remarks at opening of workshop for the development of a National Cyber Security Strategy workshop at the Paul Farquharson Conference Centre on Thursday 23rd April, 2014.This Cyber Workshop was sponsored by The Ministry of National Security and The Organization of American States, (OAS)",
+      "cn": `
+        实体
+        0                      OAS  ORGANIZATION
+        1                  Barbuda        PERSON
+        2                  Antigua           GPE
+        3  Ambassador Jean Dormeus        PERSON
+        触发词
+        'use', 'do', 'cyber'
+      `
+    },
+    {
+      "en": "OAS Representative in Antigua and Barbuda, Ambassador Jean Dormeus, says the adequate use of cyber technologies can grow the region's economies and also empower citizens and residents.",
+      "cn": `
+        0               IBM  ORGANIZATION
+        1      U.S.The U.S.  ORGANIZATION
+        2  Northrop Grumman        PERSON
+        3     Cisco Systems  ORGANIZATION
+        4               CSC  ORGANIZATION
+        5          Symantec           GPE
+      `
     }
   ],
   scoreOrgs: [

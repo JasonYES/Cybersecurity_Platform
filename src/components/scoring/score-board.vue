@@ -65,6 +65,23 @@
             <br>
             <Row>
               <i-col span="12">
+                <Card style="height: 150px;">
+                  <p
+                    v-if="judgingModal.refSummary.length != 0"
+                  >关键信息: {{judgingModal.refSummary[judgingModal.refPageNow-1]['en']}}</p>
+                </Card>
+              </i-col>
+              <i-col span="12">
+                <Card style="height: 150px;">
+                  <p
+                    v-if="judgingModal.refSummary.length != 0"
+                  >{{judgingModal.refSummary[judgingModal.refPageNow-1]['cn']}}</p>
+                </Card>
+              </i-col>
+            </Row>
+            <br>
+            <Row>
+              <i-col span="12">
                 <Card style="height: 400px; overflow-y:scroll">
                   <p
                     v-if="judgingModal.refContent.length != 0"
@@ -350,6 +367,7 @@ export default {
 
             this.judgingModal.refName = "";
             this.judgingModal.refContent = [];
+            this.judgingModal.refSummary = [];
             this.judgingModal.refPageAll = 1;
             this.judgingModal.refPageNow = 1;
             this.judgingModal.showModal1 = true;
@@ -370,6 +388,7 @@ export default {
 
                   this.judgingModal.refName = "";
                   this.judgingModal.refContent = [];
+                  this.judgingModal.refSummary = [];
                   this.judgingModal.refPageAll = 1;
                   this.judgingModal.refPageNow = 1;
                   this.judgingModal.showModal1 = true;
@@ -534,6 +553,7 @@ export default {
       var indexName = row.index;
       this.judgingModal.refName = indexName;
       this.judgingModal.refContent = tmpData["scoringRef"];
+      this.judgingModal.refSummary = tmpData["scoringSum"];
       this.judgingModal.refPageAll = this.judgingModal.refContent.length * 10;
       this.judgingModal.refPageNow = 1;
     },
@@ -558,6 +578,7 @@ export default {
         tableWidth: 750,
         refName: "x",
         refContent: [],
+        refSummary: [],
         refPageAll: 1,
         refPageNow: 0
       },
