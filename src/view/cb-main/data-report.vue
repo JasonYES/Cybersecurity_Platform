@@ -304,6 +304,10 @@ export default {
       let textLines = this.pdf
         .setFontSize(14)
         .splitTextToSize(text, page.width - 2 * page.margin);
+      // 将字符串中的空格消除（因为有未知的显示问题，应该是有字体引起）
+      for (var line in textLines) {
+        textLines[line] = textLines[line].replace(/ /g, "");
+      }
       this.pdf.text(textLines, page.margin, y * page.height);
     },
     reportAddTitle(text) {
@@ -319,10 +323,16 @@ export default {
       return new Promise((resolve, reject) => {
         let page = this.reportPage;
         var headers = this.reportTableHeader();
+        var databody = [];
+        for (var i in this.dataCombined) {
+          var objCopy = { ...this.dataCombined[i] };
+          objCopy["country"] = this.dname[this.dataCombined[i]["country"]];
+          databody.push(objCopy);
+        }
         this.pdf.autoTable({
           startY: page.margin + 20,
           head: headers,
-          body: this.dataCombined,
+          body: databody,
           styles: { font: "ali" }
         });
         resolve(1);
@@ -332,7 +342,7 @@ export default {
       this.drawFromHTML();
       // this.reportDownloadX();
     },
-    reportDownloadX() {
+    XXXreportDownloadX() {
       this.pdf = new jsPDF("", "pt", "a4");
 
       // fonts support
