@@ -89,7 +89,7 @@ export default {
         return;
       }
       this.value = this.typeValue;
-      this.checked = this.copyObject(this.value);
+      this.checked = this.copyEmptyObject(this.value);
     }
   },
   data() {
@@ -203,7 +203,7 @@ export default {
           break;
         case "scoring":
           this.value = this.typeValue;
-          this.checked = this.copyObject(this.value);
+          this.checked = this.copyEmptyObject(this.value);
           this.confirmAction = "outer";
           break;
         case "crawler":
@@ -239,6 +239,14 @@ export default {
     },
     copyObject(obj) {
       return JSON.parse(JSON.stringify(obj));
+    },
+    copyEmptyObject(obj) {
+      var keys = Object.keys(obj);
+      var resObj = {};
+      for(var i in keys) {
+        resObj[keys[i]] = [];
+      }
+      return resObj;
     },
     handleCheckAll(continent) {
       if (this.checked[continent].length == this.value[continent].length) {
