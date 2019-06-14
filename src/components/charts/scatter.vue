@@ -84,7 +84,7 @@ export default {
               position: "inside",
               formatter: regression.expression,
               textStyle: {
-                color: "#ccc",
+                color: "#000000",
                 fontSize: 14
               }
             }
@@ -98,11 +98,7 @@ export default {
       });
     },
     SetClustering(option) {
-      var result = ecStat.clustering.hierarchicalKMeans(
-        this.statData,
-        3,
-        false
-      );
+      var result = ecStat.clustering.hierarchicalKMeans(this.statData, 3, false);
       var centroids = result.centroids;
       var ptsInCluster = result.pointsInCluster;
 
@@ -129,7 +125,7 @@ export default {
                   );
                 },
                 textStyle: {
-                  color: "#ccc"
+                  color: "#000000"
                 }
               }
             },
@@ -196,11 +192,7 @@ export default {
           source: this.value
         },
         title: {
-          text: this.text,
-          textStyle: {
-            color: "#ccc"
-          },
-          padding: 15
+          text: this.text
         },
         tooltip: {},
         legend: {
@@ -212,16 +204,17 @@ export default {
             nameLocation: "center",
             nameGap: 30,
             nameTextStyle: {
+              color: "#000000",
               fontSize: 16
             },
             scalse: false,
             axisLabel: {
-              color: "#ccc",
+              color: "#000000",
               fontSize: 16
             },
             splitLine: {
               lineStyle: {
-                color: "#555"
+                color: "#CCCCCC"
               }
             }
           }
@@ -232,16 +225,17 @@ export default {
             nameLocation: "center",
             nameGap: 30,
             nameTextStyle: {
-              fontSize: 16
+              fontSize: 16,
+              color: "#000000"
             },
             scalse: false,
             axisLabel: {
-              color: "#ccc",
+              color: "#000000",
               fontSize: 16
             },
             splitLine: {
               lineStyle: {
-                color: "#555"
+                color: "#CCCCCC"
               }
             }
           }
@@ -254,8 +248,7 @@ export default {
           //     y: 2 // 默认第一位和第二位对应坐标轴
           //   }
           // }
-        ],
-        backgroundColor: "#2c343c"
+        ]
       };
 
       this.SetClustering(option);

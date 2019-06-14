@@ -33,14 +33,7 @@ export default {
     },
     initPiedata() {
       this.pieData = [];
-      this.pieData.push([
-        "指标名",
-        "0.81-1.00",
-        "0.61-0.80",
-        "0.41-0.6",
-        "0.21-0.4",
-        "0-0.2"
-      ]);
+      this.pieData.push(["指标名", "0.81-1.00", "0.61-0.80", "0.41-0.6", "0.21-0.4", "0-0.2"]);
       for (var i in this.indexes) {
         this.pieData.push([i, 0, 0, 0, 0, 0]);
       }
@@ -64,7 +57,7 @@ export default {
     },
     addTitleOption(option, xyOfTitles) {
       var titleStyles = {
-        color: "#ccc",
+        color: "#001529",
         fontSize: 16,
         fontWeight: "normal"
       };
@@ -108,33 +101,15 @@ export default {
       }
       this.initPiedata();
       this.countData(this.value);
-      var xyOfPies = [
-        ["33%", "20%"],
-        ["66%", "20%"],
-        ["33%", "50%"],
-        ["66%", "50%"],
-        ["33%", "80%"],
-        ["66%", "80%"]
-      ];
-      var xyOfTitles = [
-        ["23%", "5%"],
-        ["56%", "5%"],
-        ["23%", "35%"],
-        ["56%", "35%"],
-        ["23%", "65%"],
-        ["56%", "65%"]
-      ];
+      var xyOfPies = [["33%", "20%"], ["66%", "20%"], ["33%", "50%"], ["66%", "50%"], ["33%", "80%"], ["66%", "80%"]];
+      var xyOfTitles = [["23%", "5%"], ["56%", "5%"], ["23%", "35%"], ["56%", "35%"], ["23%", "65%"], ["56%", "65%"]];
       let option = {
         dataset: {
           source: this.pieData
         },
         title: [
           {
-            text: this.text,
-            textStyle: {
-              color: "#ccc"
-            },
-            padding: 15
+            text: this.text
           }
         ],
         tooltip: {
@@ -155,7 +130,6 @@ export default {
           }
         },
         legend: {},
-        backgroundColor: "#2c343c",
         series: []
       };
       this.addTitleOption(option, xyOfTitles);

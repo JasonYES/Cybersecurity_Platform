@@ -9,4 +9,6 @@ import CboxIndexes from './cbox-indexes.vue'
 import CboxIndex from './cbox-index.vue'
 import Tablex from './tablex.vue'
 import TablexOrg from './tablex-org.vue'
-export { ChartPie, ChartBar, CboxIndex, MapAffix, ChartScatter, Cbox, CboxOther, ChartMap, CboxIndexes, Tablex, TablexOrg }
+import ChartLine from './line.vue'
+
+export { ChartPie, ChartBar, CboxIndex, MapAffix, ChartScatter, Cbox, CboxOther, ChartMap, CboxIndexes, Tablex, TablexOrg, ChartLine }

@@ -160,6 +160,15 @@ export default [
         },
         component: () => import('@/view/cb-view/pie-page.vue')
       },
+      {
+        path: 'line-page',
+        name: 'line-page',
+        meta: {
+          icon: 'md-cog',
+          title: '历史'
+        },
+        component: () => import('@/view/cb-view/line-page.vue')
+      },
       // {
       //   path: 'test',
       //   name: 'test',

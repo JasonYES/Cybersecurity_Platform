@@ -7,6 +7,21 @@
           <div slot="content">
             <div style="margin-bottom:0px;">
               <Row type="flex" justify="center">
+                <i-col span="4">
+                  <CheckboxGroup v-model="reportChosen" @on-change="reportDIY">
+                    <!-- <Checkbox label="cover">封面</Checkbox> -->
+                    <Checkbox label="preview">前言</Checkbox>
+                    <Checkbox label="map">地图</Checkbox>
+                    <Checkbox label="pie">饼图</Checkbox>
+                    <Checkbox label="table">表格</Checkbox>
+                    <Checkbox label="sum">总结</Checkbox>
+                  </CheckboxGroup>
+                </i-col>
+              </Row>
+            </div>
+            <br>
+            <div style="margin-bottom:0px;">
+              <Row type="flex" justify="center">
                 <i-col span="6">
                   <Button long @click="reportDownload">预览及下载</Button>
                 </i-col>
@@ -52,7 +67,7 @@
       </i-col>
     </Row>
     <br>
-    <Row type="flex" justify="center">
+    <Row v-if="reportFlag.preview" type="flex" justify="center">
       <i-col span="16">
         <Card>
           <div align="center" :style="height">
@@ -77,7 +92,7 @@
       </i-col>
     </Row>
     <br>
-    <Row type="flex" justify="center">
+    <Row v-if="reportFlag.map" type="flex" justify="center">
       <i-col span="16">
         <Card>
           <div align="center" :style="height">
@@ -101,7 +116,7 @@
       </i-col>
     </Row>
     <br>
-    <Row type="flex" justify="center">
+    <Row v-if="reportFlag.pie" type="flex" justify="center">
       <i-col span="16">
         <Card>
           <div align="center">
@@ -126,7 +141,7 @@
       </i-col>
     </Row>
     <br>
-    <Row type="flex" justify="center">
+    <Row v-if="reportFlag.table" type="flex" justify="center">
       <i-col span="16">
         <Card>
           <div align="center">
@@ -142,7 +157,7 @@
       </i-col>
     </Row>
     <br>
-    <Row type="flex" justify="center">
+    <Row v-if="reportFlag.sum" type="flex" justify="center">
       <i-col span="16">
         <Card>
           <div align="center">
@@ -185,15 +200,23 @@ export default {
         height: 841.89,
         margin: 30
       },
-      pdf: null
+      pdf: null,
+      reportFlag: {
+        cover: true,
+        preview: true,
+        map: true,
+        pie: true,
+        table: true,
+        sum: true
+      },
+      reportChosen: ["cover", "preview", "map", "pie", "table", "sum"]
     };
   },
   computed: {
     ...mapState({
       dname: state => state.cbdata.dynamicName,
       dataCombined: state => [...state.cbdata.cbox.chosenScores], // 防止被更改
-      dataDivided: state =>
-        divideScoresBy(state.cbdata.cbox.chosenScores, "continent") // 防止被更改 方法内已做处理
+      dataDivided: state => divideScoresBy(state.cbdata.cbox.chosenScores, "continent") // 防止被更改 方法内已做处理
     })
   },
   components: {
@@ -220,127 +243,154 @@ export default {
       var reportAddParagraph = this.reportAddParagraph;
 
       // 以下是报告的编排和生成过程
-      reportAddPic(windoc.getElementById("reportCover"), 0, 1 / 5)
+      reportAddPic(windoc.getElementById("reportCover"), 0, 1 / 5, true)
         .then(() => {
-          return reportAddLine(text.title, 560, 600, 23, "r");
+          return reportAddLine(text.title, 560, 600, 23, "r", true);
         })
         .then(() => {
-          return reportAddTitle("前言");
+          return reportAddTitle("前言", this.reportFlag.preview);
         })
         .then(() => {
-          return reportAddParagraph(text.summary, 1 / 5);
+          return reportAddParagraph(text.summary, 1 / 5, this.reportFlag.preview);
         })
         .then(() => {
-          return reportAddTitle("全球概览");
+          return reportAddTitle("全球概览", this.reportFlag.map);
         })
         .then(() => {
-          return reportAddPic(windoc.getElementById("reportMap"), 0, 1 / 10);
+          return reportAddPic(windoc.getElementById("reportMap"), 0, 1 / 10, this.reportFlag.map);
         })
         .then(() => {
-          return reportAddParagraph(text.map, 3 / 5);
+          return reportAddParagraph(text.map, 3 / 5, this.reportFlag.map);
         })
         .then(() => {
-          return reportAddTitle("显著性分析");
+          return reportAddTitle("显著性分析", this.reportFlag.pie);
         })
         .then(() => {
-          return reportAddPic(windoc.getElementById("reportPie"), 0, 1 / 10);
+          return reportAddPic(windoc.getElementById("reportPie"), 0, 1 / 10, this.reportFlag.pie);
         })
         .then(() => {
-          return reportAddTitle("显著性分析-续");
+          return reportAddTitle("显著性分析-续", this.reportFlag.pie);
         })
         .then(() => {
-          return reportAddParagraph(text.pie, 1 / 7);
+          return reportAddParagraph(text.pie, 1 / 7, this.reportFlag.pie);
         })
         .then(() => {
-          return reportAddTitle("分数列表");
+          return reportAddTitle("分数列表", this.reportFlag.table);
         })
         .then(() => {
-          return this.reportAddTable();
+          return this.reportAddTable(this.reportFlag.table);
         })
         .then(() => {
-          return reportAddTitle("总结报告");
+          return reportAddTitle("总结报告", this.reportFlag.sum);
         })
         .then(() => {
-          return reportAddParagraph(text.final, 1 / 7);
+          return reportAddParagraph(text.final, 1 / 7, this.reportFlag.sum);
         })
         .then(() => {
           window.open(this.pdf.output("bloburl"));
         });
     },
-    reportAddPic(source, x, y) {
+    reportAddPic(source, x, y, flag) {
       return new Promise((resolve, reject) => {
-        html2canvas(source).then(canvas => {
-          var pic = canvas.toDataURL("image/jpeg", 1.0);
-          var picMargin = this.reportPage.margin - 15;
-          var picWidth = this.reportPage.width - 2 * picMargin;
-          this.pdf.addImage(
-            pic,
-            "JPEG",
-            picMargin,
-            y * this.reportPage.height,
-            picWidth,
-            (picWidth / canvas.width) * canvas.height
-          );
+        if (flag == false) {
           resolve(1);
-        });
-      });
-    },
-    reportAddLine(text, x, y, size, align) {
-      return new Promise((resolve, reject) => {
-        this.pdf.setFontSize(size);
-        switch (align) {
-          case "r":
-            this.pdf.text(text, x, y, null, null, "right");
-            break;
-          default:
-            this.pdf.text(text, x, y);
-            break;
+        } else {
+          html2canvas(source).then(canvas => {
+            var pic = canvas.toDataURL("image/jpeg", 1.0);
+            var picMargin = this.reportPage.margin - 15;
+            var picWidth = this.reportPage.width - 2 * picMargin;
+            this.pdf.addImage(
+              pic,
+              "JPEG",
+              picMargin,
+              y * this.reportPage.height,
+              picWidth,
+              (picWidth / canvas.width) * canvas.height
+            );
+            resolve(1);
+          });
         }
-        resolve(1);
       });
     },
-    reportAddParagraph(text, y) {
+    reportAddLine(text, x, y, size, align, flag) {
+      return new Promise((resolve, reject) => {
+        if (flag == false) {
+          resolve(1);
+        } else {
+          this.pdf.setFontSize(size);
+          switch (align) {
+            case "r":
+              this.pdf.text(text, x, y, null, null, "right");
+              break;
+            default:
+              this.pdf.text(text, x, y);
+              break;
+          }
+          resolve(1);
+        }
+      });
+    },
+    reportAddParagraph(text, y, flag) {
+      if (flag == false) {
+        return;
+      }
       let page = this.reportPage;
-      let textLines = this.pdf
-        .setFontSize(14)
-        .splitTextToSize(text, page.width - 2 * page.margin);
+      let textLines = this.pdf.setFontSize(14).splitTextToSize(text, page.width - 2 * page.margin);
       // 将字符串中的空格消除（因为有未知的显示问题，应该是有字体引起）
       for (var line in textLines) {
         textLines[line] = textLines[line].replace(/ /g, "");
       }
       this.pdf.text(textLines, page.margin, y * page.height);
     },
-    reportAddTitle(text) {
+    reportAddTitle(text, flag) {
       return new Promise((resolve, reject) => {
-        let page = this.reportPage;
-        this.pdf.addPage();
-        this.pdf.setFontSize(16);
-        this.pdf.text(text, page.margin, page.margin);
-        resolve(1);
+        if (flag == false) {
+          resolve(1);
+        } else {
+          let page = this.reportPage;
+          this.pdf.addPage();
+          this.pdf.setFontSize(16);
+          this.pdf.text(text, page.margin, page.margin);
+          resolve(1);
+        }
       });
     },
-    reportAddTable() {
+    reportAddTable(flag) {
       return new Promise((resolve, reject) => {
-        let page = this.reportPage;
-        var headers = this.reportTableHeader();
-        var databody = [];
-        for (var i in this.dataCombined) {
-          var objCopy = { ...this.dataCombined[i] };
-          objCopy["country"] = this.dname[this.dataCombined[i]["country"]];
-          databody.push(objCopy);
+        if (flag == false) {
+          resolve(1);
+        } else {
+          let page = this.reportPage;
+          var headers = this.reportTableHeader();
+          var databody = [];
+          for (var i in this.dataCombined) {
+            var objCopy = { ...this.dataCombined[i] };
+            objCopy["country"] = this.dname[this.dataCombined[i]["country"]];
+            databody.push(objCopy);
+          }
+          this.pdf.autoTable({
+            startY: page.margin + 20,
+            head: headers,
+            body: databody,
+            styles: { font: "ali" }
+          });
+          resolve(1);
         }
-        this.pdf.autoTable({
-          startY: page.margin + 20,
-          head: headers,
-          body: databody,
-          styles: { font: "ali" }
-        });
-        resolve(1);
       });
     },
     reportDownload() {
       this.drawFromHTML();
       // this.reportDownloadX();
+    },
+    reportDIY() {
+      var chosenSet = new Set(this.reportChosen);
+      for (var i in this.reportFlag) {
+        if (chosenSet.has(i)) {
+          this.reportFlag[i] = true;
+        } else {
+          this.reportFlag[i] = false;
+        }
+      }
     },
     XXXreportDownloadX() {
       this.pdf = new jsPDF("", "pt", "a4");

@@ -159,13 +159,6 @@ export default {
         dataset: {
           source: sourceData
         },
-        title: {
-          text: this.text,
-          textStyle: {
-            color: "#ccc"
-          },
-          padding: 15
-        },
         legend: {
           padding: 15,
           formatter: param => {
@@ -173,31 +166,33 @@ export default {
           }
         },
         tooltip: {},
+        series: this.series,
+        title: {
+          text: this.text
+        },
         xAxis: {
           type: "category",
           axisLabel: {
-            color: "#ccc",
+            color: "#000000",
             fontSize: 16
           },
           splitLine: {
             lineStyle: {
-              color: "#555"
+              color: "#CCCCCC"
             }
           }
         },
         yAxis: {
           axisLabel: {
-            color: "#ccc",
+            color: "#000000",
             fontSize: 16
           },
           splitLine: {
             lineStyle: {
-              color: "#555"
+              color: "#CCCCCC"
             }
           }
-        },
-        series: this.series,
-        backgroundColor: "#2c343c"
+        }
       };
       this.dom = echarts.init(this.$refs.dom, "tdTheme");
       this.dom.setOption(this.option);
@@ -205,7 +200,6 @@ export default {
       on(window, "resize", this.resize);
     }
   },
-
   mounted() {
     this.$nextTick(() => {
       this.draw();
