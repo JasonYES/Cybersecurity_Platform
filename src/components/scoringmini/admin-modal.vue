@@ -72,7 +72,7 @@
                 :label="vname[field]"
               >
                 <template>
-                  <Input v-model="value[field]" placeholder="不修改密码则无需输入"/>
+                  <Input type="password" v-model="value[field]" placeholder="不修改密码则无需输入"/>
                 </template>
               </FormItem>
             </div>
@@ -164,9 +164,7 @@ export default {
         country: {
           name: [{ required: true, message: "不能为空", trigger: "blur" }],
           nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
-          continent: [
-            { required: true, message: "不能为空", trigger: "change" }
-          ],
+          continent: [{ required: true, message: "不能为空", trigger: "change" }],
           est: "",
           language: "",
           capital: "",
@@ -225,22 +223,12 @@ export default {
         case "index2":
           this.index.modalShow = true;
           this.formFormatter.fieldsHidden = ["id", "id1"];
-          this.formFormatter.fieldsDisable = new Set([
-            "name1",
-            "nickname1",
-            "parent"
-          ]);
+          this.formFormatter.fieldsDisable = new Set(["name1", "nickname1", "parent"]);
           break;
         case "index3":
           this.index.modalShow = true;
           this.formFormatter.fieldsHidden = ["id", "id1", "id2"];
-          this.formFormatter.fieldsDisable = new Set([
-            "name1",
-            "nickname1",
-            "name2",
-            "nickname2",
-            "parent"
-          ]);
+          this.formFormatter.fieldsDisable = new Set(["name1", "nickname1", "name2", "nickname2", "parent"]);
           break;
         case "orgs":
           this.orgs.modalShow = true;
@@ -260,12 +248,7 @@ export default {
           break;
         case "users":
           this.users.modalShow = true;
-          this.formFormatter.fieldsHidden = [
-            "id",
-            "password",
-            "password2",
-            "adminValidate"
-          ];
+          this.formFormatter.fieldsHidden = ["id", "password", "password2", "adminValidate"];
           this.formFormatter.fieldsInsert = {
             password: "",
             password2: ""

@@ -3,14 +3,21 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <Cbox @checked="checkedData"></Cbox>
+          <Cbox @checked="checkedCountry" :type="'history'"></Cbox>
         </Card>
       </i-col>
     </Row>
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
-          <chart-line style="height: 500px;"></chart-line>
+          <Cbox-set @checked="checkedSets"></Cbox-set>
+        </Card>
+      </i-col>
+    </Row>
+    <Row :gutter="20" style="margin-top: 10px;">
+      <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
+        <Card shadow>
+          <chart-line :value="value" style="height: 500px;"></chart-line>
         </Card>
       </i-col>
     </Row>
@@ -18,22 +25,43 @@
 </template>
 
 <script>
-import { Cbox, ChartLine } from "_c/charts";
-// import { ChartLine } from "_c/chartsx";
+import { Cbox, ChartLine, CboxSet } from "_c/charts";
+import tmpData from "@/store/module/tmp-data";
 export default {
   name: "home",
   components: {
     ChartLine,
-    Cbox
+    Cbox,
+    CboxSet
   },
   methods: {
-    checkedData() {}
+    checkedCountry(data) {
+      var chosen = [];
+      for (var i in data) {
+        chosen.push(...data[i]);
+      }
+      this.chosen.coun = chosen;
+      this.refresh();
+    },
+    checkedSets(data) {
+      this.chosen.sets = data;
+      this.refresh();
+    },
+    refresh() {
+      this.value = tmpData["lineData"];
+    }
   },
   data() {
-    return {};
+    return {
+      value: [],
+      chosen: {
+        coun: [],
+        sets: []
+      }
+    };
   },
   mounted() {
-    //
+    // this.value = tmpData["lineData"];
   }
 };
 </script>

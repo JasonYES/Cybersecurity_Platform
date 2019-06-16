@@ -82,7 +82,11 @@ export default {
           name: userName,
           password: md5(password)
         }).then(res => {
-          // commit('setToken', data.token)
+          if (res.data.code == 0) {
+            // 登录成功
+            var name = res.data.data.nickname;
+            commit('setUserName', name)
+          }
           resolve(res)
         }).catch(err => {
           reject(err)

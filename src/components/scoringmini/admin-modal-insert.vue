@@ -136,6 +136,9 @@
               <Option v-for="item in users.roles" :value="item" :key="item">{{num2role[item]}}</Option>
             </Select>
           </template>
+          <template v-else-if="field === 'password' || field === 'password2'">
+            <Input type="password" v-model="value[field]"/>
+          </template>
           <template v-else>
             <Input v-model="value[field]"/>
           </template>
@@ -239,9 +242,7 @@ export default {
         country: {
           name: [{ required: true, message: "不能为空", trigger: "blur" }],
           nickname: [{ required: true, message: "不能为空", trigger: "blur" }],
-          continent: [
-            { required: true, message: "不能为空", trigger: "change" }
-          ],
+          continent: [{ required: true, message: "不能为空", trigger: "change" }],
           est: "",
           language: "",
           capital: "",

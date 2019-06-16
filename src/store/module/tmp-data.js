@@ -410,5 +410,11 @@ export default {
     { "country": "23", "score": 0.38, "legal": 0.52, "technical": 0.95, "organization": 0.9, "capacity": 0.62, "cooperation": 0.19 },
     { "country": "2333", "score": 0.37, "legal": 0.84, "technical": 0.29, "organization": 0.31, "capacity": 0.28, "cooperation": 0.09 },
     { "country": "goup12", "score": 0, "legal": 0.62, "technical": 0.69, "organization": 0.41, "capacity": 0.63, "cooperation": 0.18 },
+  ],
+  lineData: [
+    { product: "Matcha Latte", "2015": 43.3, "2016": 85.8, "2017": 93.7 },
+    { product: "Milk Tea", "2015": 83.1, "2016": 73.4, "2017": 55.1 },
+    { product: "Cheese Cocoa", "2015": 86.4, "2016": 65.2, "2017": 82.5 },
+    { product: "Walnut Brownie", "2015": 72.4, "2016": 53.9, "2017": 39.1 }
   ]
 }

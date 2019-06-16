@@ -206,6 +206,11 @@ export default {
           this.checked = this.copyEmptyObject(this.value);
           this.confirmAction = "outer";
           break;
+        case "history":
+          this.value = { ...this.cbox.countries };
+          this.checked = this.copyEmptyObject(this.value);
+          this.confirmAction = "outer";
+          break;
         case "crawler":
           this.value = this.typeValue;
           this.checked = this.copyObject(this.value);
@@ -243,7 +248,7 @@ export default {
     copyEmptyObject(obj) {
       var keys = Object.keys(obj);
       var resObj = {};
-      for(var i in keys) {
+      for (var i in keys) {
         resObj[keys[i]] = [];
       }
       return resObj;
@@ -256,14 +261,10 @@ export default {
       }
     },
     handleCheckAllOrgs(continent) {
-      if (
-        this.checkedOrgs[continent].length == this.orgsValue[continent].length
-      ) {
+      if (this.checkedOrgs[continent].length == this.orgsValue[continent].length) {
         this.checkedOrgs[continent] = [];
       } else {
-        this.checkedOrgs[continent] = this.copyObject(
-          this.orgsValue[continent]
-        );
+        this.checkedOrgs[continent] = this.copyObject(this.orgsValue[continent]);
       }
     }
   }

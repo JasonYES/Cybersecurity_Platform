@@ -1,23 +1,40 @@
 <template>
-  <div class="user-avator-dropdown">
-    <Dropdown @on-click="handleClick">
-      <Badge :dot="!!messageUnreadCount">
-        <Avatar :src="userAvator"/>
-      </Badge>
-      <Icon :size="18" type="md-arrow-dropdown"></Icon>
-      <DropdownMenu slot="list">
-        <!-- <DropdownItem name="message">
+  <div>
+    <div class="user-avator-dropdown">
+      <Dropdown @on-click="handleClick">
+        <!-- <Badge :dot="!!messageUnreadCount">
+          <Avatar :src="userAvator"/>
+        </Badge>
+        <Icon :size="18" type="md-arrow-dropdown"></Icon>-->
+        <a href="javascript:void(0)">
+          {{username}}
+          <Icon type="ios-arrow-down"></Icon>
+        </a>
+        <DropdownMenu slot="list">
+          <!-- <DropdownItem name="message">
           消息中心<Badge style="margin-left: 10px" :count="messageUnreadCount"></Badge>
-        </DropdownItem>-->
-        <DropdownItem name="logout">退出登录</DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
+          </DropdownItem>-->
+          <DropdownItem name="password">修改密码</DropdownItem>
+          <DropdownItem name="logout">退出登录</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+    </div>
+    <Modal v-model="modal" title="修改密码" @on-ok="modalSubmit" @on-cancel="modalCancel">
+      <Form :model="form" :label-width="80">
+        <FormItem label="输入密码">
+          <Input type="password" v-model="form.password" placeholder="请输入..."/>
+        </FormItem>
+        <FormItem label="再次输入">
+          <Input type="password" v-model="form.password2" placeholder="请输入..."/>
+        </FormItem>
+      </Form>
+    </Modal>
   </div>
 </template>
 
 <script>
 import "./user.less";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "User",
   props: {
@@ -29,6 +46,20 @@ export default {
       type: Number,
       default: 0
     }
+  },
+  data() {
+    return {
+      form: {
+        password: "",
+        password2: ""
+      },
+      modal: false
+    };
+  },
+  computed: {
+    ...mapState({
+      username: state => state.user.userName
+    })
   },
   methods: {
     ...mapActions(["handleLogOut"]),
@@ -44,6 +75,9 @@ export default {
         name: "message_page"
       });
     },
+    password() {
+      this.modal = true;
+    },
     handleClick(name) {
       switch (name) {
         case "logout":
@@ -52,7 +86,18 @@ export default {
         case "message":
           this.message();
           break;
+        case "password":
+          this.password();
+          break;
       }
+    },
+    modalSubmit() {
+      this.form.password = "";
+      this.form.password2 = "";
+    },
+    modalCancel() {
+      this.form.password = "";
+      this.form.password2 = "";
     }
   }
 };

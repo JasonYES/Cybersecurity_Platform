@@ -2,9 +2,17 @@
   <div class="scoring scoreBoard">
     <Table border :loading="tableLoading" :columns="columns" :data="dataByPage" :width="tableWidth"></Table>
     <br>
-    <div align="center">
+    <Row>
+      <i-col span="3" offset="11">
+        <Page :current="page.now" :total="page.all" @on-change="pageOnChange" simple/>
+      </i-col>
+      <i-col span="2" offset="1">
+        <Button long type="primary" @click="submitArchive">提交最终审核结果</Button>
+      </i-col>
+    </Row>
+    <!-- <div align="center">
       <Page :current="page.now" :total="page.all" @on-change="pageOnChange" simple/>
-    </div>
+    </div>-->
     <Modal v-model="judgingModal.showModal1" ok-text="保存" @on-ok="modalSave" width="1200">
       <p slot="header">
         <span>{{judgingModal.title}}</span>
@@ -138,10 +146,7 @@ export default {
       }
     }),
     dataByPage: function() {
-      var sliced = this.data.slice(
-        (this.page.now - 1) * 10,
-        this.page.now * 10
-      );
+      var sliced = this.data.slice((this.page.now - 1) * 10, this.page.now * 10);
       // 中文化
       var slicedCN = [];
       for (var i in sliced) {
@@ -216,11 +221,7 @@ export default {
       for (var i in data) {
         var cellClassName = {};
         for (var j in data[i]) {
-          if (
-            j === "country" ||
-            j === "cellClassName" ||
-            this.indexesSet1.has(j)
-          ) {
+          if (j === "country" || j === "cellClassName" || this.indexesSet1.has(j)) {
             // 如果是1 2 country之类的是标志位, 不是具体分数, 所以跳过
             continue;
           }
@@ -233,9 +234,7 @@ export default {
                 cellClassName[j] = this.cellStyleParserFinal("uninit");
                 break;
               }
-              cellClassName[j] = this.cellStyleParserFinal(
-                this.statusData[i][j]
-              );
+              cellClassName[j] = this.cellStyleParserFinal(this.statusData[i][j]);
               break;
           }
         }
@@ -351,8 +350,7 @@ export default {
     // 以下都是Modal框方法
     judgingBoard(params) {
       // 基本信息的设定
-      this.judgingModal.title =
-        params.row["country"] + " - " + this.dName[params.column.key];
+      this.judgingModal.title = params.row["country"] + " - " + this.dName[params.column.key];
       // 需要再转回英文
       this.judgingModal.country = this.dName[params.row["country"]];
       this.judgingModal.index = params.column.key;
@@ -379,9 +377,7 @@ export default {
                   var data = res.data.data;
 
                   var tableValue = data;
-                  this.judgingModal.tableColumns = this.columnsExtractor([
-                    ...tableValue
-                  ]);
+                  this.judgingModal.tableColumns = this.columnsExtractor([...tableValue]);
                   this.addModalCellStyle(tableValue);
                   this.judgingModal.tableValue = tableValue;
                   this.judgingModal.tableWidth = 750;
@@ -542,8 +538,7 @@ export default {
         data[i]["cellClassName"] = {};
         if (data[i]["status"] === "冲突") {
           data[i]["cellClassName"]["status"] = "zero";
-        } else if (data[i]["status"] === "无评分")
-          data[i]["cellClassName"]["status"] = "mid";
+        } else if (data[i]["status"] === "无评分") data[i]["cellClassName"]["status"] = "mid";
       }
     },
     pageOnChange(page) {
@@ -559,6 +554,9 @@ export default {
     },
     modalPageOnChange(page) {
       this.judgingModal.refPageNow = page;
+    },
+    submitArchive() {
+      console.log("archive");
     }
   },
   data() {

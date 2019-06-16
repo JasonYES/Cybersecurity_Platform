@@ -39,32 +39,27 @@ export default {
       this.dom.resize();
     },
     draw() {
-      //   if (this.value == null || this.value.length == 0) {
-      //     // 关于数据为空的处理
-      //     this.dom = echarts.init(this.$refs.dom, "tdTheme");
-      //     this.dom.setOption({
-      //       dataset: {
-      //         source: []
-      //       },
-      //       title: {
-      //         text: this.text,
-      //         textStyle: {
-      //           color: "#ccc"
-      //         },
-      //         padding: 15
-      //       },
-      //       series: []
-      //     });
-      //     on(window, "resize", this.resize);
-      //     return;
-      //   }
+      if (this.value == null || this.value.length == 0) {
+        // 关于数据为空的处理
+        this.dom = echarts.init(this.$refs.dom, "tdTheme");
+        this.dom.setOption({
+          dataset: {
+            source: []
+          },
+          title: {
+            text: this.text,
+            textStyle: {
+              color: "#ccc"
+            },
+            padding: 15
+          },
+          series: []
+        });
+        on(window, "resize", this.resize);
+        return;
+      }
 
-      let sourceData = [
-        { product: "Matcha Latte", "2015": 43.3, "2016": 85.8, "2017": 93.7 },
-        { product: "Milk Tea", "2015": 83.1, "2016": 73.4, "2017": 55.1 },
-        { product: "Cheese Cocoa", "2015": 86.4, "2016": 65.2, "2017": 82.5 },
-        { product: "Walnut Brownie", "2015": 72.4, "2016": 53.9, "2017": 39.1 }
-      ];
+      let sourceData = this.value;
       //   let sourceData = this.value;
       this.option = {
         dataset: {
