@@ -35,6 +35,8 @@
 <script>
 import "./user.less";
 import { mapActions, mapState } from "vuex";
+import { password } from "@/api/user";
+import md5 from "js-md5";
 export default {
   name: "User",
   props: {
@@ -92,8 +94,38 @@ export default {
       }
     },
     modalSubmit() {
-      this.form.password = "";
-      this.form.password2 = "";
+      if (this.form.password == "" || this.form.password2 == "") {
+        alert("密码不能为空");
+        return;
+      }
+      if (this.form.password != this.form.password2) {
+        alert("两次输入密码不一致");
+        return;
+      }
+      if (this.form.password.length < 6) {
+        alert("密码不能小于6位");
+        return;
+      }
+      password({
+        password: md5(this.form.password)
+      })
+        .then(res => {
+          if (res.data.code == 0) {
+            alert("修改成功, 请重新登录.");
+            // 重新登录
+            this.handleLogOut().then(() => {
+              this.$router.push({
+                name: "login"
+              });
+            });
+          }
+          resolve(res);
+        })
+        .catch(err => {
+          reject(err);
+        });
+      // this.form.password = "";
+      // this.form.password2 = "";
     },
     modalCancel() {
       this.form.password = "";

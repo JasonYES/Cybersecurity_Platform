@@ -412,9 +412,9 @@ export default {
     { "country": "goup12", "score": 0, "legal": 0.62, "technical": 0.69, "organization": 0.41, "capacity": 0.63, "cooperation": 0.18 },
   ],
   lineData: [
-    { product: "Matcha Latte", "2015": 43.3, "2016": 85.8, "2017": 93.7 },
-    { product: "Milk Tea", "2015": 83.1, "2016": 73.4, "2017": 55.1 },
-    { product: "Cheese Cocoa", "2015": 86.4, "2016": 65.2, "2017": 82.5 },
-    { product: "Walnut Brownie", "2015": 72.4, "2016": 53.9, "2017": 39.1 }
+    { "sets": "批次1", "China": 0.3, "Korea": 0.8, "Japan": 0.7 },
+    { "sets": "批次2", "China": 0.1, "Korea": 0.4, "Japan": 0.1 },
+    { "sets": "批次3", "China": 0.4, "Korea": 0.2, "Japan": 0.5 },
+    { "sets": "批次4", "China": 0.4, "Korea": 0.9, "Japan": 0.1 }
   ]
 }

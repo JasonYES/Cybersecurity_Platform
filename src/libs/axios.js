@@ -22,7 +22,8 @@ class HttpRequest {
       baseURL: this.baseUrl,
       headers: {
         //
-      }
+      },
+      // withCredentials: true, // try
     }
     return config
   }
@@ -48,6 +49,10 @@ class HttpRequest {
     instance.interceptors.response.use(res => {
       this.destroy(url)
       const { data, status } = res
+
+      // res.withCredentials = true;
+      // return res;
+
       return { data, status }
     }, error => {
       this.destroy(url)
@@ -65,6 +70,8 @@ class HttpRequest {
     })
   }
   request(options) {
+    axios.defaults.withCredentials = true
+    console.log(axios.defaults)
     const instance = axios.create()
     options = Object.assign(this.getInsideConfig(), options)
     this.interceptors(instance, options.url)

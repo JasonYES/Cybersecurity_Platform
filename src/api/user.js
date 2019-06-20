@@ -1,6 +1,7 @@
 import axios from '@/libs/api.request'
 
 export const login = (data) => {
+  console.log(axios)
   return axios.request({
     url: '/api/user/login',
     data,
@@ -8,6 +9,13 @@ export const login = (data) => {
   })
 }
 
+export const password = (data) => {
+  return axios.request({
+    url: '/api/user/password',
+    data,
+    method: 'post'
+  })
+}
 
 // 以下都没有用到
 export const getUserInfo = (token) => {
