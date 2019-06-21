@@ -6,8 +6,10 @@
       <i-col span="3" offset="11">
         <Page :current="page.now" :total="page.all" @on-change="pageOnChange" simple/>
       </i-col>
-      <i-col span="2" offset="1">
-        <Button long type="primary" @click="submitArchive">提交最终审核结果</Button>
+      <i-col v-if="type == 'final'" span="3" offset="1">
+        <Poptip confirm title="是否确认提交最终结果? (只有经过该操作,该审核结果才能被可视化)" @on-ok="submitArchive">
+          <Button long type="primary">提交最终审核结果</Button>
+        </Poptip>
       </i-col>
     </Row>
     <!-- <div align="center">
@@ -71,7 +73,7 @@
               </i-col>-->
             </Row>
             <br>
-            <Row>
+            <!-- <Row>
               <i-col span="12">
                 <Card style="height: 150px;">
                   <p
@@ -86,8 +88,8 @@
                   >{{judgingModal.refSummary[judgingModal.refPageNow-1]['cn']}}</p>
                 </Card>
               </i-col>
-            </Row>
-            <br>
+            </Row>-->
+            <!-- <br> -->
             <Row>
               <i-col span="12">
                 <Card style="height: 400px; overflow-y:scroll">
@@ -127,7 +129,7 @@ import tmpData from "@/store/module/tmp-data";
 import { mapState } from "vuex";
 import { manualSubmit, manualUndo } from "@/api/scoring";
 import { finalSubmit, finalUndo } from "@/api/scoring";
-import { getFinalStatus, getFinalDetail } from "@/api/scoring";
+import { getFinalStatus, getFinalDetail, getReference, archive } from "@/api/scoring";
 export default {
   name: "ScoreBoard",
   props: {
@@ -545,18 +547,44 @@ export default {
       this.page.now = page;
     },
     modalReference(row, rowIndex) {
-      var indexName = row.index;
-      this.judgingModal.refName = indexName;
-      this.judgingModal.refContent = tmpData["scoringRef"];
-      this.judgingModal.refSummary = tmpData["scoringSum"];
-      this.judgingModal.refPageAll = this.judgingModal.refContent.length * 10;
-      this.judgingModal.refPageNow = 1;
+      var index3Name = row.index;
+      this.judgingModal.refName = index3Name;
+      getReference(this.judgingModal.country, index3Name)
+        .then(res => {
+          if (res.data.code == 0) {
+            this.judgingModal.refContent = res.data.data;
+            this.judgingModal.refPageAll = this.judgingModal.refContent.length * 10;
+            this.judgingModal.refPageNow = 1;
+            if (res.data.data.length === 0) {
+              this.$Message.error("该指标无参考资料!");
+            }
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert(err);
+        });
+      // this.judgingModal.refContent = tmpData["scoringRef"];
+      // this.judgingModal.refSummary = tmpData["scoringSum"];
+      // this.judgingModal.refPageAll = this.judgingModal.refContent.length * 10;
+      // this.judgingModal.refPageNow = 1;
     },
     modalPageOnChange(page) {
       this.judgingModal.refPageNow = page;
     },
     submitArchive() {
-      console.log("archive");
+      archive()
+        .then(res => {
+          if (res.data.code == 0) {
+            this.$Message.success("提交成功!");
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert(err);
+        });
     }
   },
   data() {

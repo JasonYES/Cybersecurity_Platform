@@ -71,7 +71,6 @@ class HttpRequest {
   }
   request(options) {
     axios.defaults.withCredentials = true
-    console.log(axios.defaults)
     const instance = axios.create()
     options = Object.assign(this.getInsideConfig(), options)
     this.interceptors(instance, options.url)

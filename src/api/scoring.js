@@ -32,6 +32,18 @@ export const getFinalDetail = (country, index) => {
     })
 }
 
+
+export const getReference = (country, index3) => {
+    return axios.request({
+        url: '/api/scorefinal/reference',
+        method: 'post',
+        params: {
+            country,
+            index3
+        }
+    })
+}
+
 export const manualSubmit = data => {
     return axios.request({
         url: '/api/scoring/submit',
@@ -64,6 +76,12 @@ export const finalUndo = data => {
     })
 }
 
+export const archive = () => {
+    return axios.request({
+        url: '/api/scorefinal/archive',
+        method: 'post'
+    })
+}
 ///////////////
 
 
