@@ -44,6 +44,30 @@ export const getReference = (country, index3) => {
     })
 }
 
+export const delReference = (id) => {
+    return axios.request({
+        url: '/api/scorefinal/delreference',
+        method: 'get',
+        params: {
+            id
+        }
+    })
+}
+
+export const addReference = (country, index3, content) => {
+    return axios.request({
+        url: '/api/scorefinal/addreference',
+        method: 'post',
+        data: {
+            content: content
+        },
+        params: {
+            country,
+            index3
+        }
+    })
+}
+
 export const manualSubmit = data => {
     return axios.request({
         url: '/api/scoring/submit',

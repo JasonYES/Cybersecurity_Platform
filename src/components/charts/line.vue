@@ -21,7 +21,14 @@ export default {
     return {
       dom: null,
       data: {},
-      series: [{ type: "line" }, { type: "line" }, { type: "line" }]
+      series: [
+        { type: "line" },
+        { type: "line" },
+        { type: "line" },
+        { type: "line" },
+        { type: "line" },
+        { type: "line" }
+      ]
     };
   },
   watch: {
@@ -58,12 +65,21 @@ export default {
         on(window, "resize", this.resize);
         return;
       }
-
+      // 初始化各个option参数
+      let dimensions = ["sets"];
+      let copyObj = { ...this.value[0] };
+      delete copyObj["sets"];
+      dimensions.push(...Object.keys(copyObj));
+      //   series更新
+      this.series = [];
+      for (var i in this.value) {
+        this.series.push({ type: "line" });
+      }
       let sourceData = this.value;
       //   let sourceData = this.value;
       this.option = {
         dataset: {
-          dimensions: ["product", "2015", "2016", "2017"],
+          dimensions: dimensions,
           source: sourceData
         },
         legend: {

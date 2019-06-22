@@ -34,6 +34,14 @@ export const getIndexes = () => {
     method: 'get'
   })
 }
+
+export const getLine = data => {
+  return axios.request({
+    url: '/api/visual/line',
+    data: data,
+    method: 'post'
+  })
+}
 ///////////////  /assets/maps/world-eckert3-lowres.geo.json
 
 

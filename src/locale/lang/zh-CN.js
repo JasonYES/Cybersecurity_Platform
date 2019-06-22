@@ -74,5 +74,6 @@ export default {
   "_home": "首页",
   "output": "数据导出",
   "report": "报告预览",
-  "login": "登录"
+  "login": "登录",
+  "line-page": "历史变化图"
 }

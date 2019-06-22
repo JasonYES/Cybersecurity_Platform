@@ -92,7 +92,7 @@ export default {
             var data = res.data.data;
             this.addCellStyleField(data);
             this.scoringValue = data;
-            this.tableLoading = false;
+            // this.tableLoading = false;
           } else {
             alert(res.data.msg);
           }

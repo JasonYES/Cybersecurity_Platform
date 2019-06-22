@@ -46,7 +46,7 @@
           </i-col>
         </Row>
       </TabPane>
-      <TabPane :label="'文档解析'">
+      <!-- <TabPane :label="'文档解析'">
         <Row type="flex" justify="center">
           <i-col span="12">
             <Card>
@@ -70,7 +70,7 @@
             </Card>
           </i-col>
         </Row>
-      </TabPane>
+      </TabPane>-->
     </Tabs>
   </div>
 </template>

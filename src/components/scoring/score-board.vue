@@ -12,7 +12,10 @@
           <Button long type="primary">初始化审核数据</Button>
         </Poptip>
       </i-col>
-      <i-col span="3" offset="0">
+      <i-col v-if="type == 'final'" span="3" offset="0">
+        <Page :current="page.now" :total="page.all" @on-change="pageOnChange" simple/>
+      </i-col>
+      <i-col v-if="type == 'manual'" span="3" offset="11">
         <Page :current="page.now" :total="page.all" @on-change="pageOnChange" simple/>
       </i-col>
       <i-col v-if="type == 'final'" span="3" offset="1">
@@ -24,6 +27,14 @@
     <!-- <div align="center">
       <Page :current="page.now" :total="page.all" @on-change="pageOnChange" simple/>
     </div>-->
+    <Modal v-model="referenceModal.modal" title="添加参考资料" @on-ok="modalReferencedelMore">
+      <Input
+        v-model="referenceModal.text"
+        type="textarea"
+        :rows="12"
+        placeholder="Enter something..."
+      />
+    </Modal>
     <Modal v-model="judgingModal.showModal1" ok-text="保存" @on-ok="modalSave" width="1200">
       <p slot="header">
         <span>{{judgingModal.title}}</span>
@@ -71,19 +82,13 @@
                 <Poptip
                   v-if="judgingModal.refContent.length != 0"
                   confirm
+                  @on-ok="modalReferencedelDel"
                   title="确定要将该依据标记为'不相关'并删除吗?"
                 >
                   <Button shape="circle">删除</Button>
                 </Poptip>
-                <Poptip confirm title="确定要请求爬取更多数据吗?">
-                  <Button shape="circle">更多</Button>
-                </Poptip>
+                <Button shape="circle" @click="referenceModal.modal = true">更多</Button>
               </i-col>
-              <!-- <i-col v-if="judgingModal.refContent.length != 0" span="2">
-                <Poptip confirm title="确定要请求爬取更多数据吗?">
-                  <Button shape="circle">更多</Button>
-                </Poptip>
-              </i-col>-->
             </Row>
             <br>
             <!-- <Row>
@@ -143,6 +148,7 @@ import { mapState } from "vuex";
 import { manualSubmit, manualUndo } from "@/api/scoring";
 import { finalSubmit, finalUndo } from "@/api/scoring";
 import { getFinalStatus, getFinalDetail, getReference, archive, init } from "@/api/scoring";
+import { addReference, delReference } from "@/api/scoring";
 export default {
   name: "ScoreBoard",
   props: {
@@ -563,7 +569,16 @@ export default {
     modalReference(row, rowIndex) {
       var index3Name = row.index;
       this.judgingModal.refName = index3Name;
-      getReference(this.judgingModal.country, index3Name)
+      // 给"更多"使用
+      this.referenceModal.index3 = index3Name;
+      this.fetchReference();
+      // this.judgingModal.refContent = tmpData["scoringRef"];
+      // this.judgingModal.refSummary = tmpData["scoringSum"];
+      // this.judgingModal.refPageAll = this.judgingModal.refContent.length * 10;
+      // this.judgingModal.refPageNow = 1;
+    },
+    fetchReference() {
+      getReference(this.judgingModal.country, this.referenceModal.index3)
         .then(res => {
           if (res.data.code == 0) {
             this.judgingModal.refContent = res.data.data;
@@ -571,6 +586,8 @@ export default {
             this.judgingModal.refPageNow = 1;
             if (res.data.data.length === 0) {
               this.$Message.error("该指标无参考资料!");
+            } else {
+              this.setReferenceDeleteId();
             }
           } else {
             alert(res.data.msg);
@@ -579,15 +596,16 @@ export default {
         .catch(err => {
           alert(err);
         });
-      // this.judgingModal.refContent = tmpData["scoringRef"];
-      // this.judgingModal.refSummary = tmpData["scoringSum"];
-      // this.judgingModal.refPageAll = this.judgingModal.refContent.length * 10;
-      // this.judgingModal.refPageNow = 1;
     },
     modalPageOnChange(page) {
       this.judgingModal.refPageNow = page;
+      this.setReferenceDeleteId();
+    },
+    setReferenceDeleteId() {
+      this.referenceModal.refDelId = this.judgingModal.refContent[this.judgingModal.refPageNow - 1]["id"];
     },
     submitArchive() {
+      this.fakeLoading(10000);
       archive()
         .then(res => {
           if (res.data.code == 0) {
@@ -601,11 +619,46 @@ export default {
         });
     },
     finalInit() {
+      this.fakeLoading(90000);
       init()
         .then(res => {
           if (res.data.code == 0) {
             this.$Message.success("初始化成功!");
             this.$emit("refresh");
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert(err);
+        });
+    },
+    modalReferencedelMore() {
+      let coun = this.judgingModal.country;
+      let index3 = this.referenceModal.index3;
+      let content = this.referenceModal.text;
+      addReference(coun, index3, content)
+        .then(res => {
+          if (res.data.code == 0) {
+            this.$Message.success("添加成功!");
+            this.fakeLoading(2000);
+            this.fetchReference();
+            this.referenceModal.text = "";
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert(err);
+        });
+    },
+    modalReferencedelDel() {
+      delReference(this.referenceModal.refDelId)
+        .then(res => {
+          if (res.data.code == 0) {
+            this.$Message.success("删除成功!");
+            this.fakeLoading(2000);
+            this.fetchReference();
           } else {
             alert(res.data.msg);
           }
@@ -643,7 +696,13 @@ export default {
       columns: [],
       dataEmpty: [],
       tableWidth: 0,
-      statusData: []
+      statusData: [],
+      referenceModal: {
+        modal: false,
+        index3: "",
+        refDelId: 0,
+        text: ""
+      }
     };
   }
 };

@@ -7,13 +7,13 @@
         </Card>
       </i-col>
     </Row>
-    <Row :gutter="20" style="margin-top: 10px;">
+    <!-- <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
           <Cbox-set @checked="checkedSets"></Cbox-set>
         </Card>
       </i-col>
-    </Row>
+    </Row>-->
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="24" style="margin-bottom: 20px;">
         <Card shadow>
@@ -27,6 +27,8 @@
 <script>
 import { Cbox, ChartLine, CboxSet } from "_c/charts";
 import tmpData from "@/store/module/tmp-data";
+import { getLine } from "@/api/visual";
+
 export default {
   name: "home",
   components: {
@@ -48,7 +50,23 @@ export default {
       this.refresh();
     },
     refresh() {
-      this.value = tmpData["lineData"];
+      getLine({
+        index: "score",
+        countries: this.chosen.coun
+      })
+        .then(res => {
+          if (res.data.code == 0) {
+            var data = res.data.data;
+            this.value = data;
+          } else {
+            alert("错误! " + res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert("错误! " + err);
+        });
+
+      // this.value = tmpData["lineData"];
     }
   },
   data() {
