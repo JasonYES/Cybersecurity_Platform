@@ -7,7 +7,7 @@ const { title, cookieExpires, useI18n } = config
 export const TOKEN_KEY = 'localtoken'
 
 export const setToken = (token) => {
-  Cookies.set(TOKEN_KEY, token, { expires: cookieExpires || 1 })
+  Cookies.set(TOKEN_KEY, token, { expires: cookieExpires || 7 }) // 7天
 }
 
 export const getToken = () => {

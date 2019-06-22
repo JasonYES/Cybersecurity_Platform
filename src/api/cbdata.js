@@ -21,6 +21,13 @@ export const cbprogress = () => {
     })
 }
 
+export const cbend = () => {
+    return axios.request({
+        url: '/stop',
+        method: 'get'
+    })
+}
+
 export const postx = () => {
     return axios.request({
         url: '/postx',

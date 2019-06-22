@@ -1,35 +1,35 @@
 <template>
   <div>
     <Row>
-      <Collapse :value="'1'" accordion>
-        <Panel name="1">
-          选项
-          <div slot="content">
-            <div style="margin-bottom:0px;">
-              <Row type="flex" justify="center">
-                <i-col span="4">
-                  <CheckboxGroup v-model="reportChosen" @on-change="reportDIY">
-                    <!-- <Checkbox label="cover">封面</Checkbox> -->
-                    <Checkbox label="preview">前言</Checkbox>
-                    <Checkbox label="map">地图</Checkbox>
-                    <Checkbox label="pie">饼图</Checkbox>
-                    <Checkbox label="table">表格</Checkbox>
-                    <Checkbox label="sum">总结</Checkbox>
-                  </CheckboxGroup>
-                </i-col>
-              </Row>
-            </div>
-            <br>
-            <div style="margin-bottom:0px;">
-              <Row type="flex" justify="center">
-                <i-col span="6">
-                  <Button long @click="reportDownload">预览及下载</Button>
-                </i-col>
-              </Row>
-            </div>
-          </div>
-        </Panel>
-      </Collapse>
+      <!-- <Collapse :value="'1'" accordion> -->
+      <!-- <Panel name="1"> -->
+      <!-- 选项 -->
+      <Card>
+        <div style="margin-bottom:0px;">
+          <Row type="flex" justify="center">
+            <i-col span="4">
+              <CheckboxGroup v-model="reportChosen" @on-change="reportDIY">
+                <!-- <Checkbox label="cover">封面</Checkbox> -->
+                <Checkbox label="preview">前言</Checkbox>
+                <Checkbox label="map">地图</Checkbox>
+                <Checkbox label="pie">饼图</Checkbox>
+                <Checkbox label="table">表格</Checkbox>
+                <Checkbox label="sum">总结</Checkbox>
+              </CheckboxGroup>
+            </i-col>
+          </Row>
+        </div>
+        <br>
+        <div style="margin-bottom:0px;">
+          <Row type="flex" justify="center">
+            <i-col span="6">
+              <Button long @click="reportDownload">预览及下载</Button>
+            </i-col>
+          </Row>
+        </div>
+      </Card>
+      <!-- </Panel> -->
+      <!-- </Collapse> -->
     </Row>
     <br>
     <Row></Row>
@@ -176,6 +176,38 @@
       </i-col>
     </Row>
     <br>
+    <Row>
+      <!-- <Collapse :value="'1'" accordion> -->
+      <!-- <Panel name="1"> -->
+      <!-- 选项 -->
+      <Card>
+        <div style="margin-bottom:0px;">
+          <Row type="flex" justify="center">
+            <i-col span="4">
+              <CheckboxGroup v-model="reportChosen" @on-change="reportDIY">
+                <!-- <Checkbox label="cover">封面</Checkbox> -->
+                <Checkbox label="preview">前言</Checkbox>
+                <Checkbox label="map">地图</Checkbox>
+                <Checkbox label="pie">饼图</Checkbox>
+                <Checkbox label="table">表格</Checkbox>
+                <Checkbox label="sum">总结</Checkbox>
+              </CheckboxGroup>
+            </i-col>
+          </Row>
+        </div>
+        <br>
+        <div style="margin-bottom:0px;">
+          <Row type="flex" justify="center">
+            <i-col span="6">
+              <Button long @click="reportDownload">预览及下载</Button>
+            </i-col>
+          </Row>
+        </div>
+      </Card>
+      <!-- </Panel> -->
+      <!-- </Collapse> -->
+    </Row>
+    <br>
   </div>
 </template>
 <script>
@@ -189,6 +221,8 @@ import { font } from "@/assets/fonts/Alibaba-3500.js";
 import { mapState } from "vuex";
 import { resolve } from "q";
 import { vname, reportText } from "@/config/properties";
+import { AnchorLink, Anchor } from "iview";
+
 export default {
   data() {
     return {

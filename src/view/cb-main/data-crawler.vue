@@ -36,9 +36,14 @@
               </Row>
               <br>
               <div style>
-                <Row type="flex" justify="center">
-                  <i-col span="6">
+                <Row type="flex">
+                  <i-col span="6" offset="8">
                     <Button long @click="crawlControl">开始 / 暂停</Button>
+                  </i-col>
+                  <i-col span="4" offset="1">
+                    <Poptip confirm title="确认终止吗? 将取消当前爬取进度(已爬取数据将保留)." @on-ok="crawlEnd">
+                      <Button type="info">终止</Button>
+                    </Poptip>
                   </i-col>
                 </Row>
               </div>
@@ -79,7 +84,7 @@ import { Cbox } from "_c/charts";
 import { ScoreBoard } from "_c/scoring";
 import { getCountries } from "@/api/visual";
 import tmpData from "@/store/module/tmp-data";
-import { cbstart, cbpause, cbprogress } from "@/api/cbdata";
+import { cbstart, cbpause, cbprogress, cbend } from "@/api/cbdata";
 export default {
   components: {
     Cbox
@@ -140,7 +145,7 @@ export default {
     intervalProcess() {
       this.intervalObj = setInterval(() => {
         this.getProgress;
-      }, 10000); //10s刷新一次
+      }, 1000); //10s刷新一次
     },
     crawlControl() {
       if (this.processData.pausecode == "no") {
@@ -172,6 +177,20 @@ export default {
             alert(err);
           });
       }
+    },
+    crawlEnd() {
+      cbend()
+        .then(res => {
+          if (res.data.code == 0) {
+            this.$Message.success("终止中, 请稍等.");
+            this.getProgress();
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert(err);
+        });
     },
     checkedData() {}
   }
