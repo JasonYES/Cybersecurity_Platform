@@ -12,80 +12,36 @@
         <Row type="flex" justify="space-around" :gutter="20" style="margin-top: 10px;">
           <i-col span="12">
             <Card>
-              <Row type="flex" justify="center" :gutter="20" style="margin-top: 10px;">
-                <i-col span="10">
-                  <Card>
-                    <p slot="title">采集类型</p>
-                    <div style="width:100px">
-                      <CheckboxGroup>
-                        <Checkbox label="twitter">
-                          <Icon type="md-flag"></Icon>
-                          <span>指标1</span>
-                        </Checkbox>
-                        <Checkbox label="twitter">
-                          <Icon type="md-flag"></Icon>
-                          <span>指标2</span>
-                        </Checkbox>
-                        <Checkbox label="twitter">
-                          <Icon type="md-flag"></Icon>
-                          <span>指标3</span>
-                        </Checkbox>
-                        <Checkbox label="twitter">
-                          <Icon type="md-flag"></Icon>
-                          <span>指标4</span>
-                        </Checkbox>
-                        <Checkbox label="twitter">
-                          <Icon type="md-flag"></Icon>
-                          <span>指标5</span>
-                        </Checkbox>
-                      </CheckboxGroup>
-                    </div>
-                  </Card>
+              <Row :gutter="20" style="margin-top: 10px;">
+                <i-col span="3" offset="1">
+                  <p>当前状态:</p>
                 </i-col>
                 <i-col span="10">
-                  <Card>
-                    <p slot="title">采集来源</p>
-                    <div style="width:140px">
-                      <CheckboxGroup>
-                        <Checkbox label="twitter">
-                          <Icon type="md-flag"></Icon>
-                          <span>政府网站</span>
-                        </Checkbox>
-                        <Checkbox label="twitter">
-                          <Icon type="md-flag"></Icon>
-                          <span>国际组织</span>
-                        </Checkbox>
-                        <Checkbox label="twitter">
-                          <Icon type="md-flag"></Icon>
-                          <span>公开网域</span>
-                        </Checkbox>
-                        <Checkbox label="twitter">
-                          <Icon type="md-flag"></Icon>
-                          <span>媒体</span>
-                        </Checkbox>
-                        <Checkbox label="twitter">
-                          <Icon type="md-flag"></Icon>
-                          <span>院校和研究机构</span>
-                        </Checkbox>
-                      </CheckboxGroup>
-                    </div>
-                  </Card>
+                  <p>{{processData.pause}}</p>
+                </i-col>
+              </Row>
+              <Row :gutter="20" style="margin-top: 10px;">
+                <i-col span="3" offset="1">
+                  <p>详细信息:</p>
+                </i-col>
+                <i-col span="10">
+                  <p>{{processData.message}}</p>
+                </i-col>
+              </Row>
+              <br>
+              <Row type="flex" justify="center">
+                <i-col span="10">
+                  <Progress :percent="processData.percentage" status="active"/>
                 </i-col>
               </Row>
               <br>
               <div style>
                 <Row type="flex" justify="center">
                   <i-col span="6">
-                    <Button long @click="progress = !progress">确认</Button>
+                    <Button long @click="crawlControl">开始 / 暂停</Button>
                   </i-col>
                 </Row>
               </div>
-              <br>
-              <Row type="flex" justify="center">
-                <i-col span="10">
-                  <Progress v-if="progress" :percent="5" status="active"/>
-                </i-col>
-              </Row>
             </Card>
           </i-col>
         </Row>
@@ -123,6 +79,7 @@ import { Cbox } from "_c/charts";
 import { ScoreBoard } from "_c/scoring";
 import { getCountries } from "@/api/visual";
 import tmpData from "@/store/module/tmp-data";
+import { cbstart, cbpause, cbprogress } from "@/api/cbdata";
 export default {
   components: {
     Cbox
@@ -130,11 +87,23 @@ export default {
   data() {
     return {
       typeValue: {},
-      progress: false
+      progress: false,
+      intervalObj: "",
+      processData: {
+        pause: "",
+        percentage: 0,
+        message: "",
+        pausecode: ""
+      }
     };
   },
   mounted() {
     this.getTypeValue();
+    this.getProgress();
+    this.intervalProcess();
+  },
+  beforeDestroy() {
+    clearInterval(this.intervalObj);
   },
   methods: {
     getTypeValue() {
@@ -150,6 +119,59 @@ export default {
         .catch(err => {
           alert(err);
         });
+    },
+    getProgress() {
+      cbprogress()
+        .then(res => {
+          if (res.data.code == 0) {
+            var data = res.data.data;
+            this.processData.message = data.data;
+            this.processData.pause = data.pause;
+            this.processData.percentage = data.percent;
+            this.processData.pausecode = data.pausecode;
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert(err);
+        });
+    },
+    intervalProcess() {
+      this.intervalObj = setInterval(() => {
+        this.getProgress;
+      }, 10000); //10s刷新一次
+    },
+    crawlControl() {
+      if (this.processData.pausecode == "no") {
+        // 运行中, 所以暂停
+        cbpause()
+          .then(res => {
+            if (res.data.code == 0) {
+              this.$Message.success("暂停成功");
+              this.getProgress();
+            } else {
+              alert(res.data.msg);
+            }
+          })
+          .catch(err => {
+            alert(err);
+          });
+      } else {
+        // 现在已暂停, 所以开始
+        cbstart()
+          .then(res => {
+            if (res.data.code == 0) {
+              this.$Message.success("开始成功");
+              this.getProgress();
+            } else {
+              alert(res.data.msg);
+            }
+          })
+          .catch(err => {
+            alert(err);
+          });
+      }
     },
     checkedData() {}
   }

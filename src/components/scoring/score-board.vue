@@ -3,12 +3,21 @@
     <Table border :loading="tableLoading" :columns="columns" :data="dataByPage" :width="tableWidth"></Table>
     <br>
     <Row>
-      <i-col span="3" offset="11">
+      <i-col v-if="type == 'final'" span="3" offset="8">
+        <Poptip
+          confirm
+          title="是否初始化审核数据? (该操作将重新根据评分员评分初始化审核数据, 覆盖已修改的审核数据. 请谨慎操作)"
+          @on-ok="finalInit"
+        >
+          <Button long type="primary">初始化审核数据</Button>
+        </Poptip>
+      </i-col>
+      <i-col span="3" offset="0">
         <Page :current="page.now" :total="page.all" @on-change="pageOnChange" simple/>
       </i-col>
       <i-col v-if="type == 'final'" span="3" offset="1">
         <Poptip confirm title="是否确认提交最终结果? (只有经过该操作,该审核结果才能被可视化)" @on-ok="submitArchive">
-          <Button long type="primary">提交最终审核结果</Button>
+          <Button long type="success">提交最终审核结果</Button>
         </Poptip>
       </i-col>
     </Row>
@@ -58,8 +67,12 @@
                   <h1>{{judgingModal.refName +"[" +dName[judgingModal.refName] + "] 评分依据"}}</h1>
                 </div>
               </i-col>
-              <i-col v-if="judgingModal.refContent.length != 0" span="3" offset="4">
-                <Poptip confirm title="确定要将该依据标记为'不相关'并删除吗?">
+              <i-col span="3" offset="4">
+                <Poptip
+                  v-if="judgingModal.refContent.length != 0"
+                  confirm
+                  title="确定要将该依据标记为'不相关'并删除吗?"
+                >
                   <Button shape="circle">删除</Button>
                 </Poptip>
                 <Poptip confirm title="确定要请求爬取更多数据吗?">
@@ -129,7 +142,7 @@ import tmpData from "@/store/module/tmp-data";
 import { mapState } from "vuex";
 import { manualSubmit, manualUndo } from "@/api/scoring";
 import { finalSubmit, finalUndo } from "@/api/scoring";
-import { getFinalStatus, getFinalDetail, getReference, archive } from "@/api/scoring";
+import { getFinalStatus, getFinalDetail, getReference, archive, init } from "@/api/scoring";
 export default {
   name: "ScoreBoard",
   props: {
@@ -363,7 +376,7 @@ export default {
           /// final modal adjust
           if (this.type === "manual") {
             this.indexesToCheckbox(params.row, params.column.key);
-            this.judgingModal.tableWidth = 450;
+            this.judgingModal.tableWidth = 550;
 
             this.judgingModal.refName = "";
             this.judgingModal.refContent = [];
@@ -382,7 +395,7 @@ export default {
                   this.judgingModal.tableColumns = this.columnsExtractor([...tableValue]);
                   this.addModalCellStyle(tableValue);
                   this.judgingModal.tableValue = tableValue;
-                  this.judgingModal.tableWidth = 750;
+                  this.judgingModal.tableWidth = 850;
 
                   this.judgingModal.refName = "";
                   this.judgingModal.refContent = [];
@@ -488,6 +501,7 @@ export default {
         }
         tableData.push({
           index: allIndexes[i],
+          indexname: this.dName[allIndexes[i]],
           score: row[allIndexes[i]]
         });
       }
@@ -578,6 +592,20 @@ export default {
         .then(res => {
           if (res.data.code == 0) {
             this.$Message.success("提交成功!");
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert(err);
+        });
+    },
+    finalInit() {
+      init()
+        .then(res => {
+          if (res.data.code == 0) {
+            this.$Message.success("初始化成功!");
+            this.$emit("refresh");
           } else {
             alert(res.data.msg);
           }

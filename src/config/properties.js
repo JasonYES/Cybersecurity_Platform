@@ -36,6 +36,7 @@ var vname = {
     "": "",
     detail: "详情",
     index: "指标",
+    indexname: "指标名",
     status: "状态",
     "亚洲": "亚洲",
     "欧洲": "欧洲",

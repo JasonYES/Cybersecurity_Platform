@@ -22,6 +22,14 @@ export default {
     pro: 'http://47.99.158.30:8080'
   },
   /**
+   * @description 第二个api请求基础路径 (本项目有两个后台)
+   */
+  baseUrlSecond: {
+    dev: 'http://10.246.70.95:5000',
+    // dev: 'http://47.99.158.30:5000',
+    pro: 'http://47.99.158.30:5000'
+  },
+  /**
    * @description 默认打开的首页的路由name值，默认为home
    */
   homeName: 'home',

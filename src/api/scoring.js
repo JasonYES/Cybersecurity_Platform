@@ -82,6 +82,13 @@ export const archive = () => {
         method: 'post'
     })
 }
+
+export const init = () => {
+    return axios.request({
+        url: '/api/scorefinal/init',
+        method: 'post'
+    })
+}
 ///////////////
 
 
