@@ -6,7 +6,7 @@ export default {
   /**
    * @description token在Cookie中存储的天数，默认1天
    */
-  cookieExpires: 1,
+  cookieExpires: 7,
   /**
    * @description 是否使用国际化，默认为false
    *              如果不使用，则需要在路由中给需要在菜单中展示的路由设置meta: {title: 'xxx'}
@@ -17,15 +17,15 @@ export default {
    * @description api请求基础路径
    */
   baseUrl: {
-    // dev: 'http://localhost:8000',
-    dev: 'http://47.99.158.30:8080',
+    dev: 'http://localhost:8000',
+    // dev: 'http://47.99.158.30:8080',
     pro: 'http://47.99.158.30:8080'
   },
   /**
    * @description 第二个api请求基础路径 (本项目有两个后台)
    */
   baseUrlSecond: {
-    dev: 'http://10.246.70.95:5000',
+    dev: 'http://localhost:5000',
     // dev: 'http://47.99.158.30:5000',
     pro: 'http://47.99.158.30:5000'
   },
